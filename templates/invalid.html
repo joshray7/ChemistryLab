@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invalid Element</title>
+</head>
+<body>
+    <h1>❌ Element Not Found</h1>
+    <p>The element you searched for does not exist in the periodic table.</p>
+
+        {% if source == "periodic" %}
+            <a href="/periodic-table">Back</a>
+        {% elif source == "formula" %}
+            <a href="/formula">Back</a>
+        {% else %}
+            <a href="/">Home</a>
+        {% endif %}
+
+</body>
+</html>
+

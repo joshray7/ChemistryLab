@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Periodic Table Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            justify-content: center;
+            margin-left: 45px;
+            background-color: blue;
+            text-align: center;
+            padding: 0;
+        }
+        input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+            text-align: center;
+            justify-content: center;
+        }
+        button {
+            padding: 8px 12px;
+            font-size: 16px;
+            cursor: pointer;
+            background: linear-gradient(to bottom, #1616160c, #1f0775);
+        }
+        
+        .result {
+            margin-top: 10px;
+            padding: 15px;
+            border: 1px solid #080606d0;
+            width: 500px;
+            background-color: #095461bb;
+            font-size: 30px;
+            margin-left: 380px;
+        }
+        .result h3{
+            margin-left: 80px;
+        }
+        .error {
+            color: red;
+            margin-top: 200px;
+            font-size: large;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center ;
+            justify-content: left;
+            margin-bottom: 5px;
+            position: absolute;
+            margin-top: 15px;
+            margin-left: 30px;
+            padding: 10px;
+            background: #4746463d;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(63, 62, 62, 0.103);
+            text-align: center;
+            font-size: 1.1em;
+            color: #333;
+            min-height: 60px;
+            transition: all 0.3s ease-in-out;
+            width: 1200px;
+            
+        }
+
+        .logo-box {
+            background: linear-gradient(135deg, #007bff, #00d4ff);
+            color: rgb(3, 2, 49);
+            font-weight: bold;
+            font-size: 28px;
+            width: 60px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            animation: pop 0.6s ease-out;
+            margin-top: 2px;
+            
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-top: 1px;
+            justify-content: flex-start;
+            
+        }
+        
+        .container{
+            size-adjust: 200px;
+            margin-top: 70px;
+        }
+        
+        .button{
+            margin-left: 40px;
+            background: #3333331e;
+            font-size: larger;
+            
+        }
+        .button:hover{
+            background: #007bff;
+        }
+        a{
+            margin-left: 40px;
+            background: #3333331e;
+            padding: 8px 12px;
+            font-size: 16px;
+            font-size: larger;
+        }
+        a:hover{
+            background: #007bff;
+        }
+        .btn {
+        padding: 8px 12px;
+        background: #3333331e;
+        color: rgb(12, 11, 11);
+        text-decoration: none;
+        font-size: 16px larger;
+        border: #333;
+        transition: 0.7s;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.6); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+        
+    <div class="logo">
+        <div class="logo-box">C</div>
+        <span class="logo-text" id="text">ChemistryLab</span>
+        <a href="{{ url_for('periodic_table')}}" class="btn"> Periodic Table </a>
+        <a href="{{url_for('notes')}}" class="btn"> Notes </a>   
+        <a href="{{ url_for('formula_search')}}" class="btn"> Formula </a>
+        <a href="{{ url_for('periodic_table')}}" class="btn"> About Us </a>
+        <a href="{{ url_for('feedback')}}" class="btn"> Feedback </a>
+
+    </div>
+
+
+</body>
+</html>

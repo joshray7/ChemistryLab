@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chemistry Formula Finder</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #c9dff6;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        input {
+            padding: 10px;
+            width: 300px;
+            font-size: 18px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+
+        .error {
+            color: red;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        ul li {
+            list-style-type: none; /* remove default bullet */
+            margin-left: 0;        /* remove extra spacing */
+            padding-left: 0;       /* remove extra padding */
+        }
+
+        ul li::before {
+            content: "✅.  :    ";         /* the dot */
+            font-weight: bold;
+            display: inline;       /* make it inline with text */
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>Chemistry Formula Finder</h1>
+
+
+<form method="POST">
+    <input type="text" name="query" placeholder="Enter formula name (e.g. Boyle's law)" required>
+    <button type="submit">Search</button>
+</form>
+
+{% if data %}
+    <h2>Formula: {{ data.formula }}</h2>
+    <h3>Meaning of Symbols:</h3>
+
+    <ul>
+    {% for symbol, meaning in data.symbols.items() %}
+        <li><strong>{{ symbol }}</strong>= {{ meaning }}</li>
+    {% endfor %}
+    </ul>
+
+{% else %}
+    <p>Search for a chemistry formula.</p>
+{% endif %}
+
+
+</body>
+</html>
