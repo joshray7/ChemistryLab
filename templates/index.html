@@ -1,150 +1,84 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Periodic Table Search</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            justify-content: center;
-            margin-left: 45px;
-            background-color: blue;
-            text-align: center;
-            padding: 0;
-        }
-        input[type="text"] {
-            padding: 8px;
-            font-size: 16px;
-            text-align: center;
-            justify-content: center;
-        }
-        button {
-            padding: 8px 12px;
-            font-size: 16px;
-            cursor: pointer;
-            background: linear-gradient(to bottom, #1616160c, #1f0775);
-        }
-        
-        .result {
-            margin-top: 10px;
-            padding: 15px;
-            border: 1px solid #080606d0;
-            width: 500px;
-            background-color: #095461bb;
-            font-size: 30px;
-            margin-left: 380px;
-        }
-        .result h3{
-            margin-left: 80px;
-        }
-        .error {
-            color: red;
-            margin-top: 200px;
-            font-size: large;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center ;
-            justify-content: left;
-            margin-bottom: 5px;
-            position: absolute;
-            margin-top: 15px;
-            margin-left: 30px;
-            padding: 10px;
-            background: #4746463d;
-            border-radius: 10px;
-            box-shadow: 0 0 8px rgba(63, 62, 62, 0.103);
-            text-align: center;
-            font-size: 1.1em;
-            color: #333;
-            min-height: 60px;
-            transition: all 0.3s ease-in-out;
-            width: 1200px;
-            
-        }
-
-        .logo-box {
-            background: linear-gradient(135deg, #007bff, #00d4ff);
-            color: rgb(3, 2, 49);
-            font-weight: bold;
-            font-size: 28px;
-            width: 60px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            animation: pop 0.6s ease-out;
-            margin-top: 2px;
-            
-        }
-
-        .logo-text {
-            font-size: 28px;
-            font-weight: 600;
-            color: #333;
-            margin-top: 1px;
-            justify-content: flex-start;
-            
-        }
-        
-        .container{
-            size-adjust: 200px;
-            margin-top: 70px;
-        }
-        
-        .button{
-            margin-left: 40px;
-            background: #3333331e;
-            font-size: larger;
-            
-        }
-        .button:hover{
-            background: #007bff;
-        }
-        a{
-            margin-left: 40px;
-            background: #3333331e;
-            padding: 8px 12px;
-            font-size: 16px;
-            font-size: larger;
-        }
-        a:hover{
-            background: #007bff;
-        }
-        .btn {
-        padding: 8px 12px;
-        background: #3333331e;
-        color: rgb(12, 11, 11);
-        text-decoration: none;
-        font-size: 16px larger;
-        border: #333;
-        transition: 0.7s;
-        }
-
-        @keyframes pop {
-            0% { transform: scale(0.6); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-    </style>
 </head>
-<body>
-        
-    <div class="logo">
-        <div class="logo-box">C</div>
-        <span class="logo-text" id="text">ChemistryLab</span>
-        <a href="{{ url_for('periodic_table')}}" class="btn"> Periodic Table </a>
-        <a href="{{url_for('notes')}}" class="btn"> Notes </a>   
-        <a href="{{ url_for('formula_search')}}" class="btn"> Formula </a>
-        <a href="{{ url_for('periodic_table')}}" class="btn"> About Us </a>
-        <a href="{{ url_for('feedback')}}" class="btn"> Feedback </a>
 
+<body class="bg-blue-600 min-h-screen">
+
+    <!-- NAV / LOGO -->
+    <div class="flex items-center gap-3 bg-white/20 backdrop-blur p-4 shadow-md rounded-xl
+                max-w-3xl mx-auto mt-4">
+
+        <!-- Logo box -->
+        <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 
+                    flex items-center justify-center text-3xl font-bold text-blue-900 shadow">
+            C
+        </div>
+
+        <!-- Text -->
+        <span class="text-2xl font-semibold text-white">ChemistryLab</span>
+
+        <!-- Menu Links -->
+        <div class="ml-auto flex flex-wrap gap-2">
+            <a href="{{ url_for('periodic_table')}}" 
+               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition">
+               Periodic Table
+            </a>
+
+            <a href="{{url_for('notes')}}"
+               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition">
+               Notes
+            </a>
+
+            <a href="{{ url_for('formula_search')}}"
+               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition">
+               Formula
+            </a>
+
+            <a href="{{ url_for('periodic_table')}}"
+               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition">
+               About Us
+            </a>
+
+            <a href="{{ url_for('feedback')}}"
+               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition">
+               Feedback
+            </a>
+        </div>
     </div>
 
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="max-w-lg mx-auto mt-10 px-4">
+
+        <!-- SEARCH BOX -->
+        <input type="text" placeholder="Search element…" 
+               class="w-full p-3 rounded-lg text-center text-lg 
+                      border border-gray-300 shadow focus:ring-2 focus:ring-blue-300">
+
+        <!-- BUTTON -->
+        <button class="w-full mt-4 p-3 rounded-lg bg-white/20 text-white text-lg 
+                       shadow hover:bg-blue-700 transition">
+            Search
+        </button>
+
+        <!-- RESULT BOX (example) -->
+        <div class="mt-6 p-5 bg-white/30 backdrop-blur 
+                    text-white rounded-lg shadow text-xl">
+            <h3 class="font-bold text-center">Result</h3>
+            <p class="mt-2">
+                Your result will appear here...
+            </p>
+        </div>
+
+        <!-- ERROR (optional) -->
+        <p class="text-red-300 text-center mt-6 text-lg">
+            <!-- Error message goes here -->
+        </p>
+
+    </div>
 
 </body>
 </html>

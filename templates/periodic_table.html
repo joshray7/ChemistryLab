@@ -2,201 +2,99 @@
 <html lang="en">
 <head>
     <title>Periodic Table</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            justify-content: center;
-            margin-left: 45px;
-            background-color: blue;
-            text-align: center;
-            padding: 0;
-        }
-        input[type="text"] {
-            padding: 8px;
-            font-size: 50px;
-            text-align: 12px center;
-            justify-content: center;
-            background-size: 20px;
-            background-color: #11111127;
-        }
-        button {
-            padding: 8px 12px;
-            font-size: 16px;
-            cursor: pointer;
-            background: linear-gradient(to bottom, #1b1b1b1e, #1f0775);
-            
-        }
-        
-        header{
-            display: flex;
-            justify-content: flex-start;
-            font-size: xx-large;
-        }
-        .result {
-            margin-top: 80px;
-            padding: 15px;
-            border: 1px solid #080606d0;
-            width: 500px;
-            background-color: #0a0a0a2a;
-            font-size: 30px;
-            margin-left: 380px;
-            margin-bottom: 20px;
-        }
-        .result h3{
-            margin-left: 30px;
-        }
-        .error {
-            color: red;
-            margin-top: 200px;
-            font-size: large;
-        }
-        .container{
-            z-index: 10;
-            position: relative;
-            size-adjust: 200px;
-            margin-top: 1px;
-        }
-        input::placeholder{
-            font: 40px sans-serif;
-        }
-        
-        .background {
-            z-index: -1;
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            top: 0;
-            left: 0;
-            background: #4CB8B6;
-            overflow: hidden;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
 
-        .ball {
+    <style>
+        /* Floating animated circles */
+        .bubble {
             position: absolute;
-            width: 20vmin;
-            height: 20vmin;
+            width: 18vmin;
+            height: 18vmin;
             border-radius: 50%;
-            backface-visibility: hidden;
+            background: radial-gradient(circle, rgba(255,255,255,0.4), transparent);
             animation: move linear infinite;
         }
 
-        .ball:nth-child(odd) {
-                color: #006D5B;
-        }
+        .bubble:nth-child(odd) { background-color: rgba(0, 109, 91, 0.3); }
+        .bubble:nth-child(even) { background-color: rgba(255, 111, 97, 0.3); }
 
-        .ball:nth-child(even) {
-                color: #FF6F61;
-        }
+        .bubble:nth-child(1) { top: 10%; left: 80%; animation-duration: 40s; }
+        .bubble:nth-child(2) { top: 20%; left: 20%; animation-duration: 55s; }
+        .bubble:nth-child(3) { top: 60%; left: 10%; animation-duration: 45s; }
+        .bubble:nth-child(4) { top: 70%; left: 70%; animation-duration: 35s; }
+        .bubble:nth-child(5) { top: 40%; left: 40%; animation-duration: 50s; }
+        .bubble:nth-child(6) { top: 80%; left: 30%; animation-duration: 38s; }
+        .bubble:nth-child(7) { top: 15%; left: 50%; animation-duration: 52s; }
+        .bubble:nth-child(8) { top: 55%; left: 80%; animation-duration: 48s; }
 
-            /* Using a custom attribute for variability */
-        .ball:nth-child(1) {
-            top: 77%;
-            left: 88%;
-            animation-duration: 40s;
-            animation-delay: -3s;
-            transform-origin: 16vw -2vh;
-            box-shadow: 40vmin 0 5.703076368487546vmin currentColor;
-        }
-        .ball:nth-child(2) {
-            top: 42%;
-            left: 2%;
-            animation-duration: 53s;
-            animation-delay: -29s;
-            transform-origin: -19vw 21vh;
-            box-shadow: -40vmin 0 5.17594621519026vmin currentColor;
-        }
-        .ball:nth-child(3) {
-            top: 28%;
-            left: 18%;
-            animation-duration: 49s;
-            animation-delay: -8s;
-            transform-origin: -22vw 3vh;
-            box-shadow: 40vmin 0 5.248179047256236vmin currentColor;
-        }
-        .ball:nth-child(4) {
-            top: 50%;
-            left: 79%;
-            animation-duration: 26s;
-            animation-delay: -21s;
-            transform-origin: -17vw -6vh;
-            box-shadow: 40vmin 0 5.279749632220298vmin currentColor;
-        }
-        .ball:nth-child(5) {
-            top: 46%;
-            left: 15%;
-            animation-duration: 36s;
-            animation-delay: -40s;
-            transform-origin: 4vw 0vh;
-            box-shadow: -40vmin 0 5.964309466052033vmin currentColor;
-        }
-        .ball:nth-child(6) {
-            top: 77%;
-            left: 16%;
-            animation-duration: 31s;
-            animation-delay: -10s;
-            transform-origin: 18vw 4vh;
-            box-shadow: 40vmin 0 5.178483653434181vmin currentColor;
-        }
-        .ball:nth-child(7) {
-            top: 22%;
-            left: 17%;
-            animation-duration: 55s;
-            animation-delay: -6s;
-            transform-origin: 1vw -23vh;
-            box-shadow: -40vmin 0 5.703026794398318vmin currentColor;
-        }
-        .ball:nth-child(8) {
-            top: 41%;
-            left: 47%;
-            animation-duration: 43s;
-            animation-delay: -28s;
-            transform-origin: 25vw -3vh;
-            box-shadow: 40vmin 0 5.196265905749415vmin currentColor;
-        }
         @keyframes move {
-            100% {
-                transform: translate3d(0, 0, 1px) rotate(360deg);
-            }
+            100% { transform: rotate(360deg); }
         }
-
     </style>
 </head>
-<body>
-    <div class="background">
-        <span class="ball"></span>
-        <span class="ball"></span>
-        <span class="ball"></span>
-        <span class="ball"></span>
-        <span class="ball"></span>
-        <span class="ball"></span>
-        <span class="ball"></span>
-        <span class="ball"></span>
+
+<body class="relative min-h-screen bg-gradient-to-br from-blue-600 to-teal-500 text-white">
+
+    <!-- Animated Background -->
+    <div class="absolute inset-0 -z-10 overflow-hidden">
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
     </div>
-    
-    <div class="container">
-        <header><h1>Periodic table searcher</h1></header>
-        <h1>Search an element</h1>
-        <form method="POST">
-            <input type="text" name="element" placeholder="Enter an element or symbol" value="" name="query" required>
-            <button type="submit" value="">Search</button>
+
+    <!-- Main Container -->
+    <div class="max-w-lg mx-auto pt-10 pb-20 px-6 text-center">
+
+        <h1 class="text-3xl font-bold drop-shadow-lg">Periodic Table Search</h1>
+        <p class="text-lg mt-2">Search for any element or symbol 🌟</p>
+
+        <!-- Search Form -->
+        <form method="POST" class="mt-8">
+            <input 
+                type="text"
+                name="element"
+                placeholder="Enter element or symbol"
+                required
+                class="w-full p-4 rounded-lg text-center text-lg bg-white/20 backdrop-blur
+                       border border-white/40 focus:ring-2 focus:ring-white placeholder-gray-200"
+            >
+
+            <button
+                type="submit"
+                class="w-full mt-5 p-3 rounded-lg bg-white/30 hover:bg-white/40 transition
+                       text-lg font-semibold shadow"
+            >
+                Search
+            </button>
         </form>
 
+        <!-- Results / Errors -->
         {% if element_data %}
             {% if element_data == "not_found" %}
-                <p class="error">Element not found! Please try again.</p>
+                <p class="mt-10 text-red-200 text-lg font-semibold">
+                    ❌ Element not found. Try again.
+                </p>
             {% else %}
-                <div class="result">
-                    <h3>Element Details:</h3>
-                    <p><strong>Name:</strong> {{ element_data.name }}</p>
-                    <p><strong>Symbol:</strong> {{ element_data.symbol }}</p>
-                    <p><strong>Atomic Number:</strong> {{ element_data.number }}</p>
-                    <p><strong>Density:</strong> {{ element_data.density }}</p>
-                </div>
+
+            <div class="mt-10 p-6 bg-white/20 backdrop-blur rounded-xl shadow text-left">
+                <h3 class="text-2xl font-bold mb-4 text-center">Element Details</h3>
+
+                <p class="text-lg"><strong>Name:</strong> {{ element_data.name }}</p>
+                <p class="text-lg"><strong>Symbol:</strong> {{ element_data.symbol }}</p>
+                <p class="text-lg"><strong>Atomic Number:</strong> {{ element_data.number }}</p>
+                <p class="text-lg"><strong>Density:</strong> {{ element_data.density }}</p>
+            </div>
+
             {% endif %}
         {% endif %}
 
     </div>
-    
+
 </body>
 </html>
