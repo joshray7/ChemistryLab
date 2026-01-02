@@ -12,34 +12,46 @@
     <div class="flex items-center gap-3 bg-white/20 backdrop-blur p-4 shadow-md rounded-xl
                 max-w-3xl mx-auto mt-4">
 
-        <!-- Text -->
-        <span class="text-2xl font-semibold text-white">ChemistryLab</span>
+        <!-- Clickable Logo Text -->
+        <button id="menuToggle" class="text-2xl font-semibold text-white hover:text-blue-200 transition cursor-pointer">
+            ChemistryLab
+        </button>
 
-        <!-- Menu Links -->
-        <div class="ml-auto flex flex-wrap gap-2">
+        <!-- Menu Links (Hidden by default) -->
+        <div id="menuLinks" class="ml-auto flex-wrap gap-2 hidden">
             <a href="{{ url_for('periodic_table')}}" 
-               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition">
+               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
                Periodic Table
             </a>
 
             <a href="{{url_for('notes')}}"
-               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition">
+               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
                Notes
             </a>
 
             <a href="{{ url_for('formula_search')}}"
-               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition">
+               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
                Formula
             </a>
 
             <a href="{{ url_for('about')}}"
-               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition">
+               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
                About Us
             </a>
 
             <a href="{{ url_for('feedback')}}"
-               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition">
+               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
                Feedback
+            </a>
+            
+            <a href="{{ url_for('terms')}}"
+               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
+               Terms
+            </a>
+            
+            <a href="{{ url_for('privacy_policy')}}"
+               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
+               Privacy Policy
             </a>
         </div>
     </div>
@@ -47,16 +59,26 @@
     <br>
     <br>
 
-        <div id="rotatingBox" 
+    <div id="rotatingBox" 
         class="max-w-xl mx-auto mb-6 p-6 bg-[#095461bb] text-white rounded-lg shadow-lg hover:bg-black/70 transition">
-   </div>
+    </div>
    
    <script>
+       // Menu Toggle Functionality
+       const menuToggle = document.getElementById('menuToggle');
+       const menuLinks = document.getElementById('menuLinks');
+       
+       menuToggle.addEventListener('click', () => {
+           menuLinks.classList.toggle('hidden');
+           menuLinks.classList.toggle('flex');
+       });
+
+       // Rotating Box Content
        const boxes = [
             {
                title: "Periodic Table",
                text: "This is designed to help students learn the periodic table and element attributes stress free, notes, formulas and more.",
-               author: "Creator: Joshua Ewalefoh"
+               author: "Creator: Joshua Raymond"
            },
            {
                title: "Notes",
@@ -66,12 +88,12 @@
            {
                title: "Formula",
                text: "Search for chemistry formulas, understand symbols, and get clear explanations.",
-               author: "Author: E.I. Okoye"
+               author: "Author: ChemistryLab Team"
            },
            {
                title: "About Us",
                text: "ChemistryLab is designed to help students learn chemistry easier with tools, notes, formulas and more.",
-               author: "Creator: Joshua Ewalefoh"
+               author: "Creator: Joshua Raymond"
            },
            {
                title: "Feedback",
@@ -109,7 +131,6 @@
        // Change every 3 seconds
        setInterval(updateBox, 3000);
    </script>
-   
 
 </body>
 </html>
