@@ -1056,6 +1056,62 @@ def privacy_policy():
 def terms():
     return render_template("terms.html")
 
+@app.route("/intro")
+def intro_chemistry():
+    return render_template("intro.html")
+
+@app.route("/intro-chemistry")
+def intro():
+    return render_template("intro-chemistry.html")
+
+@app.route("/lab-safety")
+def lab_safety():
+    return render_template("lab-safety.html")
+
+@app.route("/scientific-method")
+def scientific_method():
+    return render_template("scientific-method.html")
+
+@app.route("/acids-bases-salts")
+def acids_bases_and_salts():
+    return render_template("abs.html")
+
+@app.route("/lab-equipment")
+def lab_equipment():
+    return render_template("lab-equipment.html")
+
+@app.route("/virtual-lab-guide")
+def virtual_lab_guide():
+    return render_template("virtual-lab-guide.html")
+
+@app.route("/simple-experiments")
+def simple_experiments():
+    return render_template("simple-experiments.html")
+
+@app.route("/observation-recording")
+def observation_recording():
+    return render_template("observation-recording.html")
+
+@app.route("/ss1-chemistry")
+def ss1_chemistry():
+    return render_template("ss1.html")
+
+@app.route("/ss2-chemistry")
+def ss2_chemistry():
+    return render_template("ss2.html")
+
+@app.route("/ss3-chemistry")
+def ss3_chemistry():
+    return render_template("ss3.html")
+
+@app.route("/chemical-reactions")
+def chemical_reactions():
+    return render_template("chemical-reactions.html")
+
+@app.route("/states-of-matter")
+def states_of_matter():
+    return render_template("states-of-matter.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
     
