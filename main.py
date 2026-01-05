@@ -1,5 +1,6 @@
 import periodictable as pt
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
+import os
 
 app = Flask(__name__)
 
@@ -999,6 +1000,9 @@ def clean_formula_response(raw):
     return formula, definitions
 
 
+@app.route("/google6bd543ba6834f0bf.html")
+def google_verification():
+    return send_from_directory(os.getcwd(), 'google6bd543ba6834f0bf.html')
 
 @app.route("/")
 def home():
