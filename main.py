@@ -1,7 +1,7 @@
 import periodictable as pt
 from flask import Flask, render_template, request, send_from_directory
 import os
-from app import ELEMENT_DATA
+from element import ELEMENT_DATA
 from formula import FORMULAS
 
 
