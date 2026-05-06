@@ -1,168 +1,416 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta name="description" content="ChemistryLab is a virtual chemistry learning platform for senior secondary students
-    and external exam candidates to understand the core concepts of chemistry.  Explore the periodic table,
-    chemistry notes, formulas, and more.">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Virtual Chemistry Lab for Senior Secondary Students | ChemistryLab</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ChemistryLab — a virtual chemistry learning platform for senior secondary students and external exam candidates." />
+  <title>ChemistryLab | Virtual Chemistry Lab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080e14;
+      --surface: #0d1a24;
+      --surface2: #112130;
+      --accent: #00d4aa;
+      --accent2: #0096ff;
+      --text: #e8f4f0;
+      --muted: #7a9dab;
+      --border: rgba(0, 212, 170, 0.18);
+      --glow: 0 0 24px rgba(0, 212, 170, 0.15);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: relative;
+      z-index: 10;
+      max-width: 860px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 20px;
+      box-shadow: var(--glow);
+    }
+
+    .logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      background: none;
+      border: none;
+      text-decoration: none;
+    }
+    .logo::before { content: '⬡ '; font-size: 0.9em; }
+
+    .nav-links {
+      display: none;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-left: auto;
+    }
+    .nav-links.open { display: flex; }
+
+    .nav-links a {
+      font-size: 13px;
+      font-family: 'Space Mono', monospace;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 5px 12px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--accent);
+      border-color: var(--border);
+      background: rgba(0,212,170,0.06);
+    }
+
+    .nav-toggle {
+      margin-left: auto;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 18px;
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-family: 'Space Mono', monospace;
+      transition: color 0.2s;
+    }
+    .nav-toggle:hover { color: var(--accent); }
+
+    /* ─── MAIN ─── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 20px;
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 40px;
+      text-align: center;
+      box-shadow: var(--glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(0,212,170,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .hero h1 span { color: var(--accent); }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 540px;
+      margin: 0 auto 8px;
+    }
+
+    /* ─── ROTATING CARD ─── */
+    .slide-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 12px;
+      padding: 28px 32px;
+      min-height: 110px;
+      transition: opacity 0.6s ease;
+      box-shadow: var(--glow);
+    }
+
+    .slide-card h2 {
+      font-family: 'Space Mono', monospace;
+      font-size: 1rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .slide-card p { color: var(--muted); font-size: 14px; margin-bottom: 6px; }
+    .slide-card .author {
+      font-size: 12px;
+      font-family: 'Space Mono', monospace;
+      color: rgba(0,212,170,0.45);
+    }
+
+    .slide-dots {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+    .dot.active { background: var(--accent); }
+
+    /* ─── FEATURES GRID ─── */
+    .features-heading {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 20px;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .feature-card:hover {
+      border-color: rgba(0,212,170,0.45);
+      box-shadow: var(--glow);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .feature-card h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .feature-card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 20px;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    .hero, .slide-card, .feature-card { animation: fadeIn 0.5s ease both; }
+    .feature-card:nth-child(1) { animation-delay: 0.05s; }
+    .feature-card:nth-child(2) { animation-delay: 0.1s; }
+    .feature-card:nth-child(3) { animation-delay: 0.15s; }
+    .feature-card:nth-child(4) { animation-delay: 0.2s; }
+    .feature-card:nth-child(5) { animation-delay: 0.25s; }
+  </style>
 </head>
+<body>
 
-<body class="bg-blue-900 min-h-screen">
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="#">ChemistryLab</a>
+      <div class="nav-links" id="navLinks">
+        <a href="{{ url_for('intro_chemistry') }}">Chemistry Contexts</a>
+        <a href="{{ url_for('periodic_table') }}">Periodic Table</a>
+        <a href="{{ url_for('notes') }}">PDF Notes</a>
+        <a href="{{ url_for('formula_search') }}">Formula Searcher</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('feedback') }}">Feedback</a>
+        <a href="{{ url_for('terms') }}">Terms</a>
+        <a href="{{ url_for('privacy_policy') }}">Privacy</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">≡</button>
+    </div>
+  </nav>
 
-    <!-- NAV / LOGO -->
-    <div class="flex items-center gap-3 bg-white/20 backdrop-blur p-4 shadow-md rounded-xl
-                max-w-3xl mx-auto mt-4">
+  <main>
 
-        <!-- Clickable Logo Text -->
-        <button id="menuToggle" class="text-2xl font-semibold text-white hover:text-blue-200 transition cursor-pointer">
-            ChemistryLab
-        </button>
+    <!-- HERO -->
+    <section class="hero">
+      <p class="hero-label">Virtual Learning Platform</p>
+      <h1>Your <span>Chemistry Lab</span><br>Starts Here</h1>
+      <p>Built for senior secondary students and external exam candidates. Master the periodic table, formulas, reactions, and more.</p>
+    </section>
 
-        <!-- Menu Links (Hidden by default) -->
-        <div id="menuLinks" class="ml-auto flex-wrap gap-2 hidden">
-            <a href="{{ url_for('intro_chemistry')}}"
-                class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
-                Chemistry Contexts
-            </a>
+    <!-- ROTATING SLIDE -->
+    <div id="slideCard" class="slide-card"></div>
+    <div class="slide-dots" id="dots"></div>
 
-            <a href="{{ url_for('periodic_table')}}" 
-               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
-               Periodic Table Finder
-            </a>
-
-            <a href="{{url_for('notes')}}"
-               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
-               PDF Notes
-            </a>
-
-            <a href="{{ url_for('formula_search')}}"
-               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
-               Formula Searcher
-            </a>
-
-            <a href="{{ url_for('about')}}"
-               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
-               About Us
-            </a>
-
-            <a href="{{ url_for('feedback')}}"
-               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
-               Feedback
-            </a>
-            
-            <a href="{{ url_for('terms')}}"
-               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
-               Terms of Service
-            </a>
-            
-            <a href="{{ url_for('privacy_policy')}}"
-               class="px-3 py-2 bg-white/20 text-white rounded hover:bg-blue-500 transition inline-block">
-               Privacy Policy
-            </a>
+    <!-- FEATURES -->
+    <section>
+      <p class="features-heading">What's inside</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📘</div>
+          <h3>Chemistry Contexts</h3>
+          <p>Structured topics covering core concepts — from atomic structure to organic chemistry.</p>
         </div>
-    </div>
-    <br>
-    <br>
-    <br>
+        <div class="feature-card">
+          <div class="feature-icon">⚗️</div>
+          <h3>Periodic Table Finder</h3>
+          <p>Look up elements, atomic numbers, masses, and properties in an interactive table.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📄</div>
+          <h3>PDF Notes</h3>
+          <p>Download curated notes and textbooks to study at your own pace, offline.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔬</div>
+          <h3>Formula Searcher</h3>
+          <p>Find and understand chemistry formulas with clear symbol explanations.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💬</div>
+          <h3>Feedback</h3>
+          <p>Got suggestions? Help us improve ChemistryLab by sharing what you need.</p>
+        </div>
+      </div>
+    </section>
 
-    <div id="rotatingBox" 
-        class="max-w-xl mx-auto mb-6 p-6 bg-[#095461bb] text-white rounded-lg shadow-lg hover:bg-black/70 transition">
-    </div>
-   
-   <script>
-       // Menu Toggle Functionality
-       const menuToggle = document.getElementById('menuToggle');
-       const menuLinks = document.getElementById('menuLinks');
-       
-       menuToggle.addEventListener('click', () => {
-           menuLinks.classList.toggle('hidden');
-           menuLinks.classList.toggle('flex');
-       });
+  </main>
 
-       // Rotating Box Content
-       const boxes = [
-            {
-                title: "ChemistryLab",
-                text: "Tap on the name ChemistryLab to explore fascinating features from the ChemistryLab app.",
-                author: "Creator: Josh Raymond"
-           },
-            {
-                title: "Chemistry Contexts",
-                text: "Explore structured chemistry topics to enhance your understanding of key concepts.",
-                author: "Author: ChemistryLab Team"
-           },
-            {
-               title: "Periodic Table",
-               text: "This is designed to help students learn the periodic table and element attributes stress free, notes, formulas and more.",
-               author: "Creator: Josh Raymond"
-           },
-           {
-               title: "Notes",
-               text: "This page provides downloadable chemistry notes and textbooks for students preparing for exams.",
-               author: "Author: ChemistryLab Team"
-           },
-           {
-               title: "Formula",
-               text: "Search for chemistry formulas, understand symbols, and get clear explanations.",
-               author: "Author: ChemistryLab Team"
-           },
-           {
-                title: "Introduction to chemistry!",
-                text: "You can find this detailed feature in the Chemistry context section.",
-                author: "Author: ChemistryLab Team"
-           },
-           {
-                title: "Chemistry Reactions!",
-                text: "You can find this detailed feature in the Chemical context section"
-           },
-           {
-               title: "About Us",
-               text: "ChemistryLab is designed to help students learn chemistry easier with tools, notes, formulas and more.",
-               author: "Author: ChemistryLab Team"
-           },
-           {
-               title: "Feedback",
-               text: "We value your suggestions! Use the feedback page to report issues or request features.",
-               author: "Team: ChemistryLab Developers"
-           },
-           {
-                title: "Terms & Privacy",
-                text: "Review our terms of service and privacy policy to understand your rights and data usage.",
-           }
-           
-       ];
-   
-       let current = 0;
-       const box = document.getElementById("rotatingBox");
-   
-       function updateBox() {
-           // Fade out
-           box.style.opacity = 0;
-   
-           setTimeout(() => {
-               // Update content
-               box.innerHTML = `
-                   <h2 class="text-2xl font-bold mb-2">${boxes[current].title}</h2>
-                   <p class="text-gray-200 mb-4">${boxes[current].text}</p>
-                   <p class="font-semibold">${boxes[current].author}</p>
-               `;
-   
-               // Fade in
-               box.style.opacity = 1;
-   
-               // Move to next
-               current = (current + 1) % boxes.length;
-           }, 700); // match fade transition
-       }
-   
-       // Start immediately
-       updateBox();
-   
-       // Change every 3 seconds
-       setInterval(updateBox, 3000);
-   </script>
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 ChemistryLab — All rights reserved. Created by Josh Raymond.</p>
+  </footer>
+
+  <script>
+    // Nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    // Slides
+    const slides = [
+      { title: "ChemistryLab", text: "Tap the logo to explore all features of the ChemistryLab platform.", author: "Creator: Josh Raymond" },
+      { title: "Chemistry Contexts", text: "Structured chemistry topics to build your understanding of key concepts.", author: "Author: ChemistryLab Team" },
+      { title: "Periodic Table", text: "Learn element names, symbols, and properties stress-free.", author: "Creator: Josh Raymond" },
+      { title: "PDF Notes", text: "Downloadable chemistry notes and textbooks for exam prep.", author: "Author: ChemistryLab Team" },
+      { title: "Formula Searcher", text: "Search formulas, understand symbols, and get clear explanations.", author: "Author: ChemistryLab Team" },
+      { title: "Chemistry Reactions!", text: "Explore chemical reactions in the Chemistry Contexts section.", author: "Author: ChemistryLab Team" },
+      { title: "About Us", text: "ChemistryLab helps students learn chemistry with tools, notes, and formulas.", author: "Author: ChemistryLab Team" },
+      { title: "Feedback", text: "Use the feedback page to report issues or request new features.", author: "Team: ChemistryLab Developers" },
+      { title: "Terms & Privacy", text: "Review our policies to understand your rights and how your data is used.", author: "" }
+    ];
+
+    let current = 0;
+    const card = document.getElementById('slideCard');
+    const dotsEl = document.getElementById('dots');
+
+    // Build dots
+    slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      dotsEl.appendChild(d);
+    });
+
+    function updateDots() {
+      document.querySelectorAll('.dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+    }
+
+    function updateSlide() {
+      card.style.opacity = 0;
+      setTimeout(() => {
+        const s = slides[current];
+        card.innerHTML = `
+          <h2>${s.title}</h2>
+          <p>${s.text}</p>
+          ${s.author ? `<span class="author">${s.author}</span>` : ''}
+        `;
+        card.style.opacity = 1;
+        updateDots();
+        current = (current + 1) % slides.length;
+      }, 600);
+    }
+
+    updateSlide();
+    setInterval(updateSlide, 3500);
+  </script>
 
 </body>
 </html>
