@@ -290,7 +290,7 @@
   <!-- NAV -->
   <nav>
     <div class="nav-inner">
-      <a class="logo" href="#">ChemistryLab</a>
+        <a class="logo" href="#">ChemistryLab</a>
       <div class="nav-links" id="navLinks">
         <a href="{{ url_for('intro_chemistry') }}">Chemistry Contexts</a>
         <a href="{{ url_for('periodic_table') }}">Periodic Table</a>
@@ -326,28 +326,32 @@
           <div class="feature-icon">📘</div>
           <h3>Chemistry Contexts</h3>
           <p>Structured topics covering core concepts — from atomic structure to organic chemistry.</p>
+            <a href="{{ url_for('intro_chemistry') }}" class="btn" style="margin-top: 12px; padding: 6px 12px; font-size: 13px; background: var(--accent); color: var(--bg); border: none; border-radius: 6px; text-decoration: none;">Explore Contexts</a>
         </div>
         <div class="feature-card">
           <div class="feature-icon">⚗️</div>
           <h3>Periodic Table Finder</h3>
           <p>Look up elements, atomic numbers, masses, and properties in an interactive table.</p>
+          <a href="{{ url_for('periodic_table') }}" class="btn" style="margin-top: 12px; padding: 6px 12px; font-size: 13px; background: var(--accent); color: var(--bg); border: none; border-radius: 6px; text-decoration: none;">Explore Table</a>
         </div>
         <div class="feature-card">
           <div class="feature-icon">📄</div>
           <h3>PDF Notes</h3>
           <p>Download curated notes and textbooks to study at your own pace, offline.</p>
+          <a href="{{ url_for('notes') }}" class="btn" style="margin-top: 12px; padding: 6px 12px; font-size: 13px; background: var(--accent); color: var(--bg); border: none; border-radius: 6px; text-decoration: none;">Explore Notes</a>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔬</div>
           <h3>Formula Searcher</h3>
           <p>Find and understand chemistry formulas with clear symbol explanations.</p>
+          <a href="{{ url_for('formula_search') }}" class="btn" style="margin-top: 12px; padding: 6px 12px; font-size: 13px; background: var(--accent); color: var(--bg); border: none; border-radius: 6px; text-decoration: none;">Explore Formulas</a>
         </div>
         <div class="feature-card">
           <div class="feature-icon">💬</div>
           <h3>Feedback</h3>
           <p>Got suggestions? Help us improve ChemistryLab by sharing what you need.</p>
+          <a href="{{ url_for('feedback') }}" class="btn" style="margin-top: 12px; padding: 6px 12px; font-size: 13px; background: var(--accent); color: var(--bg); border: none; border-radius: 6px; text-decoration: none;">Provide Feedback</a>
         </div>
-      </div>
     </section>
 
   </main>
