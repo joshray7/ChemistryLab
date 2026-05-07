@@ -932,13 +932,13 @@ FORMULAS = {
         }
     },
 
-    "universal gas equation per mole": {
-        "formula": "PV = NkT",
+    "universal gas equation": {
+        "formula": "PV = nKT",
         "symbols": {
             "P": "Pressure",
             "V": "Volume",
-            "N": "Number of molecules",
-            "k": "Boltzmann constant",
+            "n": "Number of moles",
+            "K": "Boltzmann constant",
             "T": "Temperature"
         }
     }

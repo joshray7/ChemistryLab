@@ -1,102 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chemistry Formula Finder</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <style>
-        body {
-            background-color: #dbeafe;
-            font-family: sans-serif;
-        }
-        
-        .search-input {
-            max-width: 500px;
-        }
-        
-        .result-card {
-            max-width: 600px;
-        }
-        
-        .symbol-list {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .symbol-list li {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 0.5rem;
-        }
-        
-        .checkmark {
-            color: #16a34a;
-            margin-right: 0.5rem;
-            flex-shrink: 0;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formula Finder | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080e14;
+      --surface: #0d1a24;
+      --surface2: #112130;
+      --accent: #00d4aa;
+      --text: #e8f4f0;
+      --muted: #7a9dab;
+      --border: rgba(0, 212, 170, 0.18);
+      --glow: 0 0 24px rgba(0, 212, 170, 0.12);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: relative;
+      z-index: 10;
+      max-width: 860px;
+      margin: 24px auto 0;
+      padding: 0 20px;
+      width: 100%;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 20px;
+      box-shadow: var(--glow);
+    }
+    .logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+    .logo::before { content: '⬡ '; font-size: 0.9em; }
+    .back-btn {
+      margin-left: auto;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .back-btn:hover { color: var(--accent); border-color: rgba(0,212,170,0.4); }
+
+    /* MAIN */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px;
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      text-align: center;
+      padding: 40px 32px 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--glow);
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.4s ease both;
+    }
+    .page-header::after {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(0,212,170,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .page-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .page-header h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+    .page-header h1 span { color: var(--accent); }
+
+    /* SEARCH FORM */
+    .search-form {
+      display: flex;
+      gap: 10px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .search-input {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-input::placeholder { color: var(--muted); }
+    .search-input:focus {
+      border-color: rgba(0,212,170,0.5);
+      box-shadow: 0 0 0 3px rgba(0,212,170,0.08);
+    }
+    .search-btn {
+      background: var(--accent);
+      color: #080e14;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 22px;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .search-btn:hover { opacity: 0.88; }
+    .search-btn:active { transform: scale(0.97); }
+
+    /* RESULT CARD */
+    .result-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--glow);
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .result-header {
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .formula-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(0,212,170,0.1);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      letter-spacing: 0.05em;
+    }
+    .result-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .symbols-section {
+      padding: 24px 28px;
+    }
+    .symbols-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .symbol-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0,212,170,0.07);
+    }
+    .symbol-row:last-child { border-bottom: none; }
+    .symbol-key {
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 36px;
+      padding-top: 1px;
+    }
+    .symbol-check {
+      color: var(--accent);
+      font-size: 13px;
+      padding-top: 3px;
+      opacity: 0.6;
+    }
+    .symbol-meaning {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      animation: fadeIn 0.4s ease both;
+    }
+    .empty-icon {
+      font-size: 36px;
+      margin-bottom: 14px;
+    }
+    .empty-state p {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .empty-hint {
+      font-size: 13px;
+      color: rgba(122,157,171,0.6);
+      margin-top: 6px;
+      font-style: italic;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 20px;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ─── SKELETON LOADER ─── */
+    #skeletonOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 20px;
+      gap: 20px;
+      transition: opacity 0.5s ease;
+    }
+    #skeletonOverlay.hidden { opacity: 0; pointer-events: none; }
+
+    @keyframes shimmer {
+      0%   { background-position: -600px 0; }
+      100% { background-position: 600px 0; }
+    }
+    .sk {
+      border-radius: 8px;
+      background: linear-gradient(90deg, #0d1a24 25%, #1a2e3d 50%, #0d1a24 75%);
+      background-size: 600px 100%;
+      animation: shimmer 1.6s infinite linear;
+    }
+    .sk-nav    { width: 100%; max-width: 700px; height: 56px; border-radius: 12px; flex-shrink: 0; }
+    .sk-search { width: 100%; max-width: 700px; height: 160px; border-radius: 16px; flex-shrink: 0; }
+    .sk-result { width: 100%; max-width: 700px; height: 200px; border-radius: 16px; flex-shrink: 0; }
+  </style>
 </head>
+<body>
 
-<body class="bg-blue-100 bg-gradient">
+  <!-- SKELETON LOADER -->
+  <div id="skeletonOverlay">
+    <div class="sk sk-nav"></div>
+    <div class="sk sk-search"></div>
+    <div class="sk sk-result"></div>
+  </div>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow mb-4">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#">ChemistryLab</a>
-            <a href="/" class="btn btn-primary">
-                🏠 Back to Home
-            </a>
-        </div>
-    </nav>
+  <script>
+    window.addEventListener('load', () => {
+      const overlay = document.getElementById('skeletonOverlay');
+      overlay.classList.add('hidden');
+      setTimeout(() => overlay.remove(), 500);
+    });
+  </script>
 
-    <div class="container text-center">
-        <h1 class="display-5 fw-bold mb-4">Chemistry Formula Finder</h1>
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="/">ChemistryLab</a>
+      <a href="/" class="back-btn">← Back to Home</a>
+    </div>
+  </nav>
 
-        <form method="POST" class="mb-4">
-            <div class="mb-3">
-                <input 
-                    type="text" 
-                    name="query" 
-                    placeholder="Enter formula name (e.g. Boyle's law)"
-                    required
-                    class="form-control form-control-lg search-input mx-auto"
-                >
-            </div>
+  <main>
 
-            <button 
-                type="submit"
-                class="btn btn-primary btn-lg px-4"
-            >
-                Search
-            </button>
-        </form>
+    <div class="page-header">
+      <p class="page-label">Search Tool</p>
+      <h1>Chemistry <span>Formula</span> Finder</h1>
 
-        {% if data %}
-            <div class="card shadow-sm result-card mx-auto mt-4">
-                <div class="card-body p-4">
-                    <h2 class="card-title h4 mb-3">
-                        Formula: {{ data.formula }}
-                    </h2>
-
-                    <h3 class="h5 fw-medium mb-3">Meaning of Symbols:</h3>
-
-                    <ul class="symbol-list text-start">
-                        {% for symbol, meaning in data.symbols.items() %}
-                            <li>
-                                <span class="checkmark">✓</span>
-                                <span><strong>{{ symbol }}</strong> = {{ meaning }}</span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-
-        {% else %}
-            <p class="mt-4 text-secondary">Search for a chemistry formula.</p>
-        {% endif %}
+      <form method="POST" class="search-form">
+        <input
+          type="text"
+          name="query"
+          class="search-input"
+          placeholder="e.g. Boyle's law, PV=nRT..."
+          value="{{ request.form.get('query', '') }}"
+          required
+        />
+        <button type="submit" class="search-btn">SEARCH →</button>
+      </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% if data %}
+      <div class="result-card">
+        <div class="result-header">
+          <div>
+            <p class="result-title">Formula</p>
+            <div class="formula-badge">{{ data.formula }}</div>
+          </div>
+        </div>
+        <div class="symbols-section">
+          <p class="symbols-label">Symbol Breakdown</p>
+          {% for symbol, meaning in data.symbols.items() %}
+            <div class="symbol-row">
+              <span class="symbol-key">{{ symbol }}</span>
+              <span class="symbol-check">✓</span>
+              <span class="symbol-meaning">{{ meaning }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    {% else %}
+      <div class="empty-state">
+        <div class="empty-icon">🔬</div>
+        <p>Enter a formula name above to get started.</p>
+        <p class="empty-hint">Try: "Boyle's law", "ideal gas law", "Ohm's law"</p>
+      </div>
+    {% endif %}
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 ChemistryLab — All rights reserved. Created by Josh Raymond.</p>
+  </footer>
+
 </body>
 </html>
