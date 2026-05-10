@@ -85,6 +85,16 @@
         background: #0056b3;
         }
 
+        body{
+        filter: blur(8px);
+        opacity: 0.1;
+        transition: filter 0.7s ease, opacity 0.7s ease;
+        }
+
+        body.loaded {
+        filter: blur(0px);
+        opacity: 1;
+        }
   </style>
 </head>
 <body>
@@ -116,6 +126,12 @@
 
     </form>
   </div>
+
+  <script>
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+  </script>
 
 </body>
 </html>
