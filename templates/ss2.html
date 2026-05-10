@@ -3,112 +3,538 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SS2 Chemistry | ChemistryLab</title>
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-        filter: blur(8px);
-        opacity: 0.1;
-        transition: filter 0.7s ease, opacity 0.7s ease;
+    :root {
+      --bg: #f4f1eb;
+      --white: #ffffff;
+      --ink: #1a1208;
+      --muted: #7a7060;
+      --border: #e2ddd4;
+
+      --solid-hue:  #1e6fa8;
+      --solid-soft: #e8f3fb;
+      --liquid-hue: #1a9e6f;
+      --liquid-soft:#e6f7f1;
+      --gas-hue:    #c45c1a;
+      --gas-soft:   #fdf0e7;
+      --change-hue: #7c3aed;
+      --change-soft:#f3eeff;
     }
-        body.loaded {
-        filter: blur(0px);
-        opacity: 1;
+
+    /* ── BLUR-FADE REVEAL ── */
+    body {
+      filter: blur(10px);
+      opacity: 0;
+      transition: filter 0.8s ease, opacity 0.8s ease;
     }
-    </style>
+    body.loaded {
+      filter: blur(0px);
+      opacity: 1;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* Subtle noise texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: relative;
+      z-index: 10;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      height: 60px;
+      gap: 16px;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .logo sup {
+      font-size: 0.55em;
+      color: var(--solid-hue);
+      vertical-align: super;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    .back-btn {
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      transition: all 0.2s;
+    }
+    .back-btn:hover { color: var(--ink); border-color: #bbb; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 64px 32px 56px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 60px;
+      background: var(--bg);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--solid-hue);
+      background: var(--solid-soft);
+      border-radius: 20px;
+      padding: 4px 14px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--solid-hue);
+    }
+    .hero p {
+      max-width: 520px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 300;
+    }
+
+    /* ── PARTICLE STRIP ── */
+    .particle-strip {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      padding: 36px 32px;
+      flex-wrap: wrap;
+    }
+    .particle-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .particle-box span {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .particle-svg { width: 80px; height: 80px; }
+
+    /* ── MAIN ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ── STATE CARDS ── */
+    .state-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: slideUp 0.5s ease both;
+    }
+    .state-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .state-card:nth-child(1) { animation-delay: 0.1s; }
+    .state-card:nth-child(2) { animation-delay: 0.2s; }
+    .state-card:nth-child(3) { animation-delay: 0.3s; }
+
+    .state-sidebar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 32px 20px;
+    }
+    .state-icon {
+      font-size: 2.8rem;
+      line-height: 1;
+    }
+    .state-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .state-badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 12px;
+    }
+
+    .state-content {
+      padding: 32px 28px;
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 14px;
+    }
+    .state-content h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .state-content p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .property-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .prop {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid;
+    }
+
+    /* SOLID */
+    .solid .state-sidebar { background: var(--solid-soft); }
+    .solid .state-label   { color: var(--solid-hue); }
+    .solid .state-badge   { background: var(--solid-hue); color: #fff; }
+    .solid .prop          { color: var(--solid-hue); border-color: rgba(30,111,168,0.25); background: var(--solid-soft); }
+
+    /* LIQUID */
+    .liquid .state-sidebar { background: var(--liquid-soft); }
+    .liquid .state-label   { color: var(--liquid-hue); }
+    .liquid .state-badge   { background: var(--liquid-hue); color: #fff; }
+    .liquid .prop          { color: var(--liquid-hue); border-color: rgba(26,158,111,0.25); background: var(--liquid-soft); }
+
+    /* GAS */
+    .gas .state-sidebar { background: var(--gas-soft); }
+    .gas .state-label   { color: var(--gas-hue); }
+    .gas .state-badge   { background: var(--gas-hue); color: #fff; }
+    .gas .prop          { color: var(--gas-hue); border-color: rgba(196,92,26,0.25); background: var(--gas-soft); }
+
+    /* ── CHANGES SECTION ── */
+    .changes-section {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      animation: slideUp 0.5s ease 0.4s both;
+    }
+    .changes-header {
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .changes-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .changes-icon {
+      width: 36px; height: 36px;
+      background: var(--change-soft);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .changes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+    }
+    .change-item {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      transition: background 0.2s;
+    }
+    .change-item:hover { background: var(--bg); }
+    .change-item:nth-child(even) { border-right: none; }
+    .change-item:nth-last-child(-n+2) { border-bottom: none; }
+    .change-arrow {
+      font-size: 18px;
+      color: var(--change-hue);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .change-item h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+    .change-item p {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .change-flow {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .flow-from { padding: 2px 8px; border-radius: 4px; }
+    .flow-arrow { color: var(--muted); font-size: 10px; }
+    .flow-to   { padding: 2px 8px; border-radius: 4px; }
+
+    /* ── FOOTER NOTE ── */
+    .footer-note {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      padding: 8px 0 0;
+      font-style: italic;
+      animation: slideUp 0.5s ease 0.5s both;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      background: var(--ink);
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: 0.04em;
+    }
+    footer span { color: rgba(255,255,255,0.7); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .state-card { grid-template-columns: 1fr; }
+      .state-sidebar { flex-direction: row; padding: 20px 24px; border-left: none; border-bottom: 1px solid var(--border); }
+      .state-content { border-left: none; padding: 20px 24px; }
+      .changes-grid { grid-template-columns: 1fr; }
+      .change-item { border-right: none; }
+      .change-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+      .change-item:last-child { border-bottom: none; }
+    }
+  </style>
 </head>
-<body class="bg-primary bg-gradient">
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#">ChemistryLab</a>
-        <a href="/" class="btn btn-primary">
-            <i class="fas fa-arrow-left"></i> 🏠 Back to Home
-        </a>
-        </div>
+<body>
+    <nav>
+        <a class="logo" href="/">ChemistryLab<sup>®</sup></a>
+        <a href="/" class="back-btn">← Home</a>
     </nav>
-
-    <!-- SS2 Chemistry Section -->
-    <div class="container py-5">
-        <div class="card shadow-lg rounded-4 p-4 p-md-5" style="max-width: 900px; margin: 0 auto;">
-            
-            <h2 class="fw-bold text-center mb-4">SS2 Chemistry</h2>
-
-            <p class="fs-5 text-muted text-center mb-5">
-                SS2 Chemistry focuses on chemical reactions, laws of chemistry, and the behavior
-                of substances under different conditions. Students begin to understand how
-                chemical changes occur.
-            </p>
-
-            <hr class="my-4">
-
-            <!-- Chemical Reactions -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">⚗️ Chemical Reactions</h5>
-                <p class="mb-0">
-                    A chemical reaction is a process in which one or more substances react to form
-                    new substances. Examples include combustion, rusting, and neutralization.
-                </p>
-            </div>
-
-            <!-- Types of Chemical Reactions -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🔬 Types of Chemical Reactions</h5>
-                <ul class="mb-0">
-                    <li>Combination reactions</li>
-                    <li>Decomposition reactions</li>
-                    <li>Displacement reactions</li>
-                    <li>Neutralization reactions</li>
-                </ul>
-            </div>
-
-            <!-- Acids, Bases, and Salts -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🧪 Acids, Bases, and Salts</h5>
-                <p class="mb-0">
-                    Acids are substances that produce hydrogen ions in solution, bases produce hydroxide
-                    ions, while salts are formed from the reaction between acids and bases.
-                </p>
-            </div>
-
-            <!-- Periodic Table -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">📊 Periodic Table</h5>
-                <p class="mb-0">
-                    The periodic table arranges elements according to increasing atomic number.
-                    Elements are grouped based on similar chemical properties.
-                </p>
-            </div>
-
-            <!-- Importance of Chemistry -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">💼 Importance of Chemistry</h5>
-                <p class="mb-0">
-                    Chemistry is applied in industries such as pharmaceuticals, food processing,
-                    manufacturing, and environmental management.
-                </p>
-            </div>
-
-            <hr class="my-4">
-
-            <p class="text-center text-muted">
-                Understanding SS2 Chemistry helps students explain everyday chemical changes
-                and prepares them for more advanced topics.
-            </p>
-
+    <main>
+        <div class="hero">
+            <span class="hero-tag">SS2 Chemistry</span>
+            <h1>Exploring the World of <em>Chemistry</em></h1>
+            <p>SS2 Chemistry builds on the foundation of SS1, introducing more complex concepts and practical applications. It prepares students for the challenges of SS3 and external exams.</p>  
         </div>
-    </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="state-card solid">
+            <div class="state-sidebar">
+                <div class="state-icon">🧊</div>
+            </div>
+            <div class="state-content">
+                <h3>The Periodic Table</h3>
+                <p>The periodic table is a tabular arrangement of the chemical elements, organized based on their atomic number, electron configuration, and recurring chemical properties.</p> 
+                <div class="property-row">
+                    <div class="prop">Groups</div>
+                    <div class="prop">Periods</div>
+                    <div class="prop">Metals</div>
+                    <div class="prop">Nonmetals</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="state-card liquid">
+            <div class="state-sidebar">
+                <div class="state-icon">💧</div>
+            </div>
+            <div class="state-content">
+                <h3>Chemical Reactions</h3>
+                <p>A chemical reaction is a process that leads to the transformation of one or more substances into different substances.</p>
+                <div class="property-row">
+                    <div class="prop">Reactants</div>
+                    <div class="prop">Products</div>
+                    <div class="prop">Balanced Equations</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="state-card gas">
+            <div class="state-sidebar">
+                <div class="state-icon">💨</div>
+            </div>
+            <div class="state-content">
+                <h3>Electrolysis</h3>
+                <p>Electrolysis is a chemical process that uses electricity to break down compounds into their elements or simpler compounds.</p>
+                <div class="property-row">
+                    <div class="prop">Anode</div>
+                    <div class="prop">Cathode</div>
+                    <div class="prop">Electrolyte</div>
+                </div>
+                <div class="change-flow">
+                    <div class="flow-from" style="background: var(--gas-soft); color: var(--gas-hue);">Compound</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-to" style="background: var(--solid-soft); color: var(--solid-hue);">Elements</div>
+                </div>
+            </div>
+         </div>
+
+        <div class="changes-section">
+            <div class="changes-header">
+                <div class="changes-icon">🔄</div>
+                <h2>Faraday's Laws of Electrolysis</h2>
+            </div>
+            <div class="changes-grid">
+                <div class="change-item">
+                    <div>
+                        <h4>First Law</h4>
+                        <p>The mass of a substance produced at an electrode during electrolysis is directly proportional to the quantity of electricity passed through the electrolyte.</p>
+                        <p>Formula: m = ZIt where Z is the electrochemical equivalent, m is the mass of the substance, I is the current, and t is the time.</p>
+                    </div>
+                </div>
+                <div class="change-item">
+                    <div>
+                        <h4>Second Law</h4>
+                        <p>The mass of different substances produced by the same quantity of electricity are proportional to their equivalent weights.</p>
+                        <p>Formula: m₁/m₂ = E₁/E₂ where m₁ and m₂ are the masses of the substances, and E₁ and E₂ are their equivalent weights.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="state-card virtual-card">
+            <div class="state-sidebar">
+                <div class="state-icon">⇌</div>
+            </div>
+            <div class="state-content">
+                <h3>Chemical Equilibrium</h3
+                <p>Chemical equilibrium occurs when the rate of the forward reaction equals the rate of the reverse reaction, resulting in no net change in the concentrations of reactants and products.</p>
+                <div class="property-row">
+                    <div class="prop">Dynamic</div>
+                    <div class="prop">Reversible</div>
+                    <div class="prop">Equilibrium Constant (K)</div>
+                </div>
+                <div class="change-flow">
+                    <div class="flow-from" style="background: var(--liquid-soft); color: var(--liquid-hue);">Reactants</div>
+                    <div class="flow-arrow">⇌</div>
+                    <div class="flow-to" style="background: var(--liquid-soft); color: var(--liquid-hue);">Products</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="state-card virtual-card">
+            <div class="state-sidebar">
+                <div class="state-icon">⚗️</div>
+            </div>
+            <div class="state-content">
+                <h3>Water and Its Properties</h3>
+                <p>Water is a unique substance with exceptional properties that make it essential for life and various industrial applications.</p>
+                <p>Key properties of water include:</p>
+                <div class="property-row">
+                    <div class="prop">Polarity</div>
+                    <div class="prop">Cohesion</div>
+                    <div class="prop">Adhesion</div>
+                    <div class="prop">High Specific Heat</div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+
+        <div class="footer-note">This is just a glimpse of the exciting topics covered in SS2 Chemistry. Continue exploring to deepen your understanding and prepare for SS3!</div>
+
+    </main>
+    <footer>
+        <hr>
+        <p>&copy; 2026 ChemistryLab. All rights reserved.</p>
+    </footer>
 
     <script>
-        window.addEventListener('load', () => {
-            document.body.classList.add('loaded');
-        });
+    // Add loaded class to body after page load for blur-fade effect
+    window.addEventListener('load', function() {
+        document.body.classList.add('loaded');
+    });
     </script>
 </body>
 </html>
