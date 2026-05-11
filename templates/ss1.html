@@ -1,613 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SS1 Chemistry | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #f4f1eb;
-      --white: #ffffff;
-      --ink: #1a1208;
-      --muted: #7a7060;
-      --border: #e2ddd4;
-
-      --solid-hue:  #1e6fa8;
-      --solid-soft: #e8f3fb;
-      --liquid-hue: #1a9e6f;
-      --liquid-soft:#e6f7f1;
-      --gas-hue:    #c45c1a;
-      --gas-soft:   #fdf0e7;
-      --change-hue: #7c3aed;
-      --change-soft:#f3eeff;
-    }
-
-    /* ── BLUR-FADE REVEAL ── */
-    body {
-      filter: blur(10px);
-      opacity: 0;
-      transition: filter 0.8s ease, opacity 0.8s ease;
-    }
-    body.loaded {
-      filter: blur(0px);
-      opacity: 1;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-      min-height: 100vh;
-    }
-
-    /* Subtle noise texture */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.4;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: relative;
-      z-index: 10;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 0 32px;
-      display: flex;
-      align-items: center;
-      height: 60px;
-      gap: 16px;
-    }
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--ink);
-      text-decoration: none;
-      letter-spacing: -0.01em;
-    }
-    .logo sup {
-      font-size: 0.55em;
-      color: var(--solid-hue);
-      vertical-align: super;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-    }
-    .back-btn {
-      margin-left: auto;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--muted);
-      text-decoration: none;
-      padding: 6px 14px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      background: var(--bg);
-      transition: all 0.2s;
-    }
-    .back-btn:hover { color: var(--ink); border-color: #bbb; }
-
-    /* ── HERO ── */
-    .hero {
-      position: relative;
-      z-index: 1;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 64px 32px 56px;
-      text-align: center;
-      overflow: hidden;
-    }
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: -1px; left: 0; right: 0;
-      height: 60px;
-      background: var(--bg);
-      clip-path: ellipse(55% 100% at 50% 100%);
-    }
-    .hero-tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--solid-hue);
-      background: var(--solid-soft);
-      border-radius: 20px;
-      padding: 4px 14px;
-      margin-bottom: 20px;
-    }
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 6vw, 3.8rem);
-      font-weight: 900;
-      color: var(--ink);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 20px;
-    }
-    .hero h1 em {
-      font-style: italic;
-      color: var(--solid-hue);
-    }
-    .hero p {
-      max-width: 520px;
-      margin: 0 auto;
-      color: var(--muted);
-      font-size: 15px;
-      font-weight: 300;
-    }
-
-    /* ── PARTICLE STRIP ── */
-    .particle-strip {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      padding: 36px 32px;
-      flex-wrap: wrap;
-    }
-    .particle-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-    .particle-box span {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .particle-svg { width: 80px; height: 80px; }
-
-    /* ── MAIN ── */
-    main {
-      position: relative;
-      z-index: 1;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 24px 64px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    /* ── STATE CARDS ── */
-    .state-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      transition: transform 0.2s, box-shadow 0.2s;
-      animation: slideUp 0.5s ease both;
-    }
-    .state-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-    }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .state-card:nth-child(1) { animation-delay: 0.1s; }
-    .state-card:nth-child(2) { animation-delay: 0.2s; }
-    .state-card:nth-child(3) { animation-delay: 0.3s; }
-
-    .state-sidebar {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      padding: 32px 20px;
-    }
-    .state-icon {
-      font-size: 2.8rem;
-      line-height: 1;
-    }
-    .state-label {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
-    .state-badge {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 3px 10px;
-      border-radius: 12px;
-    }
-
-    .state-content {
-      padding: 32px 28px;
-      border-left: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 14px;
-    }
-    .state-content h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.2;
-    }
-    .state-content p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-    .property-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .prop {
-      font-size: 12px;
-      font-weight: 500;
-      padding: 4px 12px;
-      border-radius: 20px;
-      border: 1px solid;
-    }
-
-    /* SOLID */
-    .solid .state-sidebar { background: var(--solid-soft); }
-    .solid .state-label   { color: var(--solid-hue); }
-    .solid .state-badge   { background: var(--solid-hue); color: #fff; }
-    .solid .prop          { color: var(--solid-hue); border-color: rgba(30,111,168,0.25); background: var(--solid-soft); }
-
-    /* LIQUID */
-    .liquid .state-sidebar { background: var(--liquid-soft); }
-    .liquid .state-label   { color: var(--liquid-hue); }
-    .liquid .state-badge   { background: var(--liquid-hue); color: #fff; }
-    .liquid .prop          { color: var(--liquid-hue); border-color: rgba(26,158,111,0.25); background: var(--liquid-soft); }
-
-    /* GAS */
-    .gas .state-sidebar { background: var(--gas-soft); }
-    .gas .state-label   { color: var(--gas-hue); }
-    .gas .state-badge   { background: var(--gas-hue); color: #fff; }
-    .gas .prop          { color: var(--gas-hue); border-color: rgba(196,92,26,0.25); background: var(--gas-soft); }
-
-    /* ── CHANGES SECTION ── */
-    .changes-section {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      animation: slideUp 0.5s ease 0.4s both;
-    }
-    .changes-header {
-      padding: 24px 28px 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .changes-header h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--ink);
-    }
-    .changes-icon {
-      width: 36px; height: 36px;
-      background: var(--change-soft);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-    }
-    .changes-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0;
-    }
-    .change-item {
-      padding: 20px 28px;
-      border-bottom: 1px solid var(--border);
-      border-right: 1px solid var(--border);
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      transition: background 0.2s;
-    }
-    .change-item:hover { background: var(--bg); }
-    .change-item:nth-child(even) { border-right: none; }
-    .change-item:nth-last-child(-n+2) { border-bottom: none; }
-    .change-arrow {
-      font-size: 18px;
-      color: var(--change-hue);
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .change-item h4 {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 3px;
-    }
-    .change-item p {
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .change-flow {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-top: 6px;
-    }
-    .flow-from { padding: 2px 8px; border-radius: 4px; }
-    .flow-arrow { color: var(--muted); font-size: 10px; }
-    .flow-to   { padding: 2px 8px; border-radius: 4px; }
-
-    /* ── FOOTER NOTE ── */
-    .footer-note {
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-      padding: 8px 0 0;
-      font-style: italic;
-      animation: slideUp 0.5s ease 0.5s both;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      position: relative;
-      z-index: 1;
-      background: var(--ink);
-      color: rgba(255,255,255,0.4);
-      text-align: center;
-      padding: 20px;
-      font-size: 12px;
-      font-family: 'Outfit', sans-serif;
-      letter-spacing: 0.04em;
-    }
-    footer span { color: rgba(255,255,255,0.7); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      .state-card { grid-template-columns: 1fr; }
-      .state-sidebar { flex-direction: row; padding: 20px 24px; border-left: none; border-bottom: 1px solid var(--border); }
-      .state-content { border-left: none; padding: 20px 24px; }
-      .changes-grid { grid-template-columns: 1fr; }
-      .change-item { border-right: none; }
-      .change-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
-      .change-item:last-child { border-bottom: none; }
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#2d6a4f;--soft:#eaf4ee}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    footer span{color:rgba(255,255,255,.7)}
   </style>
 </head>
 <body>
-    <nav>
-        <a class="logo" href="/">ChemistryLab</a>
-        <a href="/" class="back-btn">← Home</a>
-    </nav>
-    <main>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/" class="back-btn">← Home</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Secondary School Notes</div>
+    <h1>SS1 <em>Chemistry</em></h1>
+    <p>An introduction to the core concepts of chemistry — from the nature of matter to safe laboratory practices.</p>
+  </div>
+  <main>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Introduction to Chemistry</h3></div>
+      <div class="card-body">
+        <p>Chemistry is the scientific study of matter, its properties, and how it interacts with energy. It helps us understand the world around us and is essential for many fields such as medicine, engineering, and environmental science.</p>
+        <p>Chemistry helps us understand the materials around us such as air, water, food, medicine, and fuels. It plays an important role in agriculture, medicine, industry, and environmental protection.</p>
+      </div>
+    </div>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🌿</span><h3>Branches of Chemistry</h3></div>
+      <div class="card-body"><ul>
+        <li><strong>Organic Chemistry</strong> – Study of carbon compounds</li>
+        <li><strong>Inorganic Chemistry</strong> – Study of non-carbon compounds</li>
+        <li><strong>Physical Chemistry</strong> – Study of energy and reactions</li>
+        <li><strong>Analytical Chemistry</strong> – Identification of substances</li>
+        <li><strong>Biochemistry</strong> – Chemistry of living organisms</li>
+        <li><strong>Environmental Chemistry</strong> – Study of chemical processes in the environment</li>
+        <li><strong>Industrial Chemistry</strong> – Application of chemistry in manufacturing</li>
+        <li><strong>Medicinal Chemistry</strong> – Design of pharmaceutical drugs</li>
+      </ul></div>
+    </div>
 
-        <div class="hero">
-            <span class="hero-tag">SS1 Chemistry</span>
-            <h1>Welcome to <em>ChemistryLab</em></h1>
-            <p>Your go-to resource for learning chemistry concepts, safety rules, and laboratory equipment. Let's explore the fascinating world of chemistry together!</p>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>Matter</h3></div>
+        <div class="card-body">
+            <p>Matter is anything that has mass and occupies space. It can exist in three states: solid, liquid, and gas. Matter is made up of tiny particles called atoms, which combine to form molecules.</p>
+            <p>Atoms consist of a nucleus containing protons and neutrons, surrounded by electrons. The arrangement of electrons determines how atoms interact and bond with each other to form compounds.</p>
         </div>
+    </div>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>States of Matter</h3></div>
+      <div class="card-body">
+        <p>Matter can exist in different states, each with distinct properties:</p>
+        <ul>
+          <li><strong>Solid</strong> – Definite shape and volume, particles closely packed</li>
+          <li><strong>Liquid</strong> – Definite volume but no fixed shape, particles less tightly packed</li>
+          <li><strong>Gas</strong> – No fixed shape or volume, particles widely spaced and move freely</li>
+          <li><strong>Plasma</strong> – Ionized gas with free electrons, found in stars and lightning</li>
+        </ul>
+      </div>
+    </div>
 
-        <div class="state-card solid">
-            <div class="state-sidebar">
-                <div class="state-icon">🧊</div>
-                <div class="state-label">Introduction to Chemistry</div>
-                <div class="state-badge">SS1</div>
-            </div>
-
-            <div class="state-content">
-                <h3>What is Chemistry?</h3>
-                <p>Chemistry is the scientific study of matter, its properties, how it interacts with other matter and energy. It helps us understand the world around us at a molecular level.</p>
-                <div class="property-row">
-                    <div class="prop">Atoms & Molecules</div>
-                    <div class="prop">Elements & Compounds</div>
-                    <div class="prop">Physical & Chemical Changes</div>
-                </div>
-            </div>
+    <div class="topic-card">
+        <div class="card-top"><span class="card-icon">⚗️</span><h3>Separation Techniques</h3></div>
+        <div class="card-body">
+            <p>Separation techniques are methods used to separate mixtures into their individual components. Common techniques include:</p>
+            <ul>
+                <li><strong>Filtration</strong> – Separates solids from liquids using a filter</li>
+                <li><strong>Distillation</strong> – Separates liquids based on boiling points</li>
+                <li><strong>Evaporation</strong> – Removes a liquid to leave behind a solid</li>
+                <li><strong>Chromatography</strong> – Separates substances based on their movement through a medium</li>
+                <li><strong>Centrifugation</strong> – Uses centrifugal force to separate substances of different densities</li>
+                <li><strong>Decantation</strong> – Pours off a liquid to separate it from a solid or another liquid</li>
+                <li><strong>Magnetic Separation</strong> – Uses magnets to separate magnetic materials from non-magnetic ones</li>
+                <li><strong>Sieving</strong> – Separates particles based on size using a sieve</li>
+                <li><strong>Fractional Distillation</strong> – Separates liquids with close boiling points</li>
+                <li><strong>Crystallization</strong> – Separates a solid from a solution by forming crystals</li>
+            </ul>
         </div>
+    </div>
 
-        <div class="state-card liquid">
-            <div class="state-sidebar">
-                <div class="state-icon">💧</div>
-                <div class="state-label">Separation Techniques</div>
-                <div class="state-badge">SS1</div>
-            </div>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧪</span><h3>Change of State</h3></div>
+      <div class="card-body">
+        <p>When matter changes from one state to another, it undergoes a physical change. These changes are reversible and do not alter the chemical composition of the substance.</p>
+        <ul>
+          <li><strong>Melting</strong> – Solid to liquid</li>
+          <li><strong>Freezing</strong> – Liquid to solid</li>
+          <li><strong>Vaporization</strong> – Liquid to gas (includes boiling and evaporation)</li>
+          <li><strong>Condensation</strong> – Gas to liquid</li>
+          <li><strong>Sublimation</strong> – Solid to gas without passing through liquid state</li>
+          <li><strong>Deposition</strong> – Gas to solid without passing through liquid state</li>
+        </ul>
+      </div>
+    </div>
 
-            <div class="state-content">
-                <h3>How to Separate Mixtures?</h3>
-                <p>Mixtures can be separated using physical methods based on the properties of the components. Common techniques include filtration, evaporation, distillation, and chromatography.</p>
-                <div class="property-row">
-                    <div class="prop">Filtration</div>
-                    <div class="prop">Evaporation</div>
-                    <div class="prop">Distillation</div>
-                    <div class="prop">Chromatography</div>
-                </div>
-            </div>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧪</span><h3>Acids, Bases, and Salts</h3></div>
+      <div class="card-body">
+        <p>Acids are substances that produce hydrogen ions (H⁺) when dissolved in water. They have a sour taste and can react with metals to produce hydrogen gas.</p>
+        <p>Bases are substances that produce hydroxide ions (OH⁻) when dissolved in water. They have a bitter taste and feel slippery.</p>
+        <p>Salts are ionic compounds formed when an acid reacts with a base. They are typically crystalline solids at room temperature.</p>
+        <p>The pH scale is used to measure the acidity or alkalinity of a solution, with values below 7 being acidic, above 7 being basic, and 7 being neutral.</p>
+        <p>For more information, head to the <a href="{{ url_for('acids_bases_and_salts') }}">Acids, Bases, and Salts</a> page.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+        <div class="card-top"><span class="card-icon">⚗️</span><h3>Laboratory Safety</h3></div>
+        <div class="card-body">
+            <p>Always follow safety rules in the laboratory to prevent accidents and injuries. Some important safety rules include:</p>
+            <ul>
+            <li><strong>Wear protective gear</strong> such as goggles, gloves, and lab coats.</li>
+            <li><strong>Know the location of safety equipment</strong> like fire extinguishers, eye wash stations, and first aid kits.</li>
+            <li><strong>Handle chemicals carefully</strong> and never taste or directly smell them.</li>
+            <li><strong>Keep your workspace clean</strong> and dispose of waste properly.</li>
+            <li><strong>Never work alone</strong> in the laboratory.</li>
+            </ul>
         </div>
-
-        <div class="state-card gas">
-            <div class="state-sidebar">
-                <div class="state-icon">💨</div>
-                <div class="state-label">Particulate Nature of Matter</div>
-            </div>
-
-            <div class="state-content">
-                <h3>What is the Particulate Nature of Matter?</h3>
-                <p>Matter is made up of tiny particles called atoms and molecules. These particles are in constant motion, and their arrangement and movement determine the state of matter (solid, liquid, gas).</p>
-                <div class="property-row">
-                    <div class="prop">Kinetic Theory</div>
-                    <div class="prop">Brownian Motion</div>
-                    <div class="prop">Diffusion</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="changes-section">
-            <div class="changes-header">
-                <div class="changes-icon">🔄</div>
-                <div class="changes-title">Gas Laws</div>
-            </div>
-
-            <div class="changes-grid">
-                <div class="change-item">
-                    <div>
-                        <h4>Boyle's Law</h4>
-                        <p>At constant temperature, the pressure of a gas is inversely proportional to its volume. i.e., P ∝ 1/V where V is the volume.</p>
-                    </div>
-                </div>
-                <div class="change-item">
-                    <div>
-                        <h4>Charles's Law</h4>
-                        <p>At constant pressure, the volume of a gas is directly proportional to its absolute temperature. i.e., V ∝ T where T is the absolute temperature.</p>
-                    </div>
-                </div>
-                <div class="change-item">
-                    <div>
-                        <h4>Avogadro's Law</h4>
-                        <p>At constant temperature and pressure, the volume of a gas is directly proportional to the number of moles. i.e., V ∝ n where n is the number of moles.</p>
-                    </div>
-                </div>
-                <div class="change-item">
-                    <div>
-                        <h4>Ideal Gas Law</h4>
-                        <p>The relationship between pressure, volume, temperature, and number of moles of a gas is given by PV = nRT where P is the pressure, V is the volume, n is the number of moles, R is the ideal gas constant, and T is the absolute temperature.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="changes-section">
-            <div class="changes-header">
-                <div class="changes-icon">⚗️</div>
-                <div class="changes-title">Physical vs Chemical Changes</div>
-            </div>
-
-            <div class="changes-grid">
-                <div class="change-item">
-                    <div>
-                        <h4>Physical Change</h4>
-                        <p>A physical change is a change in the state or appearance of a substance without altering its chemical composition. Examples include melting, freezing, and dissolving.</p>
-                    </div>
-                </div>
-                <div class="change-item">
-                    <div>
-                        <h4>Chemical Change</h4>
-                        <p>A chemical change results in the formation of new substances with different properties. Examples include burning, rusting, and digestion.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="changes-section">
-            <div class="changes-header">
-                <div class="changes-icon">🔬</div>
-                <div class="changes-title">Laws of Chemical Combination</div>
-            </div>
-
-            <div class="changes-grid">
-                <div class="change-item">
-                    <div>
-                        <h4>Law of Conservation of Mass</h4>
-                        <p>Mass is neither created nor destroyed in a chemical reaction. The total mass of the reactants equals the total mass of the products.</p>
-                    </div>
-                </div>
-                <div class="change-item">
-                    <div>
-                        <h4>Law of Definite Proportions</h4>
-                        <p>A given chemical compound always contains the same elements in the same proportion by mass, regardless
-                        of the source or method of preparation.</p>
-                    </div>
-                </div>
-                <div class="change-item">
-                    <div>
-                        <h4>Law of Multiple Proportions</h4>
-                        <p>When two elements combine to form more than one compound, the masses of one element that combine with a fixed mass of the other are in ratios of small whole numbers.</p>
-                    </div>
-                </div>
-                <div class="change-item">
-                    <div>
-                        <h4>Gay-Lussac's Law of Combining Volumes</h4>
-                        <p>When gases react together at constant temperature and pressure, the volumes of the reacting gases and the volumes of any gaseous products are in simple whole number ratios.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-
-        <div class="changes-section">
-            <div class="changes-header">
-                <div class="changes-icon">🔬</div>
-                <div class="changes-title">Laboratory Safety Rules</div>
-            </div>
-
-            <div class="changes-grid">
-                <div class="change-item">
-                    <div>
-                        <h4>Wear Protective Gear</h4>
-                        <p>Always wear safety goggles, gloves, and a lab coat to protect yourself from chemical splashes and spills.</p>
-                    </div>
-                </div>
-                <div class="change-item">
-                    <div>
-                        <h4>Know Emergency Procedures</h4>
-                        <p>Familiarize yourself with the location of safety equipment such as fire extinguishers, eye wash stations, and first aid kits.</p>
-                    </div>
-                </div>
-                <div class="change-item">
-                    <div>
-                        <h4>Handle Chemicals Properly</h4>
-                        <p>Read labels carefully, use appropriate containers, and never mix chemicals unless instructed to do so.</p>
-                    </div>
-                </div>
-                <div class="change-item">
-                    <div>
-                        <h4>Keep Your Workspace Clean</h4>
-                        <p>A tidy workspace helps prevent accidents. Clean up spills immediately and dispose of waste properly.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <hr class="my-4">
-
-        <div class="footer-note">This is just the beginning of your chemistry journey. Explore the other sections to learn about laboratory safety, chemical reactions, and more!</div>
-
-
-    </main>
-
-    <footer>
-        <hr>
-        <p>&copy; 2026 ChemistryLab. All rights reserved.</p>
-    </footer>
-
-    <script>
-    // Add loaded class to body after page load for blur-fade effect
-    window.addEventListener('load', function() {
-        document.body.classList.add('loaded');
-    });
-    </script>
+    </div>
+  </main>
+  <footer><p>&copy; 2024 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
 </body>
 </html>

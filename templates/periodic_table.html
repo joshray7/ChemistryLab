@@ -1,115 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Periodic Table</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Periodic Table | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080e14; --surface: #0d1a24; --surface2: #112130;
+      --accent: #00d4aa; --text: #e8f4f0; --muted: #7a9dab;
+      --border: rgba(0,212,170,0.18); --glow: 0 0 24px rgba(0,212,170,0.12);
+    }
+    body { filter: blur(10px); opacity: 0; transition: filter .8s ease, opacity .8s ease; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.7; min-height: 100vh; display: flex; flex-direction: column; }
+    body.loaded { filter: blur(0); opacity: 1; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(0,212,170,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,170,0.04) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
 
-    <style>
-        /* Floating animated circles */
-        .bubble {
-            position: absolute;
-            width: 18vmin;
-            height: 18vmin;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.4), transparent);
-            animation: move linear infinite;
-        }
+    /* NAV */
+    nav { position: relative; z-index: 10; max-width: 860px; margin: 24px auto 0; padding: 0 20px; width: 100%; }
+    .nav-inner { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; box-shadow: var(--glow); }
+    .logo { font-family: 'Space Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--accent); letter-spacing: .05em; text-decoration: none; }
+    .logo::before { content: '⬡ '; font-size: .9em; }
+    .back-btn { margin-left: auto; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); text-decoration: none; padding: 6px 14px; border: 1px solid var(--border); border-radius: 6px; transition: all .2s; }
+    .back-btn:hover { color: var(--accent); border-color: rgba(0,212,170,.4); }
 
-        .bubble:nth-child(odd) { background-color: rgba(0, 109, 91, 0.3); }
-        .bubble:nth-child(even) { background-color: rgba(255, 111, 97, 0.3); }
+    /* MAIN */
+    main { position: relative; z-index: 1; max-width: 680px; margin: 40px auto; padding: 0 20px 64px; width: 100%; flex: 1; display: flex; flex-direction: column; gap: 24px; }
 
-        .bubble:nth-child(1) { top: 10%; left: 80%; animation-duration: 40s; }
-        .bubble:nth-child(2) { top: 20%; left: 20%; animation-duration: 55s; }
-        .bubble:nth-child(3) { top: 60%; left: 10%; animation-duration: 45s; }
-        .bubble:nth-child(4) { top: 70%; left: 70%; animation-duration: 35s; }
-        .bubble:nth-child(5) { top: 40%; left: 40%; animation-duration: 50s; }
-        .bubble:nth-child(6) { top: 80%; left: 30%; animation-duration: 38s; }
-        .bubble:nth-child(7) { top: 15%; left: 50%; animation-duration: 52s; }
-        .bubble:nth-child(8) { top: 55%; left: 80%; animation-duration: 48s; }
+    /* HERO CARD */
+    .hero-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 40px 32px 32px; text-align: center; box-shadow: var(--glow); position: relative; overflow: hidden; animation: fadeIn .4s ease both; }
+    .hero-card::after { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(0,212,170,.1) 0%, transparent 70%); pointer-events: none; }
+    .page-label { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .2em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+    .hero-card h1 { font-family: 'Space Mono', monospace; font-size: clamp(1.3rem, 3.5vw, 1.9rem); font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .hero-card h1 span { color: var(--accent); }
+    .hero-card p { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
 
-        @keyframes move {
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+    /* SEARCH FORM */
+    .search-form { display: flex; gap: 10px; }
+    .search-input { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; transition: border-color .2s, box-shadow .2s; }
+    .search-input::placeholder { color: var(--muted); }
+    .search-input:focus { border-color: rgba(0,212,170,.5); box-shadow: 0 0 0 3px rgba(0,212,170,.08); }
+    .search-btn { background: var(--accent); color: #080e14; border: none; border-radius: 8px; padding: 12px 22px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: .05em; cursor: pointer; transition: opacity .2s, transform .15s; white-space: nowrap; }
+    .search-btn:hover { opacity: .88; }
+    .search-btn:active { transform: scale(.97); }
+
+    /* ERROR */
+    .error-card { background: var(--surface); border: 1px solid rgba(239,68,68,.25); border-radius: 16px; padding: 28px; text-align: center; animation: fadeIn .4s ease both; }
+    .error-card p { font-family: 'Space Mono', monospace; font-size: 13px; color: #f87171; }
+
+    /* RESULT CARD */
+    .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: var(--glow); animation: fadeIn .4s ease both; }
+    .result-header { background: var(--surface2); border-bottom: 1px solid var(--border); padding: 24px 28px; display: flex; align-items: center; gap: 20px; }
+    .element-badge { width: 70px; height: 70px; background: rgba(0,212,170,.1); border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; flex-shrink: 0; }
+    .el-symbol { font-family: 'Space Mono', monospace; font-size: 1.6rem; font-weight: 700; color: var(--accent); line-height: 1; }
+    .el-number { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); }
+    .el-name { font-family: 'Space Mono', monospace; font-size: 1.2rem; font-weight: 700; color: var(--text); }
+    .el-sub { font-size: 13px; color: var(--muted); margin-top: 4px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+
+    /* PROPERTIES GRID */
+    .props-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .prop-row { display: flex; flex-direction: column; padding: 16px 28px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); }
+    .prop-row:nth-child(even) { border-right: none; }
+    .prop-row:nth-last-child(-n+2) { border-bottom: none; }
+    .prop-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .prop-value { font-size: 14px; font-weight: 500; color: var(--text); }
+
+    /* EMPTY STATE */
+    .empty-state { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 40px 20px; text-align: center; animation: fadeIn .4s ease both; }
+    .empty-icon { font-size: 36px; margin-bottom: 14px; }
+    .empty-state p { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--muted); }
+    .empty-hint { font-size: 13px; color: rgba(122,157,171,.6); margin-top: 6px; font-style: italic; font-family: 'DM Sans', sans-serif; }
+
+    footer { position: relative; z-index: 1; background: var(--surface); border-top: 1px solid var(--border); text-align: center; padding: 20px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @media(max-width:500px) { .search-form { flex-direction: column; } .props-grid { grid-template-columns: 1fr; } .prop-row { border-right: none; } .prop-row:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); } .prop-row:last-child { border-bottom: none; } }
+  </style>
 </head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="/">ChemistryLab</a>
+      <a href="/" class="back-btn">← Home</a>
+    </div>
+  </nav>
 
-<body class="relative min-h-screen bg-gradient-to-br from-blue-600 to-teal-500 text-white">
+  <main>
+    <div class="hero-card">
+      <p class="page-label">Search Tool</p>
+      <h1>Periodic Table <span>Finder</span></h1>
+      <p>Search any element by name or symbol to get full atomic data.</p>
+      <form method="POST" class="search-form">
+        <input type="text" name="element" class="search-input" placeholder="e.g. Hydrogen, He, Gold..." value="{{ request.form.get('element', '') }}" required />
+        <button type="submit" class="search-btn">SEARCH →</button>
+      </form>
+    </div>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#">ChemistryLab</a>
-        <a href="/" class="btn btn-primary">
-            <i class="fas fa-arrow-left"></i> 🏠 Back to Home
-        </a>
+    {% if element_data %}
+      {% if element_data == "not_found" %}
+        <div class="error-card">
+          <p>❌ Element not found. Check the name or symbol and try again.</p>
         </div>
-    </nav>
-
-    <!-- Animated Background -->
-    <div class="absolute inset-0 -z-10 overflow-hidden">
-        <span class="bubble"></span>
-        <span class="bubble"></span>
-        <span class="bubble"></span>
-        <span class="bubble"></span>
-        <span class="bubble"></span>
-        <span class="bubble"></span>
-        <span class="bubble"></span>
-        <span class="bubble"></span>
-    </div>
-
-    <!-- Main Container -->
-    <div class="max-w-lg mx-auto pt-10 pb-20 px-6 text-center">
-
-        <h1 class="text-3xl font-bold drop-shadow-lg">Periodic Table Search</h1>
-        <p class="text-lg mt-2">Search for any element or symbol 🌟</p>
-
-        <!-- Search Form -->
-        <form method="POST" class="mt-8">
-            <input 
-                type="text"
-                name="element"
-                placeholder="Enter element or symbol"
-                required
-                class="w-full p-4 rounded-lg text-center text-lg bg-white/20 backdrop-blur
-                       border border-white/40 focus:ring-2 focus:ring-white placeholder-gray-200"
-            >
-
-            <button
-                type="submit"
-                class="w-full mt-5 p-3 rounded-lg bg-white/30 hover:bg-white/40 transition
-                       text-lg font-semibold shadow"
-            >
-                Search
-            </button>
-        </form>
-
-        <!-- Results / Errors -->
-        {% if element_data %}
-            {% if element_data == "not_found" %}
-                <p class="mt-10 text-red-200 text-lg font-semibold">
-                    ❌ Element not found. Try again.
-                </p>
-            {% else %}
-
-            <div class="mt-10 p-6 bg-white/20 backdrop-blur rounded-xl shadow text-left">
-                <h3 class="text-2xl font-bold mb-4 text-center">Element Details</h3>
-
-                <p class="text-lg"><strong>Name:</strong> {{ element_data.name }}</p>
-                <p class="text-lg"><strong>Symbol:</strong> {{ element_data.symbol }}</p>
-                <p class="text-lg"><strong>Atomic Number:</strong> {{ element_data.number }}</p>
-                <p class="text-lg"><strong>Density:</strong> {{ element_data.density }}</p>
-                <p class="text-lg"><strong>Atomic Mass:</strong> {{ element_data.atomic_mass }}</p>
-                <p class="text-lg"><strong>Melting Point:</strong> {{ element_data.melting_point }}</p>
-                <p class="text-lg"><strong>Boiling Point:</strong> {{ element_data.boiling_point }}</p>
-                <p class="text-lg"><strong>Electronegativity:</strong> {{ element_data.electronegativity }}</p>
-                <p class="text-lg"><strong>Atomic Radius:</strong> {{ element_data.atomic_radius }}</p>
+      {% else %}
+        <div class="result-card">
+          <div class="result-header">
+            <div class="element-badge">
+              <span class="el-symbol">{{ element_data.symbol }}</span>
+              <span class="el-number">{{ element_data.number }}</span>
             </div>
+            <div>
+              <div class="el-name">{{ element_data.name }}</div>
+              <div class="el-sub">Atomic Number {{ element_data.number }}</div>
+            </div>
+          </div>
+          <div class="props-grid">
+            <div class="prop-row"><span class="prop-label">Atomic Mass</span><span class="prop-value">{{ element_data.atomic_mass }}</span></div>
+            <div class="prop-row"><span class="prop-label">Density</span><span class="prop-value">{{ element_data.density }}</span></div>
+            <div class="prop-row"><span class="prop-label">Melting Point</span><span class="prop-value">{{ element_data.melting_point }}</span></div>
+            <div class="prop-row"><span class="prop-label">Boiling Point</span><span class="prop-value">{{ element_data.boiling_point }}</span></div>
+            <div class="prop-row"><span class="prop-label">Electronegativity</span><span class="prop-value">{{ element_data.electronegativity }}</span></div>
+            <div class="prop-row"><span class="prop-label">Atomic Radius</span><span class="prop-value">{{ element_data.atomic_radius }}</span></div>
+          </div>
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="empty-state">
+        <div class="empty-icon">⚗️</div>
+        <p>Enter an element name or symbol above.</p>
+        <p class="empty-hint">Try: "Hydrogen", "Au", "Carbon", "Fe"</p>
+      </div>
+    {% endif %}
+  </main>
 
-            {% endif %}
-        {% endif %}
-
-    </div>
-
+  <footer><p>&copy; 2024 ChemistryLab — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load', () => { document.body.classList.add('loaded'); });</script>
 </body>
 </html>

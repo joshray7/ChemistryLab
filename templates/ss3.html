@@ -1,112 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SS3 Chemistry | ChemistryLab</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-        filter: blur(8px);
-        opacity: 0.1;
-        transition: filter 0.7s ease, opacity 0.7s ease;
-    }
-        body.loaded {
-        filter: blur(0px);
-        opacity: 1;
-    }
-    </style>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SS3 Chemistry | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#7c3aed;--soft:#f3eeff}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    /* exam badge */
+    .exam-badges{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+    .badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:20px;border:1px solid rgba(59, 224, 9, 0.3);color:var(--accent);background:var(--soft)}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;text-align:center;animation:slideUp .5s ease .38s both}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
 </head>
-<body class="bg-primary bg-gradient">
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#">ChemistryLab</a>
-        <a href="/" class="btn btn-primary">
-            <i class="fas fa-arrow-left"></i> 🏠 Back to Home
-        </a>
-        </div>
-    </nav>
-
-    <!-- SS3 Chemistry Section -->
-    <div class="container py-5">
-        <div class="card shadow-lg rounded-4 p-4 p-md-5" style="max-width: 900px; margin: 0 auto;">
-            
-            <h2 class="fw-bold text-center mb-4">SS3 Chemistry</h2>
-
-            <p class="fs-5 text-muted text-center mb-5">
-                SS3 Chemistry prepares students for external examinations such as WAEC and NECO.
-                It focuses on advanced concepts and practical applications of chemistry.
-            </p>
-
-            <hr class="my-4">
-
-            <!-- Organic Chemistry -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🧬 Organic Chemistry</h5>
-                <p class="mb-0">
-                    Organic chemistry deals with carbon compounds such as hydrocarbons, alcohols,
-                    and acids. These compounds are important in fuels, plastics, and medicines.
-                </p>
-            </div>
-
-            <!-- Electrolysis -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">⚡ Electrolysis</h5>
-                <p class="mb-0">
-                    Electrolysis is the chemical decomposition of a compound using electricity.
-                    It is used in electroplating and extraction of metals.
-                </p>
-            </div>
-
-            <!-- Rates of Chemical Reactions -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">⏱️ Rates of Chemical Reactions</h5>
-                <p class="mb-0">
-                    The rate of a chemical reaction depends on factors such as temperature,
-                    concentration, surface area, and catalysts.
-                </p>
-            </div>
-
-            <!-- Environmental Chemistry -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🌍 Environmental Chemistry</h5>
-                <p class="mb-0">
-                    This aspect of chemistry studies pollution, water treatment, air quality,
-                    and ways to protect the environment.
-                </p>
-            </div>
-
-            <!-- Revision and Exam Preparation -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">📖 Revision and Exam Preparation</h5>
-                <p class="mb-0">
-                    Students should practice past questions, understand practical experiments,
-                    and revise key concepts regularly to succeed in examinations.
-                </p>
-            </div>
-
-            <hr class="my-4">
-
-            <p class="text-center text-muted">
-                SS3 Chemistry equips students with knowledge needed for further education
-                and careers in science and technology.
-            </p>
-
-        </div>
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/" class="back-btn">← Home</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Secondary School Notes</div>
+    <h1>SS3 <em>Chemistry</em></h1>
+    <p>Advanced concepts and practical applications to prepare you for external examinations.</p>
+    <div class="exam-badges"><span class="badge">WAEC</span><span class="badge">NECO</span><span class="badge">JAMB</span></div>
+  </div>
+  <main>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧬</span><h3>Organic Chemistry</h3></div>
+      <div class="card-body"><p>Organic chemistry deals with carbon compounds such as hydrocarbons, alcohols, and acids. These compounds are important in fuels, plastics, and medicines.</p></div>
     </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        window.addEventListener('load', () => {
-            document.body.classList.add('loaded');
-        });
-    </script>
-
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚡</span><h3>Electrolysis</h3></div>
+      <div class="card-body"><p>Electrolysis is the chemical decomposition of a compound using electricity. It is used in electroplating and extraction of metals.</p></div>
+    </div>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⏱️</span><h3>Rates of Chemical Reactions</h3></div>
+      <div class="card-body"><p>The rate of a chemical reaction depends on factors such as temperature, concentration, surface area, and catalysts.</p></div>
+    </div>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🌍</span><h3>Environmental Chemistry</h3></div>
+      <div class="card-body"><p>This aspect of chemistry studies pollution, water treatment, air quality, and ways to protect the environment.</p></div>
+    </div>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📖</span><h3>Revision and Exam Preparation</h3></div>
+      <div class="card-body"><p>Students should practice past questions, understand practical experiments, and revise key concepts regularly to succeed in examinations.</p></div>
+    </div>
+    <div class="conclusion">
+      <p>SS3 Chemistry equips students with knowledge needed for further education and careers in science and technology.</p>
+    </div>
+  </main>
+  <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
 </body>
 </html>

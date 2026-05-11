@@ -1,107 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Common Laboratory Equipment | ChemistryLab</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-        filter: blur(8px);
-        opacity: 0.1;
-        transition: filter 0.7s ease, opacity 0.7s ease;
-    }
-        body.loaded {
-        filter: blur(0px);
-        opacity: 1;
-    }
-    </style>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Common Laboratory Equipment | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#0e7490;--soft:#e0f7fa}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    /* Equipment grid */
+    .equip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    .equip-card{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .equip-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .equip-card:nth-child(1){animation-delay:.06s}.equip-card:nth-child(2){animation-delay:.1s}.equip-card:nth-child(3){animation-delay:.14s}.equip-card:nth-child(4){animation-delay:.18s}.equip-card:nth-child(5){animation-delay:.22s}
+    .equip-top{background:var(--soft);padding:20px;text-align:center;border-bottom:1px solid var(--border)}
+    .equip-icon{font-size:2.4rem;display:block;margin-bottom:8px}
+    .equip-top h3{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--accent)}
+    .equip-body{padding:16px 20px}
+    .equip-body p{font-size:13px;color:var(--muted);line-height:1.7}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;text-align:center;animation:slideUp .5s ease .28s both}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
 </head>
-<body class="bg-primary bg-gradient">
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#">ChemistryLab</a>
-        <a href="/" class="btn btn-primary">
-            <i class="fas fa-arrow-left"></i> 🏠 Back to Home
-        </a>
-        </div>
-    </nav>
-
-    <!-- Laboratory Equipment Section -->
-    <div class="container py-5">
-        <div class="card shadow-lg rounded-4 p-4 p-md-5" style="max-width: 900px; margin: 0 auto;">
-            
-            <h2 class="fw-bold text-center mb-4">Common Laboratory Equipment</h2>
-
-            <p class="fs-5 text-muted text-center mb-5">
-                Laboratory equipment are tools and devices used to carry out scientific experiments
-                and investigations safely and accurately.
-            </p>
-
-            <hr class="my-4">
-
-            <!-- Beaker -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🥃 Beaker</h5>
-                <p class="mb-0">
-                    A beaker is a simple container used for mixing, heating, and holding liquids.
-                </p>
-            </div>
-
-            <!-- Test Tube -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🧪 Test Tube</h5>
-                <p class="mb-0">
-                    Test tubes are used to hold small amounts of chemicals during experiments.
-                </p>
-            </div>
-
-            <!-- Measuring Cylinder -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">📏 Measuring Cylinder</h5>
-                <p class="mb-0">
-                    This equipment is used to measure the volume of liquids accurately.
-                </p>
-            </div>
-
-            <!-- Bunsen Burner -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🔥 Bunsen Burner</h5>
-                <p class="mb-0">
-                    A Bunsen burner is used as a heat source in the laboratory.
-                </p>
-            </div>
-
-            <!-- Funnel -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🔻 Funnel</h5>
-                <p class="mb-0">
-                    A funnel helps in transferring liquids or fine solids into containers.
-                </p>
-            </div>
-
-            <hr class="my-4">
-
-            <p class="text-center text-muted">
-                Understanding laboratory equipment helps students perform experiments safely
-                and correctly.
-            </p>
-
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/" class="back-btn">← Home</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Virtual Laboratory</div>
+    <h1>Lab <em>Equipment</em></h1>
+    <p>Tools and devices used to carry out scientific experiments and investigations safely and accurately.</p>
+  </div>
+  <main>
+    <div class="equip-grid">
+      <div class="equip-card">
+        <div class="equip-top"><span class="equip-icon">🥃</span><h3>Beaker</h3></div>
+        <div class="equip-body"><p>A simple container used for mixing, heating, and holding liquids during experiments.</p></div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-top"><span class="equip-icon">🧪</span><h3>Test Tube</h3></div>
+        <div class="equip-body"><p>Used to hold small amounts of chemicals during experiments and reactions.</p></div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-top"><span class="equip-icon">📏</span><h3>Measuring Cylinder</h3></div>
+        <div class="equip-body"><p>Used to measure the volume of liquids accurately in millilitres.</p></div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-top"><span class="equip-icon">🔥</span><h3>Bunsen Burner</h3></div>
+        <div class="equip-body"><p>A gas burner used as a heat source in the laboratory for heating substances.</p></div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-top"><span class="equip-icon">🔻</span><h3>Funnel</h3></div>
+        <div class="equip-body"><p>Helps in transferring liquids or fine solids into containers without spillage.</p></div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-top"><span class="equip-icon">⚖️</span><h3>Balance Scale</h3></div>
+        <div class="equip-body"><p>Used to measure the mass of substances with precision.</p></div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-top"><span class="equip-icon">🧴</span><h3>Flat Bottom Flask</h3></div>
+        <div class="equip-body"><p>Used for holding and mixing liquids in the laboratory.</p></div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-top"><span class="equip-icon">🏺</span><h3>Round Bottom Flask</h3></div>
+        <div class="equip-body"><p>Used for heating liquids and conducting chemical reactions in the laboratory.</p></div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-top"><span class="equip-icon">🧫</span><h3>Petri Dish</h3></div>
+        <div class="equip-body"><p>Used for culturing cells or microorganisms in the laboratory.</p></div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-top"><span class="equip-icon">🧫</span><h3>Pipette</h3></div>
+        <div class="equip-body"><p>Used to transfer precise volumes of liquids in the laboratory.</p></div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-top"><span class="equip-icon"> burette </span><h3>Burette</h3></div>
+        <div class="equip-body"><p>Used to deliver precise volumes of liquid in titration experiments.</p></div>
+      </div>
+        <div class="equip-card">
+            <div class="equip-top"><span class="equip-icon">🧪</span><h3>Conical Flask</h3></div>
+            <div class="equip-body"><p>Used for mixing and heating chemicals, especially when swirling is needed.</p></div>
         </div>
     </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        window.addEventListener('load', () => {
-            document.body.classList.add('loaded');
-        });
-    </script>
-
+    <div class="conclusion"><p>Understanding laboratory equipment helps students perform experiments safely and correctly.</p></div>
+  </main>
+  <footer><p>&copy; 2024 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
 </body>
 </html>

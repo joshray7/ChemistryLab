@@ -1,104 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | ChemistryLab</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080e14; --surface: #0d1a24; --surface2: #112130;
+      --accent: #00d4aa; --text: #e8f4f0; --muted: #7a9dab;
+      --border: rgba(0,212,170,0.18); --glow: 0 0 24px rgba(0,212,170,0.12);
+    }
+    body { filter: blur(10px); opacity: 0; transition: filter .8s ease, opacity .8s ease; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.7; min-height: 100vh; display: flex; flex-direction: column; }
+    body.loaded { filter: blur(0); opacity: 1; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(0,212,170,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,170,0.04) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    nav { position: relative; z-index: 10; max-width: 860px; margin: 24px auto 0; padding: 0 20px; width: 100%; }
+    .nav-inner { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; box-shadow: var(--glow); }
+    .logo { font-family: 'Space Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--accent); letter-spacing: .05em; text-decoration: none; }
+    .logo::before { content: '⬡ '; font-size: .9em; }
+    .back-btn { margin-left: auto; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); text-decoration: none; padding: 6px 14px; border: 1px solid var(--border); border-radius: 6px; transition: all .2s; }
+    .back-btn:hover { color: var(--accent); border-color: rgba(0,212,170,.4); }
+
+    main { position: relative; z-index: 1; max-width: 860px; margin: 40px auto; padding: 0 20px 64px; width: 100%; flex: 1; display: flex; flex-direction: column; gap: 24px; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* HERO */
+    .hero-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 48px 32px 40px; text-align: center; box-shadow: var(--glow); position: relative; overflow: hidden; animation: fadeIn .4s ease both; }
+    .hero-card::after { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(0,212,170,.1) 0%, transparent 70%); pointer-events: none; }
+    .page-label { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .2em; color: var(--accent); text-transform: uppercase; margin-bottom: 14px; }
+    .hero-card h1 { font-family: 'Space Mono', monospace; font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 700; color: var(--text); margin-bottom: 14px; }
+    .hero-card h1 span { color: var(--accent); }
+    .hero-card p { color: var(--muted); font-size: 15px; max-width: 540px; margin: 0 auto; line-height: 1.75; }
+
+    /* MISSION / VISION GRID */
+    .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; animation: fadeIn .4s ease .08s both; }
+    .mv-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; transition: border-color .2s, transform .2s; }
+    .mv-card:hover { border-color: rgba(0,212,170,.4); transform: translateY(-2px); }
+    .mv-icon { font-size: 1.6rem; margin-bottom: 12px; }
+    .mv-card h3 { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--accent); margin-bottom: 10px; letter-spacing: .03em; }
+    .mv-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* OFFERS */
+    .section-label { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .18em; color: var(--accent); text-transform: uppercase; margin-bottom: 14px; }
+    .offers-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; animation: fadeIn .4s ease .16s both; }
+    .offers-header { background: var(--surface2); border-bottom: 1px solid var(--border); padding: 18px 28px; }
+    .offers-header h2 { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--accent); letter-spacing: .05em; }
+    .offer-row { display: flex; align-items: center; gap: 14px; padding: 16px 28px; border-bottom: 1px solid var(--border); transition: background .2s; }
+    .offer-row:last-child { border-bottom: none; }
+    .offer-row:hover { background: rgba(0,212,170,.04); }
+    .offer-icon { font-size: 1.2rem; flex-shrink: 0; }
+    .offer-row p { font-size: 14px; color: var(--muted); }
+    .offer-row p strong { color: var(--text); }
+
+    /* HELP */
+    .help-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px 28px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; animation: fadeIn .4s ease .22s both; }
+    .help-card h3 { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--accent); margin-bottom: 6px; }
+    .help-card p { font-size: 14px; color: var(--muted); }
+    .help-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-wa { display: inline-flex; align-items: center; gap: 7px; padding: 10px 18px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: .05em; text-decoration: none; border: 1px solid rgba(37,211,102,.3); color: #25d366; background: rgba(37,211,102,.06); transition: all .2s; }
+    .btn-wa:hover { background: rgba(37,211,102,.14); border-color: rgba(37,211,102,.6); }
+    .btn-fb { display: inline-flex; align-items: center; gap: 7px; padding: 10px 18px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: .05em; text-decoration: none; border: 1px solid var(--border); color: var(--accent); background: rgba(0,212,170,.06); transition: all .2s; }
+    .btn-fb:hover { background: rgba(0,212,170,.14); border-color: rgba(0,212,170,.5); }
+
+    /* AUTHOR */
+    .author-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; text-align: center; animation: fadeIn .4s ease .28s both; }
+    .author-avatar { width: 56px; height: 56px; border-radius: 50%; background: rgba(0,212,170,.12); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 14px; }
+    .author-name { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .author-role { font-size: 13px; color: var(--muted); font-family: 'Space Mono', monospace; letter-spacing: .08em; text-transform: uppercase; font-size: 11px; }
+
+    footer { position: relative; z-index: 1; background: var(--surface); border-top: 1px solid var(--border); text-align: center; padding: 20px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); }
+    @media(max-width:580px) { .mv-grid { grid-template-columns: 1fr; } .help-card { flex-direction: column; align-items: flex-start; } }
+  </style>
 </head>
-<body class="bg-primary bg-gradient">
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="/">ChemistryLab</a>
+      <a href="/" class="back-btn">← Home</a>
+    </div>
+  </nav>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#">ChemistryLab</a>
-        <a href="/" class="btn btn-primary">
-            <i class="fas fa-arrow-left"></i> 🏠 Back to Home
-        </a>
-        </div>
-    </nav>
-
-    <!-- About Section -->
-    <div class="container py-5">
-        <div class="card shadow-lg rounded-4 p-4 p-md-5" style="max-width: 900px; margin: 0 auto;">
-            
-            <h2 class="fw-bold text-center mb-4">About ChemistryLab</h2>
-
-            <p class="fs-5 text-muted text-center">
-                ChemistryLab is an educational platform designed to help students
-                easily understand chemistry concepts through simple tools,
-                interactive searches, and well-organized learning resources.
-            </p>
-
-            <hr class="my-4">
-
-            <div class="row g-4">
-                <!-- Mission -->
-                <div class="col-md-6">
-                    <div class="p-4 bg-light rounded-4 h-100">
-                        <h5 class="fw-bold">🎯 Our Mission</h5>
-                        <p>
-                            To make chemistry simple, accessible, and enjoyable
-                            for secondary school and early university students
-                            using technology.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Vision -->
-                <div class="col-md-6">
-                    <div class="p-4 bg-light rounded-4 h-100">
-                        <h5 class="fw-bold">🚀 Our Vision</h5>
-                        <p>
-                            To become a trusted digital chemistry companion
-                            for students across Africa and beyond.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <hr class="my-4">
-
-            <!-- Features -->
-            <h4 class="fw-bold text-center mb-3">What We Offer</h4>
-
-            <ul class="list-group list-group-flush fs-5">
-                <li class="list-group-item">🔬 Periodic table element search</li>
-                <li class="list-group-item">📐 Chemistry formula explanations</li>
-                <li class="list-group-item">📘 Downloadable chemistry notes</li>
-                <li class="list-group-item">💡 Simple, mobile-friendly design</li>
-            </ul>
-
-            <hr class="my-4">
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h4 class="fw-bold mb-3">🔎 Need Help?</h4>
-                <div class="d-flex flex-wrap gap-3">
-                    <a href="https://wa.me/2349139382808?text=Hi%20ChemistryLab,%20I'm%20reaching%20out%20to%20you%20because?" 
-                       class="btn btn-success" target="_blank">
-                        <i class="fab fa-whatsapp"></i> CONTACT ME
-                    </a>
-                    <a href="/feedback" class="btn btn-primary">
-                        <i class="fas fa-comment"></i> FEEDBACK
-                    </a>
-                </div>
-            </div>
-
-
-            <hr class="my-4">
-
-            <!-- Author -->
-            <div class="text-center">
-                <p class="fw-bold fs-5 mb-1">Author</p>
-                <p class="text-muted">Josh raymond</p>
-            </div>
-
-        </div>
+  <main>
+    <!-- HERO -->
+    <div class="hero-card">
+      <p class="page-label">About</p>
+      <h1>About <span>ChemistryLab</span></h1>
+      <p>An educational platform designed to help students understand chemistry concepts through simple tools, interactive searches, and well-organized learning resources.</p>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- MISSION / VISION -->
+    <div class="mv-grid">
+      <div class="mv-card">
+        <div class="mv-icon">🎯</div>
+        <h3>Our Mission</h3>
+        <p>To make chemistry simple, accessible, and enjoyable for secondary school and early university students using technology.</p>
+      </div>
+      <div class="mv-card">
+        <div class="mv-icon">🚀</div>
+        <h3>Our Vision</h3>
+        <p>To become a trusted digital chemistry companion for students across Africa and beyond.</p>
+      </div>
+    </div>
 
+    <!-- WHAT WE OFFER -->
+    <div class="offers-card">
+      <div class="offers-header"><h2>WHAT WE OFFER</h2></div>
+      <div class="offer-row"><span class="offer-icon">🔬</span><p><strong>Periodic Table Finder</strong> — Search any element by name or symbol</p></div>
+      <div class="offer-row"><span class="offer-icon">📐</span><p><strong>Formula Searcher</strong> — Chemistry formula explanations with symbol breakdowns</p></div>
+      <div class="offer-row"><span class="offer-icon">📘</span><p><strong>PDF Notes</strong> — Downloadable chemistry notes for SS1, SS2, and SS3</p></div>
+      <div class="offer-row"><span class="offer-icon">📖</span><p><strong>Chemistry Contexts</strong> — Structured topic pages for easy learning</p></div>
+      <div class="offer-row"><span class="offer-icon">💡</span><p><strong>Mobile-Friendly</strong> — Simple design that works on any device</p></div>
+    </div>
+
+    <!-- NEED HELP -->
+    <div class="help-card">
+      <div>
+        <h3>🔎 Need Help?</h3>
+        <p>Reach out via WhatsApp or leave us feedback.</p>
+      </div>
+      <div class="help-btns">
+        <a href="https://wa.me/2349139382808?text=Hi%20ChemistryLab,%20I'm%20reaching%20out%20to%20you%20because?" target="_blank" class="btn-wa">💬 WhatsApp</a>
+        <a href="/feedback" class="btn-fb">✉ Feedback</a>
+      </div>
+    </div>
+
+    <!-- AUTHOR -->
+    <div class="author-card">
+      <div class="author-avatar">👨‍💻</div>
+      <div class="author-name">Josh Raymond</div>
+      <div class="author-role">Creator & Developer</div>
+    </div>
+  </main>
+
+  <footer><p>&copy; 2024 ChemistryLab — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load', () => { document.body.classList.add('loaded'); });</script>
 </body>
 </html>
