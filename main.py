@@ -179,6 +179,26 @@ def chemical_reactions():
 def states_of_matter():
     return render_template("states-of-matter.html")
 
+@app.route("/virtual")
+def virtual_lab():
+    return render_template("virtual.html")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+@app.route("/exp-acids-bases-salts")
+def exp_acids_bases_salts():
+    return render_template("exp_abs.html")
+
+@app.route("/exp-lab-safety")
+def exp_lab_safety():
+    return render_template("exp-lab-safety.html")
+
+@app.route("/exp-titration")
+def exp_titration():
+    return render_template("exp-titration.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
     

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Lab | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080e14; --surface: #0d1a24; --surface2: #112130;
+      --accent: #00d4aa; --text: #e8f4f0; --muted: #7a9dab;
+      --border: rgba(0,212,170,0.18); --glow: 0 0 24px rgba(0,212,170,0.12);
+      --ss1: #2d6a4f; --ss1-soft: #eaf4ee;
+      --ss2: #1e6fa8; --ss2-soft: #e8f3fb;
+      --ss3: #7c3aed; --ss3-soft: #f3eeff;
+    }
+    body { filter: blur(10px); opacity: 0; transition: filter .8s ease, opacity .8s ease; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.7; min-height: 100vh; display: flex; flex-direction: column; }
+    body.loaded { filter: blur(0); opacity: 1; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(0,212,170,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,170,0.04) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
+
+    nav { position: relative; z-index: 10; max-width: 860px; margin: 24px auto 0; padding: 0 20px; width: 100%; }
+    .nav-inner { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; box-shadow: var(--glow); }
+    .logo { font-family: 'Space Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--accent); letter-spacing: .05em; text-decoration: none; }
+    .logo::before { content: '⬡ '; font-size: .9em; }
+    .back-btn { margin-left: auto; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); text-decoration: none; padding: 6px 14px; border: 1px solid var(--border); border-radius: 6px; transition: all .2s; }
+    .back-btn:hover { color: var(--accent); border-color: rgba(0,212,170,.4); }
+
+    main { position: relative; z-index: 1; max-width: 860px; margin: 40px auto; padding: 0 20px 64px; width: 100%; flex: 1; display: flex; flex-direction: column; gap: 32px; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* HERO */
+    .hero-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 48px 32px 40px; text-align: center; box-shadow: var(--glow); position: relative; overflow: hidden; animation: fadeIn .4s ease both; }
+    .hero-card::after { content: ''; position: absolute; top: -60px; right: -60px; width: 220px; height: 220px; background: radial-gradient(circle, rgba(0,212,170,.1) 0%, transparent 70%); pointer-events: none; }
+    .page-label { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .2em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+    .hero-card h1 { font-family: 'Space Mono', monospace; font-size: clamp(1.4rem, 3.5vw, 2.1rem); font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .hero-card h1 span { color: var(--accent); }
+    .hero-card p { color: var(--muted); font-size: 14px; max-width: 520px; margin: 0 auto 20px; line-height: 1.75; }
+    .hero-stats { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; letter-spacing: .08em; }
+
+    /* LEVEL GROUP */
+    .level-group { display: flex; flex-direction: column; gap: 14px; animation: fadeIn .4s ease both; }
+    .level-group:nth-child(2){ animation-delay:.08s }
+    .level-group:nth-child(3){ animation-delay:.14s }
+    .level-group:nth-child(4){ animation-delay:.20s }
+
+    .level-header { display: flex; align-items: center; gap: 14px; }
+    .level-badge { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; border: 1px solid; }
+    .badge-ss1 { color: var(--ss1); border-color: rgba(45,106,79,.4); background: rgba(45,106,79,.08); }
+    .badge-ss2 { color: var(--ss2); border-color: rgba(30,111,168,.4); background: rgba(30,111,168,.08); }
+    .badge-ss3 { color: var(--ss3); border-color: rgba(124,58,237,.4); background: rgba(124,58,237,.08); }
+    .level-line { flex: 1; height: 1px; background: var(--border); }
+    .level-count { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); }
+
+    /* EXPERIMENT CARDS GRID */
+    .exp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+
+    .exp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; text-decoration: none; display: flex; flex-direction: column; gap: 10px; transition: border-color .2s, transform .2s, box-shadow .2s; }
+    .exp-card:hover { border-color: rgba(0,212,170,.4); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,.2); }
+
+    .exp-card-top { display: flex; align-items: center; gap: 10px; }
+    .exp-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; flex-shrink: 0; }
+    .exp-icon { font-size: 1.2rem; }
+
+    .exp-title { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.4; }
+    .exp-desc { font-size: 13px; color: var(--muted); line-height: 1.6; flex: 1; }
+    .exp-arrow { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent); opacity: 0; transition: opacity .2s; }
+    .exp-card:hover .exp-arrow { opacity: 1; }
+
+    footer { position: relative; z-index: 1; background: var(--surface); border-top: 1px solid var(--border); text-align: center; padding: 20px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="/">ChemistryLab</a>
+      <a href="/" class="back-btn">← Home</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <div class="hero-card">
+      <p class="page-label">Virtual Laboratory</p>
+      <h1>Chemistry <span>Experiments</span></h1>
+      <p>Explore structured experiments across all levels. Each one includes theory, apparatus, procedure, observations, and conclusions.</p>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">9</div><div class="stat-label">Experiments</div></div>
+        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Levels</div></div>
+        <div class="stat"><div class="stat-num">0</div><div class="stat-label">Safety Risks</div></div>
+      </div>
+    </div>
+
+    <!-- SS1 -->
+    <div class="level-group">
+      <div class="level-header">
+        <span class="level-badge badge-ss1">SS1</span>
+        <div class="level-line"></div>
+        <span class="level-count">3 experiments</span>
+      </div>
+      <div class="exp-grid">
+        <a href="/simple-experiments/testing-for-acids-bases" class="exp-card">
+          <div class="exp-card-top"><span class="exp-num">EXP 01</span><span class="exp-icon">🧪</span></div>
+          <div class="exp-title">Testing for Acids and Bases Using Litmus Paper</div>
+          <div class="exp-desc">Identify acidic and basic solutions using red and blue litmus paper.</div>
+          <div class="exp-arrow">Start experiment →</div>
+        </a>
+        <a href="/simple-experiments/separating-mixtures" class="exp-card">
+          <div class="exp-card-top"><span class="exp-num">EXP 02</span><span class="exp-icon">⚗️</span></div>
+          <div class="exp-title">Separating a Mixture by Filtration</div>
+          <div class="exp-desc">Separate insoluble solids from a liquid using a funnel and filter paper.</div>
+          <div class="exp-arrow">Start experiment →</div>
+        </a>
+        <a href="/simple-experiments/solubility-test" class="exp-card">
+          <div class="exp-card-top"><span class="exp-num">EXP 03</span><span class="exp-icon">💧</span></div>
+          <div class="exp-title">Testing the Solubility of Substances in Water</div>
+          <div class="exp-desc">Investigate which common substances dissolve in water and which do not.</div>
+          <div class="exp-arrow">Start experiment →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- SS2 -->
+    <div class="level-group">
+      <div class="level-header">
+        <span class="level-badge badge-ss2">SS2</span>
+        <div class="level-line"></div>
+        <span class="level-count">3 experiments</span>
+      </div>
+      <div class="exp-grid">
+        <a href="/exp-acids-bases-salts" class="exp-card">
+          <div class="exp-card-top"><span class="exp-num">EXP 04</span><span class="exp-icon">🔬</span></div>
+          <div class="exp-title">Neutralization Reaction — Acid + Base</div>
+          <div class="exp-desc">React hydrochloric acid with sodium hydroxide and observe salt and water formation.</div>
+          <div class="exp-arrow">Start experiment →</div>
+        </a>
+        <a href="/simple-experiments/displacement-reaction" class="exp-card">
+          <div class="exp-card-top"><span class="exp-num">EXP 05</span><span class="exp-icon">⚡</span></div>
+          <div class="exp-title">Displacement Reaction — Zinc and Copper Sulphate</div>
+          <div class="exp-desc">Observe zinc displacing copper from copper sulphate solution.</div>
+          <div class="exp-arrow">Start experiment →</div>
+        </a>
+        <a href="/simple-experiments/evaporation" class="exp-card">
+          <div class="exp-card-top"><span class="exp-num">EXP 06</span><span class="exp-icon">🌡️</span></div>
+          <div class="exp-title">Obtaining Salt from Solution by Evaporation</div>
+          <div class="exp-desc">Recover dissolved sodium chloride from water using controlled heating.</div>
+          <div class="exp-arrow">Start experiment →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- SS3 -->
+    <div class="level-group">
+      <div class="level-header">
+        <span class="level-badge badge-ss3">SS3</span>
+        <div class="level-line"></div>
+        <span class="level-count">3 experiments</span>
+      </div>
+      <div class="exp-grid">
+        <a href="/simple-experiments/titration" class="exp-card">
+          <div class="exp-card-top"><span class="exp-num">EXP 07</span><span class="exp-icon">🧫</span></div>
+          <div class="exp-title">Acid-Base Titration</div>
+          <div class="exp-desc">Determine the concentration of an acid using a standard base solution and an indicator.</div>
+          <div class="exp-arrow">Start experiment →</div>
+        </a>
+        <a href="/simple-experiments/electrolysis" class="exp-card">
+          <div class="exp-card-top"><span class="exp-num">EXP 08</span><span class="exp-icon">🔋</span></div>
+          <div class="exp-title">Electrolysis of Copper Sulphate Solution</div>
+          <div class="exp-desc">Observe copper deposition at the cathode during electrolysis using copper electrodes.</div>
+          <div class="exp-arrow">Start experiment →</div>
+        </a>
+        <a href="/simple-experiments/rate-of-reaction" class="exp-card">
+          <div class="exp-card-top"><span class="exp-num">EXP 09</span><span class="exp-icon">⏱️</span></div>
+          <div class="exp-title">Effect of Temperature on Rate of Reaction</div>
+          <div class="exp-desc">Investigate how increasing temperature speeds up the reaction between sodium thiosulphate and HCl.</div>
+          <div class="exp-arrow">Start experiment →</div>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer><p>&copy; 2026 ChemistryLab — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load', () => { document.body.classList.add('loaded'); });</script>
+</body>
+</html>

@@ -1,85 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy | ChemistryLab</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080e14; --surface: #0d1a24; --surface2: #112130;
+      --accent: #00d4aa; --text: #e8f4f0; --muted: #7a9dab;
+      --border: rgba(0,212,170,0.18); --glow: 0 0 24px rgba(0,212,170,0.12);
+    }
+    body { filter: blur(10px); opacity: 0; transition: filter .8s ease, opacity .8s ease; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.7; min-height: 100vh; display: flex; flex-direction: column; }
+    body.loaded { filter: blur(0); opacity: 1; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(0,212,170,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,170,0.04) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    nav { position: relative; z-index: 10; max-width: 860px; margin: 24px auto 0; padding: 0 20px; width: 100%; }
+    .nav-inner { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; box-shadow: var(--glow); }
+    .logo { font-family: 'Space Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--accent); letter-spacing: .05em; text-decoration: none; }
+    .logo::before { content: '⬡ '; font-size: .9em; }
+    .back-btn { margin-left: auto; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); text-decoration: none; padding: 6px 14px; border: 1px solid var(--border); border-radius: 6px; transition: all .2s; }
+    .back-btn:hover { color: var(--accent); border-color: rgba(0,212,170,.4); }
+
+    main { position: relative; z-index: 1; max-width: 860px; margin: 40px auto; padding: 0 20px 64px; width: 100%; flex: 1; display: flex; flex-direction: column; gap: 20px; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* HERO */
+    .hero-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 44px 32px 36px; text-align: center; box-shadow: var(--glow); position: relative; overflow: hidden; animation: fadeIn .4s ease both; }
+    .hero-card::after { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(0,212,170,.1) 0%, transparent 70%); pointer-events: none; }
+    .page-label { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .2em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+    .hero-card h1 { font-family: 'Space Mono', monospace; font-size: clamp(1.3rem, 3.5vw, 2rem); font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .hero-card h1 span { color: var(--accent); }
+    .hero-card p { color: var(--muted); font-size: 14px; max-width: 520px; margin: 0 auto 16px; }
+    .effective-date { display: inline-block; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .1em; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 4px 14px; }
+
+    /* SECTION CARDS */
+    .policy-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: border-color .2s, transform .2s; animation: fadeIn .4s ease both; }
+    .policy-card:hover { border-color: rgba(0,212,170,.35); transform: translateY(-2px); }
+    .policy-card:nth-child(1){animation-delay:.06s} .policy-card:nth-child(2){animation-delay:.1s} .policy-card:nth-child(3){animation-delay:.14s} .policy-card:nth-child(4){animation-delay:.18s}
+
+    .policy-top { display: flex; align-items: center; gap: 12px; padding: 16px 24px; background: var(--surface2); border-bottom: 1px solid var(--border); }
+    .policy-icon { font-size: 1.3rem; }
+    .policy-top h3 { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: var(--accent); }
+    .policy-body { padding: 20px 24px; }
+    .policy-body p { font-size: 14px; color: var(--muted); line-height: 1.75; }
+    .policy-body ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .policy-body li { font-size: 14px; color: var(--muted); padding-left: 20px; position: relative; line-height: 1.7; }
+    .policy-body li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 12px; top: 3px; }
+
+    /* CONTACT */
+    .contact-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; animation: fadeIn .4s ease .22s both; }
+    .contact-card p { font-size: 14px; color: var(--muted); }
+    .contact-card p strong { color: var(--text); font-weight: 500; }
+    .contact-link { display: inline-flex; align-items: center; gap: 7px; padding: 10px 20px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: .05em; text-decoration: none; background: var(--accent); color: #080e14; transition: opacity .2s; white-space: nowrap; }
+    .contact-link:hover { opacity: .85; }
+
+    footer { position: relative; z-index: 1; background: var(--surface); border-top: 1px solid var(--border); text-align: center; padding: 20px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); }
+  </style>
 </head>
-<body class="bg-primary bg-gradient">
+<body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#">ChemistryLab</a>
-        
-        <a href="/" class="btn btn-primary">
-            <i class="fas fa-arrow-left"></i> 🏠 Back to Home
-        </a>
-        </div>
-    </nav>
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="/">ChemistryLab</a>
+      <a href="/" class="back-btn">← Home</a>
+    </div>
+  </nav>
 
-    <!-- Privacy Policy Section -->
-    <div class="container d-flex align-items-center justify-content-center min-vh-100 py-5">
-        <div class="card shadow-lg rounded-4 p-4 p-md-5" style="max-width: 900px;">
-            
-            <h2 class="fw-bold text-center mb-4">Privacy Policy</h2>
+  <main>
 
-            <p class="fs-5 text-muted text-center">
-                At ChemistryLab, we value your privacy. This privacy policy explains what information we collect and how it is used.
-            </p>
-
-            <hr class="my-4">
-
-            <!-- Information We Collect -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">📊 Information We Collect</h5>
-                <ul class="mb-0">
-                    <li>Non-personal information such as browser type, IP address, and usage data.</li>
-                    <li>Personal information only when voluntarily provided (e.g., feedback form).</li>
-                </ul>
-            </div>
-
-            <!-- Use of Information -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🔍 Use of Information</h5>
-                <p class="mb-0">
-                    We use information to improve our website, provide a better learning experience, and display relevant ads via Google AdSense.
-                </p>
-            </div>
-
-            <!-- Cookies and Ads -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🍪 Cookies and Ads</h5>
-                <p class="mb-0">
-                    Our site may use cookies and Google AdSense ads. By using our website, you consent to the use of cookies and personalized ads.
-                </p>
-            </div>
-
-            <!-- Third-Party Services -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🔗 Third-Party Services</h5>
-                <p class="mb-0">
-                    We may use third-party services such as Google AdSense which may collect information automatically.
-                </p>
-            </div>
-
-            <hr class="my-4">
-
-            <!-- Contact Info -->
-            <div class="text-center">
-                <p class="fs-5">
-                    For any questions about privacy, contact us via the <a href="/feedback" class="text-decoration-none fw-bold">Contact page</a>.
-                </p>
-            </div>
-
-        </div>
+    <div class="hero-card">
+      <p class="page-label">Legal</p>
+      <h1><span>Privacy</span> Policy</h1>
+      <p>At ChemistryLab, we value your privacy. This policy explains what information we collect and how it is used.</p>
+      <span class="effective-date">Effective: January 1, 2026</span>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="policy-card">
+      <div class="policy-top"><span class="policy-icon">📊</span><h3>Information We Collect</h3></div>
+      <div class="policy-body">
+        <ul>
+          <li>Non-personal information such as browser type, IP address, and usage data.</li>
+          <li>Personal information only when voluntarily provided (e.g., via the feedback form).</li>
+        </ul>
+      </div>
+    </div>
 
+    <div class="policy-card">
+      <div class="policy-top"><span class="policy-icon">🔍</span><h3>Use of Information</h3></div>
+      <div class="policy-body">
+        <p>We use collected information to improve our website, provide a better learning experience, and display relevant ads via Google AdSense.</p>
+      </div>
+    </div>
+
+    <div class="policy-card">
+      <div class="policy-top"><span class="policy-icon">🍪</span><h3>Cookies and Ads</h3></div>
+      <div class="policy-body">
+        <p>Our site may use cookies and Google AdSense ads. By using our website, you consent to the use of cookies and personalized advertisements.</p>
+      </div>
+    </div>
+
+    <div class="policy-card">
+      <div class="policy-top"><span class="policy-icon">🔗</span><h3>Third-Party Services</h3></div>
+      <div class="policy-body">
+        <p>We may use third-party services such as Google AdSense which may collect information automatically. These services have their own privacy policies.</p>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <div>
+        <p><strong>Questions about this policy?</strong></p>
+        <p>Reach out to us through the contact page and we'll respond as soon as possible.</p>
+      </div>
+      <a href="/feedback" class="contact-link">✉ Contact Us</a>
+    </div>
+
+  </main>
+
+  <footer><p>&copy; 2026 ChemistryLab — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load', () => { document.body.classList.add('loaded'); });</script>
 </body>
 </html>

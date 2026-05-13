@@ -3,521 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Simple Experiments</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #f4f1eb;
-      --white: #ffffff;
-      --ink: #1a1208;
-      --muted: #7a7060;
-      --border: #e2ddd4;
-
-      --solid-hue:  #1e6fa8;
-      --solid-soft: #e8f3fb;
-      --liquid-hue: #1a9e6f;
-      --liquid-soft:#e6f7f1;
-      --gas-hue:    #c45c1a;
-      --gas-soft:   #fdf0e7;
-      --change-hue: #7c3aed;
-      --change-soft:#f3eeff;
-    }
-
-    /* ── BLUR-FADE REVEAL ── */
-    body {
-      filter: blur(10px);
-      opacity: 0;
-      transition: filter 0.8s ease, opacity 0.8s ease;
-    }
-    body.loaded {
-      filter: blur(0px);
-      opacity: 1;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-      min-height: 100vh;
-    }
-
-    /* Subtle noise texture */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.4;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: relative;
-      z-index: 10;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 0 32px;
-      display: flex;
-      align-items: center;
-      height: 60px;
-      gap: 16px;
-    }
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--ink);
-      text-decoration: none;
-      letter-spacing: -0.01em;
-    }
-    .logo sup {
-      font-size: 0.55em;
-      color: var(--solid-hue);
-      vertical-align: super;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-    }
-    .back-btn {
-      margin-left: auto;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--muted);
-      text-decoration: none;
-      padding: 6px 14px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      background: var(--bg);
-      transition: all 0.2s;
-    }
-    .back-btn:hover { color: var(--ink); border-color: #bbb; }
-
-    /* ── HERO ── */
-    .hero {
-      position: relative;
-      z-index: 1;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 64px 32px 56px;
-      text-align: center;
-      overflow: hidden;
-    }
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: -1px; left: 0; right: 0;
-      height: 60px;
-      background: var(--bg);
-      clip-path: ellipse(55% 100% at 50% 100%);
-    }
-    .hero-tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--solid-hue);
-      background: var(--solid-soft);
-      border-radius: 20px;
-      padding: 4px 14px;
-      margin-bottom: 20px;
-    }
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 6vw, 3.8rem);
-      font-weight: 900;
-      color: var(--ink);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 20px;
-    }
-    .hero h1 em {
-      font-style: italic;
-      color: var(--solid-hue);
-    }
-    .hero p {
-      max-width: 520px;
-      margin: 0 auto;
-      color: var(--muted);
-      font-size: 15px;
-      font-weight: 300;
-    }
-
-    /* ── PARTICLE STRIP ── */
-    .particle-strip {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      padding: 36px 32px;
-      flex-wrap: wrap;
-    }
-    .particle-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-    .particle-box span {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .particle-svg { width: 80px; height: 80px; }
-
-    /* ── MAIN ── */
-    main {
-      position: relative;
-      z-index: 1;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 24px 64px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    /* ── STATE CARDS ── */
-    .state-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      transition: transform 0.2s, box-shadow 0.2s;
-      animation: slideUp 0.5s ease both;
-    }
-    .state-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-    }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .state-card:nth-child(1) { animation-delay: 0.1s; }
-    .state-card:nth-child(2) { animation-delay: 0.2s; }
-    .state-card:nth-child(3) { animation-delay: 0.3s; }
-
-    .state-sidebar {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      padding: 32px 20px;
-    }
-    .state-icon {
-      font-size: 2.8rem;
-      line-height: 1;
-    }
-    .state-label {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
-    .state-badge {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 3px 10px;
-      border-radius: 12px;
-    }
-
-    .state-content {
-      padding: 32px 28px;
-      border-left: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 14px;
-    }
-    .state-content h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.2;
-    }
-    .state-content p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-    .property-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .prop {
-      font-size: 12px;
-      font-weight: 500;
-      padding: 4px 12px;
-      border-radius: 20px;
-      border: 1px solid;
-    }
-
-    /* SOLID */
-    .solid .state-sidebar { background: var(--solid-soft); }
-    .solid .state-label   { color: var(--solid-hue); }
-    .solid .state-badge   { background: var(--solid-hue); color: #fff; }
-    .solid .prop          { color: var(--solid-hue); border-color: rgba(30,111,168,0.25); background: var(--solid-soft); }
-
-    /* LIQUID */
-    .liquid .state-sidebar { background: var(--liquid-soft); }
-    .liquid .state-label   { color: var(--liquid-hue); }
-    .liquid .state-badge   { background: var(--liquid-hue); color: #fff; }
-    .liquid .prop          { color: var(--liquid-hue); border-color: rgba(26,158,111,0.25); background: var(--liquid-soft); }
-
-    /* GAS */
-    .gas .state-sidebar { background: var(--gas-soft); }
-    .gas .state-label   { color: var(--gas-hue); }
-    .gas .state-badge   { background: var(--gas-hue); color: #fff; }
-    .gas .prop          { color: var(--gas-hue); border-color: rgba(196,92,26,0.25); background: var(--gas-soft); }
-
-    /* ── CHANGES SECTION ── */
-    .changes-section {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      animation: slideUp 0.5s ease 0.4s both;
-    }
-    .changes-header {
-      padding: 24px 28px 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .changes-header h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--ink);
-    }
-    .changes-icon {
-      width: 36px; height: 36px;
-      background: var(--change-soft);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-    }
-    .changes-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0;
-    }
-    .change-item {
-      padding: 20px 28px;
-      border-bottom: 1px solid var(--border);
-      border-right: 1px solid var(--border);
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      transition: background 0.2s;
-    }
-    .change-item:hover { background: var(--bg); }
-    .change-item:nth-child(even) { border-right: none; }
-    .change-item:nth-last-child(-n+2) { border-bottom: none; }
-    .change-arrow {
-      font-size: 18px;
-      color: var(--change-hue);
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .change-item h4 {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 3px;
-    }
-    .change-item p {
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .change-flow {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-top: 6px;
-    }
-    .flow-from { padding: 2px 8px; border-radius: 4px; }
-    .flow-arrow { color: var(--muted); font-size: 10px; }
-    .flow-to   { padding: 2px 8px; border-radius: 4px; }
-
-    /* ── FOOTER NOTE ── */
-    .footer-note {
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-      padding: 8px 0 0;
-      font-style: italic;
-      animation: slideUp 0.5s ease 0.5s both;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      position: relative;
-      z-index: 1;
-      background: var(--ink);
-      color: rgba(255,255,255,0.4);
-      text-align: center;
-      padding: 20px;
-      font-size: 12px;
-      font-family: 'Outfit', sans-serif;
-      letter-spacing: 0.04em;
-    }
-    footer span { color: rgba(255,255,255,0.7); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      .state-card { grid-template-columns: 1fr; }
-      .state-sidebar { flex-direction: row; padding: 20px 24px; border-left: none; border-bottom: 1px solid var(--border); }
-      .state-content { border-left: none; padding: 20px 24px; }
-      .changes-grid { grid-template-columns: 1fr; }
-      .change-item { border-right: none; }
-      .change-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
-      .change-item:last-child { border-bottom: none; }
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#969308;--soft:#fef3c7}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    footer span{color:rgba(255,255,255,.7)}
   </style>
 </head>
 <body>
-    <nav>
-        <a class="logo" href="/">ChemistryLab</a>
-        <a href="/" class="back-btn">← Home</a>
-    </nav>
+    <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/" class="back-btn">← Home</a></nav>
+    <div class="hero">
+        <div class="hero-tag">Virtual Laboratory</div>
+        <h1>Fun and Easy <em>Chemistry</em> Experiments</h1>
+        <p>Explore the wonders of chemistry with simple experiments you can do at home using everyday materials. Perfect for students, parents, and anyone curious about science!</p>
+    </div>
     <main>
-        <div class="hero">
-            <div class="hero-tag">Simple Experiments</div>
-            <h1>Explore Chemistry with <em>Fun & Easy</em> Experiments</h1>
-            <p>Discover the wonders of chemistry through simple experiments you can do at home or in the classroom. No fancy equipment needed, just curiosity and a few common household items!</p>
-         </div>
-        <div class="state-card solid">
-            <div class="state-sidebar">
-                <div class="state-icon">🧊</div>
-                <div class="state-label">Acid and Base Reactions</div>
-                <div class="state-badge">SS1</div>
-            </div>
-            <div class="state-content">
-                <h3>Vinegar and Baking Soda Volcano</h3>
-                <p>Mix vinegar (an acid) with baking soda (a base) to create a fizzy eruption. This reaction produces carbon dioxide gas, which causes the bubbling effect.</p>
-                <div class="property-row">
-                    <div class="prop">Type: Acid-Base Reaction</div>
-                    <div class="prop">Products: Carbon Dioxide, Water, Sodium Acetate</div>
-                    <div class="prop">Observation: Fizzing and Bubbling</div>
-                    <div class="prop">Safety: Use in a well-ventilated area</div>
-                    <div class="prop">Fun Factor: High</div>
-                </div>
-            </div>
+        <div class="topic-card">
+            <div class="card-top"><span class="card-icon">🧪</span><h3>Volcano Eruption</h3></div>
+            <div class="card-body"><p>Create a mini volcano using baking soda, vinegar, and food coloring. Watch the chemical reaction produce a bubbly eruption!</p></div>
+        </div>
+        <div class="topic-card">
+            <div class="card-top"><span class="card-icon">🌈</span><h3>Rainbow in a Jar</h3></div>
+            <div class="card-body"><p>Layer different colored liquids with varying densities to create a beautiful rainbow effect in a jar. A great way to learn about density and solubility!</p></div>
+        </div>
+        <div class="topic-card">
+            <div class="card-top"><span class="card-icon">💡</span><h3>Lemon Battery</h3></div>
+            <div class="card-body"><p>Generate electricity using a lemon, copper coin, and zinc nail. This simple experiment demonstrates how chemical energy can be converted into electrical energy.</p></div>
         </div>
 
-        <div class="state-card liquid">
-            <div class="state-sidebar">
-                <div class="state-icon">💧</div>
-                <div class="state-label">Density Exploration</div>
-            </div>
-            <div class="state-content">
-                <h3>Layered Liquids</h3>
-                <p>Create a visually striking display by layering liquids of different densities. This experiment demonstrates how substances interact based on their molecular structure and mass.</p>
-                <div class="property-row">
-                    <div class="prop">Type: Density Experiment</div>
-                    <div class="prop">Materials: Honey, Dish Soap, Water, Oil, Food Coloring</div>
-                    <div class="prop">Observation: Layered Appearance</div>
-                    <div class="prop">Safety: Handle liquids with care</div>
-                    <div class="prop">Fun Factor: High</div>
-                </div>
-            </div>
+        <div class="topic-card">
+            <div class="card-top"><span class="card-icon">❄️</span><h3>Instant Snow</h3></div>
+            <div class="card-body"><p>Mix water with a special polymer(polyacrylamide) to create instant snow. This experiment is a fun way to learn about polymers and their ability to absorb water.</p></div>
         </div>
 
-        <div class="state-card gas">
-            <div class="state-sidebar">
-                <div class="state-icon">💨</div>
-                <div class="state-label">Gas Production</div>
-            </div>
-            <div class="state-content">
-                <h3>Baking Soda and Vinegar</h3>
-                <p>Combine baking soda and vinegar to produce carbon dioxide gas. This reaction is a classic example of an acid-base reaction that produces a gas.</p>
-                <div class="property-row">
-                    <div class="prop">Type: Acid-Base Reaction</div>
-                    <div class="prop">Products: Carbon Dioxide, Water, Sodium Acetate</div>
-                    <div class="prop">Observation: Fizzing and Bubbling</div>
-                    <div class="prop">Safety: Use in a well-ventilated area</div>
-                    <div class="prop">Fun Factor: High</div>
-                </div>
-            </div>
+        <div class="conclusion" style="text-align:center;">
+            <h3>Get Creative with Chemistry!</h3>
+            <p>These simple experiments are just the beginning. With a little creativity and curiosity, you can explore countless chemical reactions and phenomena right in your own home. Always remember to follow safety guidelines and have fun discovering the magic of chemistry!</p>
         </div>
-
-        <div class="state-card gas">
-            <div class="state-sidebar">
-                <div class="state-icon">🔥</div>
-                <div class="state-label">Gas Production (II)</div>
-            </div>
-            <div class="state-content">
-                <h3>Fireworks in a Jar</h3>
-                <p>Create a mini fireworks display using a jar and some common household items. This experiment demonstrates the properties of gases and their behavior under different conditions.</p>
-                <div class="property-row">
-                    <div class="prop">Type: Gas Experiment</div>
-                    <div class="prop">Materials: Baking Soda, Vinegar, Food Coloring, Jar</div>
-                    <div class="prop">Observation: Colorful Fizzing</div>
-                    <div class="prop">Safety: Use in a well-ventilated area</div>
-                    <div class="prop">Fun Factor: High</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="change section">
-            <div class="change header">
-                <div class="changes-icon">🔄</div>
-                <h2>Changes of State</h2>
-            </div>
-            <div class="change-content">
-                <p>Explore the fascinating changes of state that matter can undergo. From solid to liquid to gas, these transformations are fundamental to understanding the physical world around us.</p>
-            </div>
-            <div class="change-content">
-                <p>Try simple experiments like freezing water to make ice, melting chocolate, or boiling water to see steam. These activities will help you grasp the concepts of phase changes and the energy involved in these processes.</p>
-                <p>Remember to always follow safety guidelines when conducting experiments, especially when dealing with heat or open flames. Have fun exploring the amazing world of chemistry!</p>
-            </div>
-        </div>
-
-        <div class="change section">
-            <div class="change header">
-                <div class="changes-icon">⚗️</div>
-                <h2>Chemical Changes</h2>
-            </div>
-            <div class="change-content">
-                <p>Discover the exciting world of chemical changes with simple experiments that demonstrate how substances interact and transform. From color changes to gas production, these experiments will ignite your curiosity and deepen your understanding of chemistry.</p>
-                <p>Try mixing different household substances to observe chemical reactions in action. For example, combine lemon juice with baking soda to see a fizzy reaction, or mix hydrogen peroxide with yeast to create a foamy explosion. These experiments are not only fun but also educational, helping you grasp the concepts of reactants, products, and the conservation of mass.</p>
-                <p>Always remember to conduct experiments in a safe environment and follow proper safety precautions. Enjoy exploring the fascinating world of chemical changes!</p>
-            </div>
-        </div>
-
-
-
-        <hr class="my-4">
-
-        <div class="footer-note">These simple experiments are a great way to spark curiosity and learn about the fascinating world of chemistry. Always remember to follow safety guidelines and have fun exploring!</div>
-
     </main>
+    <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+    <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
 
-    <script>
-      window.addEventListener('load', () => {
-        document.body.classList.add('loaded');
-      });   
-    </script>
 </body>
 </html>

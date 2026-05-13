@@ -3,180 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acids, Bases and Salts | ChemistryLab</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <title>Acids, Bases, and Salts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <style>
-        /* ── SKELETON LOADER ── */
-        #skeletonOverlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: #0577e9c9;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 24px 20px;
-            gap: 16px;
-            transition: opacity 0.5s ease;
-        }
-        #skeletonOverlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        @keyframes shimmer {
-            0%   { background-position: -600px 0; }
-            100% { background-position:  600px 0; }
-        }
-        .sk {
-            background: linear-gradient(
-                90deg,
-                #0d1a24 25%,
-                #1a2e3d 50%,
-                #0d1a24 75%
-            );
-            background-size: 600px 100%;
-            animation: shimmer 1.6s infinite linear;
-            width: 100%;
-            max-width: 900px;
-            flex-shrink: 0;
-        }
-    </style>
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#7a03215b;--soft:#fff1f2}
+        body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+        body.loaded{filter:blur(0);opacity:1}
+        nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+        .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+        .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+        .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+        .back-btn:hover{color:var(--ink);border-color:#bbb}
+        .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+        .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+        .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+        .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+        .hero h1 em{font-style:italic;color:var(--accent)}
+        .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+        main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+        .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+        .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+        @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+        .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+        .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+        .card-icon{font-size:1.4rem}
+        .card-body{padding:22px 28px}
+        .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+        .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+        .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+        .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+        .card-body li strong{color:var(--ink)}
+        .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+        .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+        .conclusion p{font-size:14px;color:var(--muted)}
+        footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+        footer span{color:rgba(255,255,255,.7)}
+  </style>
 </head>
-<body class="bg-primary bg-gradient">
-
-    <!-- ── SKELETON LOADER (first thing in body) ── -->
-    <div id="skeletonOverlay">
-        <div class="sk" style="height: 40px;"></div>
-        <div class="sk" style="height: 740px; border-radius: 16px;"></div>
-        <div class="sk" style="height: 90px;"></div>
-        <div class="sk" style="height: 90px;"></div>
-        <div class="sk" style="height: 90px;"></div>
-        <div class="sk" style="width: 100%; max-width: 720px; height: 16px; border-radius: 4px;"></div>
-        <div class="sk" style="width: 60%; max-width: 540px; height: 16px; border-radius: 4px;"></div>
+<body>
+    <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/" class="back-btn">← Home</a></nav>
+    <div class="hero">
+        <div class="hero-tag">Chemistry Concepts</div>
+        <h1><em>Acids</em>, Bases, and Salts</h1>
+        <p>Acids, bases, and salts are fundamental chemical substances with distinct properties and reactions.</p>
     </div>
+    <main>
+        <div class="topic-card">
+            <div class="card-top"><span class="card-icon">⚗️</span><h3>Overview</h3></div>
+            <div class="card-body">
+                <p>Acids, bases, and salts are three fundamental classes of chemical substances with distinct properties and behaviors in aqueous solutions.</h4></p>
+                <p>Acids are substances that release hydrogen ions (H⁺) in water, while bases release hydroxide ions (OH⁻). Salts are formed when acids and bases react together, resulting in the formation of ionic compounds.
+                    These substances play crucial roles in various chemical reactions, biological processes, and industrial applications. Understanding their properties and interactions is essential for studying chemistry and its applications in everyday life.</p>
+                <p>Bases are substances that release hydroxide ions (OH⁻) in water, while acids release hydrogen ions (H⁺). Salts are formed when acids and bases react together, resulting in the formation of ionic compounds.
+                    These substances play crucial roles in various chemical reactions, biological processes, and industrial applications. Understanding their properties and interactions is essential for studying chemistry and its applications in everyday life.</p>
+                <p>Salts are ionic compounds formed when acids and bases react together. They consist of positively charged ions (cations) from the base and negatively charged ions (anions) from the acid. Salts can have a wide range of properties and uses, depending on the specific acid and base involved in their formation.</p>
+                <p>For more information, head to the <a href="{{ url_for('virtual_lab_guide') }}">Virtual Lab Guide</a> page to try out some interactive experiments on acids, bases, and salts!</p>
+                </p>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#">ChemistryLab</a>
-            <a href="/" class="btn btn-primary">
-                <i class="fas fa-arrow-left"></i> 🏠 Back to Home
-            </a>
+            </div>
         </div>
-    </nav>
 
-    <!-- Acids, Bases and Salts Section -->
-    <div class="container py-5">
-        <div class="card shadow-lg rounded-4 p-4 p-md-5" style="max-width: 900px; margin: 0 auto;">
-            
-            <h2 class="fw-bold text-center mb-4">Acids, Bases and Salts</h2>
+        <div class="topic-card">
+            <div class="card-top"><span class="card-icon">⚡</span><h3>Types of Acids, Bases, and Salts</h3></div>
+            <div class="card-body">
+                <p>ACIDS can be classified as strong or weak based on their ability to donate protons. Bases can be classified as strong or weak based on their ability to accept protons. Salts can be classified as neutral, acidic, or basic depending on the nature of the acid and base that formed them.</p>
+                <h4> ACIDS:</h4>
 
-            <p class="fs-5 text-muted text-center mb-5">
-                Acids, bases, and salts are important chemical substances commonly used in homes,
-                industries, and laboratories.
-            </p>
-
-            <hr class="my-4">
-
-            <!-- Acids -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🧪 Acids</h5>
-                <p class="mb-2">
-                    An acid is a substance that produces hydrogen ions (H⁺) when dissolved in water.
-                    Common examples of acids include hydrochloric acid, sulfuric acid, and vinegar.
-                </p>
-                <p class="mb-0">
-                    Acids usually have a sour taste and can turn blue litmus paper red.
-                </p>
-            </div>
-
-            <!-- Bases -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🧼 Bases</h5>
-                <p class="mb-2">
-                    A base is a substance that produces hydroxide ions (OH⁻) when dissolved in water.
-                    Examples include sodium hydroxide, calcium hydroxide, and soap solutions.
-                </p>
-                <p class="mb-0">
-                    Bases often feel slippery and can turn red litmus paper blue.
-                </p>
-            </div>
-
-            <!-- Salts -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🧂 Salts</h5>
-                <p class="mb-0">
-                    A salt is formed when an acid reacts with a base in a process called neutralization.
-                    Common salt (sodium chloride) is an example.
-                </p>
-            </div>
-
-            <!-- Uses -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">💼 Uses of Acids, Bases and Salts</h5>
-                <ul class="mb-0">
-                    <li>Acids are used in batteries and food processing.</li>
-                    <li>Bases are used in soap making and cleaning agents.</li>
-                    <li>Salts are used in food preservation and medicine.</li>
+                <ul>
+                    <li><strong>Strong acids:</strong><p> This is the reaction between a strong acid and a base. (e.g., HCl, H₂SO₄).</li></p>
+                    <li><strong>Weak acids:</strong><p> This is the reaction between a weak acid and a base. (e.g., CH₃COOH, H₂CO₃).</li></p>
                 </ul>
-            </div>
+    
 
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">📊 Types of Acids, Bases and Salts</h5>
-                <p class="mb-0">
-                    Acids, bases, and salts can be classified into different types based on their properties and compositions.
-                </p>
-                <ul class="mb-0">
-                    <br>
-                    <li>Acids: Strong acids (e.g., hydrochloric acid(HCl), sulfuric acid(H2SO4), nitric acid(HNO3)) and weak acids (e.g., acetic acid(CH3COOH), carbonic acid(H2CO3)).</li>
-                    <br>
-                    <li>Bases: Strong bases (e.g., sodium hydroxide(NaOH), calcium hydroxide(Ca(OH)2), potassium hydroxide(KOH)) and weak bases (e.g., ammonia(NH3), methylamine(CH3NH2), pyridine(C5H5N)).</li>
-                    <br>
-                    <li>Salts: Normal salts (e.g., sodium chloride(NaCl), potassium chloride(KCl)), acidic salts (e.g., sodium bisulfate(NaHSO4), calcium bisulfate(Ca(HSO4)2)), and basic salts (e.g., copper hydroxide chloride(Cu2(OH)2Cl2), calcium hydroxide chloride(Ca(OH)2Cl2)).</li>
+                <h4> BASES:</h4>
+
+                <ul>
+                    <li><strong>Strong bases:</strong><p> This is the reaction between a strong base and an acid. (e.g., NaOH, KOH).</li></p>
+                    <li><strong>Weak bases:</strong><p> This is the reaction between a weak base and an acid. (e.g., NH₃, Ca(OH)₂).</li></p>
                 </ul>
+
+                <h4> SALTS:</h4>
+
+                <ul>
+                    <li><strong>Neutral salts:</strong> <p>Formed from a strong acid and a strong base. (e.g., NaCl, KCl).</li></p>
+                    <li><strong>Acidic salts:</strong><p> Formed from a strong acid and a weak base. (e.g., NH₄Cl, FeCl₃).</li></p>
+                    <li><strong>Basic salts:</strong><p> Formed from a weak acid and a strong base. (e.g., Na₂CO₃, CaCO₃).</li></p>
+                </ul>
+
             </div>
-
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">🔬 Laboratory Preparation</h5>
-                <p class="mb-0">
-                    Acids, bases, and salts can be prepared in the laboratory through various chemical reactions.
-                    For example, hydrochloric acid can be prepared by reacting sodium chloride with sulfuric acid.
-                </p>
-            </div>
-
-            <!-- Safety Note -->
-            <div class="p-4 bg-light rounded-4 mb-4">
-                <h5 class="fw-bold">⚠️ Safety Note</h5>
-                <p class="mb-0">
-                    Always handle acids, bases, and salts with care and follow proper safety protocols
-                    to prevent accidents and injuries.
-                </p>
-            </div>
-
-            <hr class="my-4">
-
-            <p class="text-center text-muted">
-                Understanding acids, bases, and salts helps students understand chemical reactions
-                and everyday chemical processes.
-            </p>
-
         </div>
-    </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="topic-card">
+            <div class="card-top"><span class="card-icon">⚡</span><h3>Uses of Acids, Bases, and Salts</h3></div>
+            <div class="card-body">
+                <p>Acids, bases, and salts have a wide range of applications in various industries and everyday life. Acids are used in the production of fertilizers, cleaning agents, and food preservation. Bases are used in soap making, water treatment, and as antacids to neutralize stomach acid. Salts are used in food seasoning, de-icing roads, and in the manufacturing of various products.</p>
+                <p>Understanding the properties and uses of acids, bases, and salts is essential for students studying chemistry and for anyone interested in the chemical processes that occur around us.</p>
+                <h4>ACIDS:</h4>
+                <ul>
+                    <li><strong>Hydrochloric acid (HCl):</strong><p> Used in cleaning agents and to adjust pH levels.</p></li>
+                    <li><strong>Sulfuric acid (H₂SO₄):</strong><p> Used in car batteries and industrial processes.</p></li>
+                    <li><strong>Acetic acid (CH₃COOH):</strong><p> Found in vinegar and used in food preservation.</p></li>
+                </ul>
+                <h4>BASES:</h4>
+                <ul>
+                    <li><strong>Sodium hydroxide (NaOH):</strong><p> Used in soap making and as a drain cleaner.</p></li>
+                    <li><strong>Ammonia (NH₃):</strong><p> Used in cleaning products and as a refrigerant.</p></li>
+                    <li><strong>Calcium hydroxide (Ca(OH)₂):</strong><p> Used in water treatment and as a soil stabilizer.</p></li>
+                </ul>
+                <h4>SALTS:</h4>
+                <ul>
+                    <li><strong>Sodium chloride (NaCl):</strong><p> Common table salt used in food seasoning.</p></li>
+                    <li><strong>Calcium carbonate (CaCO₃):</strong><p> Used in antacids and as a building material.</p></li>
+                    <li><strong>Potassium nitrate (KNO₃):</strong><p> Used in fertilizers and fireworks.</p></li>
+                </ul>
+            </div>  
+        </div>
 
-    <!-- Skeleton dismiss script (separate tag — never put code inside a src tag) -->
-    <script>
-        window.addEventListener('load', () => {
-            const overlay = document.getElementById('skeletonOverlay');
-            overlay.classList.add('hidden');
-            setTimeout(() => overlay.remove(), 5000000);
-        });
-    </script>
+        <div class="topic-card">
+            <div class="card-top"><span class="card-icon">⚠️</span><h3>Safety Precautions</h3></div>
+            <div class="card-body">
+                <p>When handling acids, bases, and salts, it is important to follow safety precautions to prevent accidents and injuries. Always wear appropriate personal protective equipment (PPE) such as gloves, goggles, and lab coats. Work in a well-ventilated area and avoid inhaling fumes. In case of contact with skin or eyes, rinse immediately with plenty of water and seek medical attention if necessary.</p>
+                <p>Remember to always read labels and safety data sheets (SDS) for the chemicals you are working with, and never mix chemicals unless you are sure of the reaction that will occur.</p>
+            </div>
+        </div>
 
+        <div class="conclusion"><p>Acids, bases, and salts are essential chemical substances with distinct properties and applications. Understanding their characteristics and interactions is crucial for studying chemistry and its impact on our daily lives.</p></div>
+        <div class="conclusion"><p>For a deeper understanding, explore the <a href="{{ url_for('virtual_lab_guide') }}">Virtual Lab Guide</a> to conduct interactive experiments on acids, bases, and salts!</p></div>
+    </main>
+
+    <footer><p>&copy; 2026 ChemistryLab — All rights reserved. Created by Josh Raymond.</p></footer>
+    <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
 </body>
 </html>
