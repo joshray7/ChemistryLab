@@ -1,11 +1,39 @@
 import periodictable as pt
 from flask import Flask, render_template, request, send_from_directory
+from flask_login import login_required, current_user
 import os
 from element import ELEMENT_DATA
 from formula import FORMULAS
-
+from extensions import db, login_manager, bcrypt
+from auth import auth
 
 app = Flask(__name__)
+
+# ── Secret key (set this in your Render environment variables too)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'change-this-in-production')
+
+# ── PostgreSQL on Render, SQLite locally
+database_url = os.environ.get('DATABASE_URL', '')
+if database_url:
+    database_url = database_url.replace('postgres://', 'postgresql://')
+else:
+    database_url = 'sqlite:///chemistrylab.db'  # local fallback
+
+app.config['SQLALCHEMY_DATABASE_URI']        = database_url
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+ 
+# ── Init extensions
+db.init_app(app)
+bcrypt.init_app(app)
+login_manager.init_app(app)
+ 
+# ── Register auth blueprint
+app.register_blueprint(auth)
+ 
+# ── Create tables (run once, or use flask db migrate)
+with app.app_context():
+    db.create_all()
+ 
 
 
 def get_formula_data(query):
@@ -22,7 +50,6 @@ def get_formula_data(query):
 
     return None
 
-
 def find_element(name):
     name = name.strip()
 
@@ -37,7 +64,6 @@ def find_element(name):
             return el
 
     return None   # If not found
-
 
 def clean_formula_response(raw):
     # Split around | (Wolfram uses | as separators)
@@ -56,7 +82,6 @@ def clean_formula_response(raw):
 
     return formula, definitions
 
-
 @app.route("/google6bd543ba6834f0bf.html")
 def google_verification():
     return send_from_directory(os.getcwd(), 'google6bd543ba6834f0bf.html')
@@ -64,7 +89,6 @@ def google_verification():
 @app.route("/")
 def home():
     return render_template("index.html")
-
 
 @app.route("/periodic-table", methods=["GET", "POST"])
 def periodic_table():
@@ -91,6 +115,7 @@ def periodic_table():
     return render_template("periodic_table.html", element_data=None, source="periodic-table")
 
 @app.route("/notes")
+@login_required
 def notes():
     return render_template("notes.html")
 
@@ -106,6 +131,14 @@ def formula_search():
             return render_template("invalid.html", source="formula")
 
     return render_template("formula.html", data=None)
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
 
 @app.route("/feedback", methods=["GET", "POST"])
 def feedback():
@@ -200,5 +233,5 @@ def exp_titration():
     return render_template("exp-titration.html")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=5002, debug=True)
     

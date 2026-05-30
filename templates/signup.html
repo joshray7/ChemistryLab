@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080e14; --surface: #0d1a24; --surface2: #112130;
+      --accent: #00d4aa; --text: #e8f4f0; --muted: #7a9dab;
+      --border: rgba(0,212,170,0.18); --glow: 0 0 24px rgba(0,212,170,0.12);
+      --red: #f87171; --red-border: rgba(248,113,113,0.25);
+      --green: #4ade80; --green-border: rgba(74,222,128,0.25);
+    }
+    body {
+      filter: blur(10px); opacity: 0;
+      transition: filter .8s ease, opacity .8s ease;
+      background: var(--bg); color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.7;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 24px 20px;
+    }
+    body.loaded { filter: blur(0); opacity: 1; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.04) 1px, transparent 1px);
+      background-size: 40px 40px; pointer-events: none; z-index: 0;
+    }
+
+    .signup-wrap {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 420px;
+      display: flex; flex-direction: column; gap: 16px;
+      animation: fadeIn .5s ease both;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+    .brand { text-align: center; margin-bottom: 4px; }
+    .brand-logo { font-family: 'Space Mono', monospace; font-size: 1.2rem; font-weight: 700; color: var(--accent); text-decoration: none; letter-spacing: .05em; }
+    .brand-logo::before { content: '⬡ '; }
+    .brand-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: var(--glow); }
+    .card-head { padding: 28px 32px 0; }
+    .card-head h1 { font-family: 'Space Mono', monospace; font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .card-head p { font-size: 13px; color: var(--muted); }
+    .card-body { padding: 24px 32px 32px; display: flex; flex-direction: column; gap: 18px; }
+
+    .flash { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 10px; font-size: 13px; line-height: 1.5; }
+    .flash-error   { background: rgba(248,113,113,.08); border: 1px solid var(--red-border); color: var(--red); }
+    .flash-success { background: rgba(74,222,128,.08);  border: 1px solid var(--green-border); color: var(--green); }
+    .flash-info    { background: rgba(0,212,170,.08);   border: 1px solid var(--border); color: var(--accent); }
+    .flash-icon    { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+    .field input {
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+      padding: 12px 16px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px;
+      outline: none; transition: border-color .2s, box-shadow .2s; width: 100%;
+    }
+    .field input::placeholder { color: rgba(122,157,171,.45); }
+    .field input:focus { border-color: rgba(0,212,170,.5); box-shadow: 0 0 0 3px rgba(0,212,170,.08); }
+    .field-hint { font-size: 12px; color: rgba(122,157,171,.6); margin-top: 2px; }
+
+    /* Password strength bar */
+    .strength-bar { height: 3px; border-radius: 2px; background: var(--surface2); margin-top: 6px; overflow: hidden; }
+    .strength-fill { height: 100%; width: 0%; border-radius: 2px; transition: width .3s ease, background .3s ease; }
+    .strength-label { font-size: 11px; font-family: 'Space Mono', monospace; color: var(--muted); margin-top: 4px; }
+
+    .submit-btn {
+      background: var(--accent); color: #080e14; border: none; border-radius: 8px;
+      padding: 14px; font-family: 'Space Mono', monospace; font-size: 13px;
+      font-weight: 700; letter-spacing: .08em; cursor: pointer; width: 100%;
+      transition: opacity .2s, transform .15s;
+    }
+    .submit-btn:hover { opacity: .88; }
+    .submit-btn:active { transform: scale(.98); }
+
+    /* Terms note */
+    .terms-note { font-size: 12px; color: rgba(122,157,171,.6); text-align: center; line-height: 1.6; }
+    .terms-note a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; transition: color .2s; }
+    .terms-note a:hover { color: var(--accent); }
+
+    .divider { display: flex; align-items: center; gap: 12px; }
+    .div-line { flex: 1; height: 1px; background: var(--border); }
+    .div-text  { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: .1em; }
+
+    .switch-text { text-align: center; font-size: 13px; color: var(--muted); }
+    .switch-text a { color: var(--accent); text-decoration: none; font-weight: 500; transition: opacity .2s; }
+    .switch-text a:hover { opacity: .8; }
+
+    footer { position: relative; z-index: 1; margin-top: 24px; font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(122,157,171,.5); text-align: center; }
+  </style>
+</head>
+<body>
+
+  <div class="signup-wrap">
+
+    <div class="brand">
+      <a href="/" class="brand-logo">ChemistryLab</a>
+      <p class="brand-sub">Create your free account</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h1>Create account</h1>
+        <p>Join ChemistryLab and start learning today</p>
+      </div>
+      <div class="card-body">
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">
+              <span class="flash-icon">
+                {% if category == 'error' %}❌{% elif category == 'success' %}✅{% else %}ℹ️{% endif %}
+              </span>
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('auth.signup') }}">
+
+          <div style="display:flex;flex-direction:column;gap:18px">
+
+            <div class="field">
+              <label for="username">Username</label>
+              <input
+                type="text" id="username" name="username"
+                placeholder="Choose a username"
+                value="{{ username if username else '' }}"
+                autocomplete="username"
+                minlength="3" maxlength="80" required
+              />
+              <span class="field-hint">3–80 characters. Letters, numbers, and underscores.</span>
+            </div>
+
+            <div class="field">
+              <label for="password">Password</label>
+              <input
+                type="password" id="password" name="password"
+                placeholder="Create a password"
+                autocomplete="new-password"
+                minlength="6" required
+              />
+              <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+              <span class="strength-label" id="strengthLabel">Enter a password</span>
+            </div>
+
+            <div class="field">
+              <label for="confirm_password">Confirm Password</label>
+              <input
+                type="password" id="confirm_password" name="confirm_password"
+                placeholder="Repeat your password"
+                autocomplete="new-password"
+                minlength="6" required
+              />
+            </div>
+
+            <button type="submit" class="submit-btn">CREATE ACCOUNT →</button>
+
+            <p class="terms-note">
+              By signing up you agree to our
+              <a href="/terms">Terms of Service</a> and
+              <a href="/privacy-policy">Privacy Policy</a>.
+            </p>
+
+          </div>
+        </form>
+
+        <div class="divider">
+          <div class="div-line"></div>
+          <span class="div-text">OR</span>
+          <div class="div-line"></div>
+        </div>
+
+        <p class="switch-text">
+          Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a>
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+
+  <footer><p>&copy; 2026 ChemistryLab — All rights reserved.</p></footer>
+
+  <script>
+    window.addEventListener('load', () => { document.body.classList.add('loaded'); });
+
+    // Password strength meter
+    const pwInput      = document.getElementById('password');
+    const strengthFill = document.getElementById('strengthFill');
+    const strengthLabel= document.getElementById('strengthLabel');
+
+    pwInput.addEventListener('input', () => {
+      const val = pwInput.value;
+      let score = 0;
+      if (val.length >= 6)  score++;
+      if (val.length >= 10) score++;
+      if (/[A-Z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+
+      const levels = [
+        { width: '0%',   color: 'transparent', label: 'Enter a password' },
+        { width: '20%',  color: '#f87171',      label: 'Very weak' },
+        { width: '40%',  color: '#fb923c',      label: 'Weak' },
+        { width: '60%',  color: '#facc15',      label: 'Fair' },
+        { width: '80%',  color: '#4ade80',      label: 'Strong' },
+        { width: '100%', color: '#00d4aa',      label: 'Very strong 🔒' },
+      ];
+
+      const level = val.length === 0 ? levels[0] : levels[Math.min(score, 5)];
+      strengthFill.style.width      = level.width;
+      strengthFill.style.background = level.color;
+      strengthLabel.textContent     = level.label;
+      strengthLabel.style.color     = val.length === 0 ? 'rgba(122,157,171,.6)' : level.color;
+    });
+  </script>
+</body>
+</html>
