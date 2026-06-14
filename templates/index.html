@@ -253,7 +253,7 @@
 
     .feature-card h3 {
       font-family: 'Space Mono', monospace;
-      font-size: 13px;
+      font-size: 15px;
       color: var(--text);
       margin-bottom: 6px;
     }
@@ -435,47 +435,42 @@
       <p class="features-heading">What's inside</p>
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">📘</div>
           <h3>Chemistry Contexts</h3>
           <p>Structured topics covering core concepts — from atomic structure to organic chemistry.</p>
           <a href="{{ url_for('intro_chemistry') }}" class="search-btn" style="margin-top: 12px; display: inline-block;" type="button">Explore →</a>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">⚗️</div>
           <h3>Periodic Table Finder</h3>
           <p>Look up elements, atomic numbers, masses, and properties in an interactive table.</p>
           <a href="{{ url_for('periodic_table') }}" class="search-btn" style="margin-top: 12px; display: inline-block;">Explore →</a>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">📄</div>
           <h3>PDF Notes</h3>
           <p>Download curated notes and textbooks to study at your own pace, offline.</p>
           <a href="{{ url_for('notes') }}" class="search-btn" style="margin-top: 12px; display: inline-block;">Explore →</a>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🔬</div>
           <h3>Formula Searcher</h3>
           <p>Find and understand chemistry formulas with clear symbol explanations.</p>
           <a href="{{ url_for('formula_search') }}" class="search-btn" style="margin-top: 12px; display: inline-block;">Explore →</a>
         </div>
         <div class="feature-card">
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-            <div class="feature-icon">⚡
-            <span style="
+            <h3>Virtual Experiments </h3> <span style="
               display: inline-flex;
               align-items: center;
               gap: 10px;
               font-family: 'Space Mono', monospace;
-              font-size: 12px;
+              font-size: 13px;
               font-weight: 700;
-              letter-spacing: .12em;
+              letter-spacing: .10em;
               text-transform: uppercase;
               color: #00d4aa;
               background: rgba(0,212,170,0.1);
               border:  solid rgba(0,212,170,0.3);
               border-radius: 20px;
-              padding: 3px 10px;
-              margin-left: 110px;
+              padding: 2px 12px;
+              margin-left: 50px;
             ">
               <span style="
                 width: 6px; height: 6px;
@@ -487,13 +482,10 @@
               NEW
             </span>
           </div>
-            </div>
-          <h3>Virtual Experiments</h3>
           <p>Explore common chemical reactions, their conditions, and products.</p>
           <a href="{{ url_for('virtual_lab') }}" class="search-btn" style="margin-top: 12px; display: inline-block;">Explore →</a>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">💬</div>
           <h3>Feedback</h3>
           <p>Got suggestions? Help us improve ChemistryLab by sharing what you need.</p>
           <a href="{{ url_for('feedback') }}" class="search-btn" style="margin-top: 12px; display: inline-block;">Explore →</a>
@@ -504,7 +496,6 @@
     <section>
       <p class="features-heading">About ChemistryLab</p>
       <div class="feature-card" style="max-width: 720px; margin: 0 auto;">
-        <div class="feature-icon">👩‍🔬</div>
         <h3>Empowering Chemistry Learning</h3>
         <p>At ChemistryLab, we believe every student deserves access to quality chemistry education. Our platform provides interactive tools, comprehensive notes, and a supportive community to help you succeed in your chemistry journey. 
           Whether you're preparing for exams or just curious about the world of atoms and molecules, ChemistryLab is here to guide you every step of the way.
@@ -515,7 +506,6 @@
     <section>
       <p class="features-heading">Your Feedback Matters</p>
       <div class="feature-card" style="max-width: 720px; margin: 0 auto;">
-        <div class="feature-icon">📝</div>
         <h3>Help Us Improve</h3>
         <p>We're committed to making ChemistryLab the best it can be, and your feedback is crucial in that process. If you have suggestions for new features, notice any issues, or just want to share your experience, please don't hesitate to reach out. Together, we can create a better learning environment for all chemistry students.</p>
         <a href="{{ url_for('feedback') }}" class="search-btn" style="margin-top: 12px; display: inline-block;">Give Feedback →</a>
@@ -525,7 +515,6 @@
     <section>
       <p class="features-heading">Terms & Privacy</p>
       <div class="feature-card" style="max-width: 720px; margin: 0 auto;">
-        <div class="feature-icon">📜</div>
         <h3>Our Policies</h3>
         <p>Transparency is important to us. Please take a moment to review our Terms of Service and Privacy Policy to understand your rights and how we protect your data while you use ChemistryLab.</p>
         <a href="{{ url_for('terms') }}" class="search-btn" style="margin-top: 12px; display: inline-block;">View Terms →</a>
