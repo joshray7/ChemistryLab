@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Charles's Law | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#115ca3bb;--soft: #eaf4ee;--surface:#fff;--surface2:#f0f0f0}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    .exp-nav { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; animation: fadeIn .4s ease .3s both; }
+    .exp-nav a { display: inline-flex; align-items: center; gap: 7px; padding: 10px 18px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid var(--border); color: var(--muted); background: var(--surface); transition: all .2s; }
+    .exp-nav a:hover { color: var(--accent); border-color: rgba(80, 119, 201, 0.932); }
+    .exp-nav .prev { background: var(--surface2); }
+    .exp-nav .next { background: var(--accent); color: #080e14; border-color: var(--accent); }
+    .exp-nav .next:hover { background: rgba(161, 205, 231, 0.89); color: #0c0f13; border-color: rgba(0,212,170,.4); }
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
+</head>
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/virtual" class="back-btn">← All Experiments</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Virtual Laboratory</div>
+    <div class="hero-tag">EXP 02</div>
+    <div class="hero-tag">SS1</div>
+    <h1>Verification of<em> Charles' Law</em></h1>   
+    <p>Investigate the relationship between the volume and temperature of a gas at constant pressure by conducting a simple experiment that demonstrates Charles's Law.</p>
+  </div>
+  <main>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📚</span><h3>Introduction to Theory</h3></div>
+      <div class="card-body">
+        <p>Charles's law states that the volume of a given mass of gas is directly proportional to its absolute temperature, provided the pressure remains constant. Mathematically, it can be expressed as:</p>
+        <div class="equation-box" style="background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:16px;margin:20px 0;text-align:center;">
+          <div class="eq-label" style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:8px;">CHARLES'S LAW</div>
+          <div class="eq-formula" style="font-size:18px;font-family:'Playfair Display',serif;font-weight:700;color:var(--ink);">V₁ / T₁ = V₂ / T₂</div>
+        </div>
+        <p>Where V₁ and T₁ are the initial volume and temperature of the gas, and V₂ and T₂ are the final volume and temperature after heating or cooling. This experiment will demonstrate this relationship by measuring the change in volume of a gas as its temperature changes.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>Experiment Overview</h3></div>
+      <div class="card-body">
+        <p>In this experiment, we will heat a gas in a sealed container and measure the change in volume as the temperature increases. We will use a gas syringe to measure the volume of the gas at different temperatures while keeping the pressure constant. By plotting the volume against temperature, we can verify Charles's Law and understand the direct proportionality between these two variables.</p>
+        <p>Safety is paramount when conducting this experiment. Always use heat-resistant gloves and safety goggles when handling hot equipment, and ensure that the workspace is well-ventilated. Follow all safety guidelines to prevent accidents and injuries.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧪</span><h3>Materials Needed</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Gas syringe (50 mL or larger)</li>
+          <li>Clamp stand and tripod stand</li>
+          <li>Beaker (250 mL)</li>
+          <li>Bunsen burner or hot plate</li>
+          <li>Thermometer</li>
+          <li>Water</li>
+          <li>Heat-resistant gloves and safety goggles</li>
+        </ul>
+      </div>
+    </div>
+     
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>Procedure</h3></div>
+      <div class="card-body">
+         <ol style="list-style:none;padding:0;display:flex;flex-direction:column;gap:12px;">
+           <p>1. Set up the apparatus by attaching the gas syringe to the clamp stand and placing it on the tripod stand.</p>
+           <p>2. Fill the beaker with water and heat it using the Bunsen burner until it reaches a specific temperature (e.g., 50°C).</p>
+           <p>3. Record the initial volume of gas in the syringe (V₁) and the initial temperature of the water (T₁).</p>
+           <p>4. Continue heating the water and record the final volume of gas (V₂) and final temperature (T₂) at regular intervals.</p>
+           <p>5. Repeat the experiment for different temperatures to gather more data points.</p>
+         </ol>
+      </div>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Observations</h3></div>
+      <div class="card-body">
+        <p>As the temperature of the water increases, the volume of gas in the syringe also increases. This observation is consistent with Charles's Law, which states that volume and temperature are directly proportional at constant pressure.</p>
+       </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📈</span><h3>Real-World Applications</h3></div>
+      <div class="card-body">
+        <p>Charles's Law has several real-world applications, including:</p>
+        <ul>
+          <li><strong>Weather Forecasting:</strong> Understanding how temperature affects the volume of air masses helps meteorologists predict weather patterns.</li>
+          <li><strong>Automotive Engineering:</strong> The law is applied in the design of internal combustion engines, where the expansion of gases during combustion is crucial for engine performance.</li>
+          <li><strong>Aerospace:</strong> In aerospace applications, the behavior of gases at different temperatures is essential for the design of aircraft and spacecraft systems.</li>
+        </ul>
+        <p>These examples illustrate the importance of Charles's Law in various scientific and engineering fields, demonstrating how fundamental principles of gas behavior are applied in practical scenarios.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧠</span><h3>Safety Precautions</h3></div>
+      <div class="card-body">
+        <p>When conducting this experiment, it is important to follow these safety precautions:</p>
+        <ul>
+          <li>Always wear heat-resistant gloves and safety goggles when handling hot equipment.</li>
+          <li>Ensure that the workspace is well-ventilated to avoid the buildup of gases.</li>
+          <li>Handle the Bunsen burner or hot plate with care to prevent burns or fires.</li>
+          <li>Do not overheat the water, as it can lead to boiling and splashing, which may cause injuries.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔍</span><h3>Further Reading</h3></div>
+      <div class="card-body">
+        <p>For more information on Charles's Law and its applications, you can explore the following resources:</p>
+        <ul>
+          <li><a href="https://en.wikipedia.org/wiki/Charles%27s_law" target="_blank" style="color:var(--accent);text-decoration:none;">Charles's Law - Wikipedia</a></li>
+          <li><a href="https://www.khanacademy.org/science/chemistry/kinetic-molecular-theory/gas-laws/a/charles-law" target="_blank" style="color:var(--accent);text-decoration:none;">Charles's Law - Khan Academy</a></li>
+          <li><a href="https://www.youtube.com/watch?v=5Xjv8s9zq2g" target="_blank" style="color:var(--accent);text-decoration:none;">Charles's Law Explained - YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧪</span><h3>Discussion Questions</h3></div>
+      <div class="card-body">
+        <p>1. How would the results of the experiment change if the pressure were not held constant?</p>
+        <p>2. What are some real-life applications of Charles's Law in everyday life or industry?</p>
+        <p>3. How does Charles's Law relate to other gas laws, such as Boyle's Law and Avogadro's Law?</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Summary</h3></div>
+      <div class="card-body">
+        <ul><strong>Notes</strong></ul>
+        <p>Charles's Law describes the direct proportionality between the volume and temperature of a gas at constant pressure. This experiment demonstrates this relationship by measuring the change in volume of a gas as its temperature changes. The results confirm that as the temperature increases, the volume of the gas also increases, which is consistent with Charles's Law.</p>
+        <p>Understanding Charles's Law is essential for various scientific disciplines and practical applications, from laboratory research to industrial processes. It helps us predict and control the behavior of gases under different temperature conditions, which is crucial for advancements in chemistry, physics, engineering, and many other fields.</p>
+        <ul><strong>Common Misconceptions</strong></ul>
+        <p>A common misconception about Charles's Law is that it applies to all gases under all conditions. However, it is important to note that Charles's Law is only valid for ideal gases and may not accurately describe the behavior of real gases under high pressure or low temperature conditions. Additionally, some may mistakenly believe that the relationship between volume and temperature is inverse, but in reality, they are directly proportional as stated by Charles's Law.</p>
+        <ul><strong>Experiment Tips</strong></ul>
+        <p>To ensure accurate results in this experiment, make sure to use a gas syringe that is properly sealed to prevent gas leaks. It is also important to take measurements at regular intervals and to allow the system to reach thermal equilibrium before recording the volume and temperature. Additionally, using a water bath to heat the gas can help maintain a more consistent temperature and reduce the risk of overheating.</p>
+        <ul><strong>Experiment Variations</strong></ul>
+        <p>You can try variations of this experiment by using different gases or by changing the method of heating. For example, you could use a balloon instead of a gas syringe to observe the expansion of the gas as it is heated. Alternatively, you could use an electric heater instead of a Bunsen burner to provide a more controlled heat source. Experimenting with different setups can help you gain a deeper understanding of the principles behind Charles's Law and how it applies to different gases and conditions.</p>
+        <ul><strong>Key Takeaways</strong></ul>
+        <ul>
+          <li>Charles's Law describes the direct proportionality between the volume and temperature of a gas at constant pressure.</li>
+          <li>The law is only valid for ideal gases and may not accurately describe the behavior of real gases under extreme conditions.</li>
+          <li>Understanding Charles's Law is crucial for predicting and controlling the behavior of gases in various scientific and industrial applications.</li>
+        </ul>
+      </div>
+      </div>
+    </div>
+
+    <div class="conclusion" style="text-align:center;">
+      <h3>Understanding Charles's Law</h3>
+      <p>By understanding and applying Charles's Law, you can effectively predict and control the behavior of gases under different temperature conditions. This knowledge is essential for various scientific disciplines and practical applications, from laboratory research to industrial processes. Keep exploring and experimenting with different methods to enhance your skills in analyzing gas behavior!</p>  
+    </div>
+
+    <div class="exp-nav">
+      <a href="/simple-experiments/separating-mixtures" class="prev">← EXP 01: Separating Mixtures</a>
+      <a href="/simple-experiments/purity-assessment" class="next">→ EXP 03: Criteria for Purity</a>
+    </div>
+
+  </main>
+  <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
+</body>
+</html>

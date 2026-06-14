@@ -77,7 +77,7 @@
       border: none;
       text-decoration: none;
     }
-    .logo::before { content: '⬡ '; font-size: 0.9em; }
+    .logo::before { font-size: 0.9em; }
 
     .nav-links {
       display: none;
@@ -263,6 +263,21 @@
       line-height: 1.6;
     }
 
+    .new-feature{
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #080e14;
+      background: #00d4aa;
+      border-radius: 4px;
+      padding: 2px 7px;
+      vertical-align: middle;
+      margin-left: 160px;
+      margin-right: 20px;
+    }
+
     /* ─── FOOTER ─── */
     footer {
       position: relative;
@@ -360,6 +375,11 @@
     .search-btn:hover{
         background-color: rgba(0, 212, 170, 0.4);
     }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .4; transform: scale(0.8); }
+    }
   </style>
 </head>
 <body>
@@ -439,6 +459,40 @@
           <a href="{{ url_for('formula_search') }}" class="search-btn" style="margin-top: 12px; display: inline-block;">Explore →</a>
         </div>
         <div class="feature-card">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <div class="feature-icon">⚡
+            <span style="
+              display: inline-flex;
+              align-items: center;
+              gap: 10px;
+              font-family: 'Space Mono', monospace;
+              font-size: 12px;
+              font-weight: 700;
+              letter-spacing: .12em;
+              text-transform: uppercase;
+              color: #00d4aa;
+              background: rgba(0,212,170,0.1);
+              border:  solid rgba(0,212,170,0.3);
+              border-radius: 20px;
+              padding: 3px 10px;
+              margin-left: 110px;
+            ">
+              <span style="
+                width: 6px; height: 6px;
+                border-radius: 50%;
+                background: #00d4aa;
+                display: inline-block;
+                animation: pulse 1.5s ease infinite;
+              "></span>
+              NEW
+            </span>
+          </div>
+            </div>
+          <h3>Virtual Experiments</h3>
+          <p>Explore common chemical reactions, their conditions, and products.</p>
+          <a href="{{ url_for('virtual_lab') }}" class="search-btn" style="margin-top: 12px; display: inline-block;">Explore →</a>
+        </div>
+        <div class="feature-card">
           <div class="feature-icon">💬</div>
           <h3>Feedback</h3>
           <p>Got suggestions? Help us improve ChemistryLab by sharing what you need.</p>
@@ -505,8 +559,9 @@
       { title: "Chemistry Contexts", text: "Structured chemistry topics to build your understanding of key concepts.", author: "Author: ChemistryLab Team" },
       { title: "Periodic Table", text: "Learn element names, symbols, and properties stress-free.", author: "Creator: Josh Raymond" },
       { title: "PDF Notes", text: "Downloadable chemistry notes and textbooks for exam prep.", author: "Author: ChemistryLab Team" },
+      { title: "Virtual Experiments — NEW", text: "Explore 15 virtual chemistry experiments with theory, procedure, observations, and conclusions. Safe, interactive, and free.", author: "Author: ChemistryLab Team" },
       { title: "Formula Searcher", text: "Search formulas, understand symbols, and get clear explanations.", author: "Author: ChemistryLab Team" },
-      { title: "Chemistry Reactions!", text: "Explore chemical reactions in the Chemistry Contexts section.", author: "Author: ChemistryLab Team" },
+      { title: "Chemistry Reactions", text: "Explore chemical reactions in the Chemistry Contexts section.", author: "Author: ChemistryLab Team" },
       { title: "About Us", text: "ChemistryLab helps students learn chemistry with tools, notes, and formulas.", author: "Author: ChemistryLab Team" },
       { title: "Feedback", text: "Use the feedback page to report issues or request new features.", author: "Team: ChemistryLab Developers" },
       { title: "Terms & Privacy", text: "Review our policies to understand your rights and how your data is used.", author: "" }

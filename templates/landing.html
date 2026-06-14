@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChemistryLab — Virtual Chemistry Learning Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #060c12;
+      --surface: #0d1a24;
+      --surface2: #112130;
+      --accent: #00d4aa;
+      --accent2: #0096ff;
+      --text: #e8f4f0;
+      --muted: #7a9dab;
+      --border: rgba(0,212,170,0.15);
+      --glow: 0 0 40px rgba(0,212,170,0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── GLOW ORBS ── */
+    .orb {
+      position: fixed; border-radius: 50%;
+      pointer-events: none; z-index: 0;
+      filter: blur(80px);
+    }
+    .orb-1 { width: 500px; height: 500px; background: rgba(0,212,170,0.06); top: -100px; right: -100px; }
+    .orb-2 { width: 400px; height: 400px; background: rgba(0,150,255,0.05); bottom: 200px; left: -100px; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+    @keyframes shimmer  { 0%,100% { opacity:.6; } 50% { opacity:1; } }
+    @keyframes float    { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-8px); } }
+    @keyframes countUp  { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes scanline { 0% { transform:translateY(-100%); } 100% { transform:translateY(100vh); } }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 40px;
+      display: flex; align-items: center; gap: 16px;
+      background: rgba(6,12,18,0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
+    }
+    .nav-logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 1rem; font-weight: 700;
+      color: var(--accent); letter-spacing: .06em;
+      text-decoration: none;
+    }
+    .nav-logo::before { content: '⬡ '; }
+    .nav-links { display: flex; gap: 6px; margin-left: auto; }
+    .nav-link {
+      font-family: 'Space Mono', monospace; font-size: 12px;
+      color: var(--muted); text-decoration: none;
+      padding: 7px 14px; border-radius: 7px;
+      border: 1px solid transparent;
+      transition: all .2s;
+    }
+    .nav-link:hover { color: var(--accent); border-color: var(--border); }
+    .nav-cta {
+      font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+      color: #060c12; background: var(--accent);
+      text-decoration: none; padding: 8px 18px;
+      border-radius: 7px; letter-spacing: .05em;
+      transition: opacity .2s, transform .15s;
+    }
+    .nav-cta:hover { opacity: .88; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      overflow: hidden;
+    }
+
+    /* scanline effect */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(transparent 50%, rgba(0,212,170,0.015) 50%);
+      background-size: 100% 4px;
+      pointer-events: none; z-index: 0;
+      animation: scanline 8s linear infinite;
+      opacity: .4;
+    }
+
+    .hero-eyebrow {
+      position: relative; z-index: 1;
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Space Mono', monospace; font-size: 11px;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--accent); background: rgba(0,212,170,.07);
+      border: 1px solid rgba(0,212,170,.2);
+      border-radius: 20px; padding: 5px 16px;
+      margin-bottom: 28px;
+      animation: fadeUp .6s ease .1s both;
+    }
+    .eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+      animation: shimmer 2s ease infinite;
+    }
+
+    .hero-headline {
+      position: relative; z-index: 1;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      font-weight: 900; line-height: 1.0;
+      letter-spacing: -.03em;
+      color: var(--text);
+      margin-bottom: 12px;
+      animation: fadeUp .6s ease .2s both;
+    }
+    .hero-headline em {
+      font-style: italic;
+      color: var(--accent);
+      -webkit-text-stroke: 0px;
+    }
+    .hero-headline .outline {
+      -webkit-text-stroke: 1px rgba(0,212,170,.4);
+      color: transparent;
+    }
+
+    .hero-sub {
+      position: relative; z-index: 1;
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--muted); font-weight: 300;
+      max-width: 560px; line-height: 1.75;
+      margin: 0 auto 40px;
+      animation: fadeUp .6s ease .3s both;
+    }
+
+    .hero-actions {
+      position: relative; z-index: 1;
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp .6s ease .4s both;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 10px;
+      font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700;
+      letter-spacing: .06em; text-decoration: none;
+      background: var(--accent); color: #060c12;
+      transition: opacity .2s, transform .15s;
+      box-shadow: 0 0 30px rgba(0,212,170,.25);
+    }
+    .btn-primary:hover { opacity: .88; transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 10px;
+      font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700;
+      letter-spacing: .06em; text-decoration: none;
+      color: var(--muted); border: 1px solid var(--border);
+      background: rgba(13,26,36,.6);
+      transition: all .2s;
+    }
+    .btn-secondary:hover { color: var(--accent); border-color: rgba(0,212,170,.4); }
+
+    /* floating molecules */
+    .hero-molecules {
+      position: absolute; inset: 0; z-index: 0;
+      pointer-events: none; overflow: hidden;
+    }
+    .mol {
+      position: absolute;
+      font-family: 'Space Mono', monospace;
+      font-size: 13px; color: rgba(0,212,170,.12);
+      animation: float linear infinite;
+      letter-spacing: .05em;
+    }
+    .mol:nth-child(1)  { top:15%; left:5%;  animation-duration:7s;  animation-delay:0s; }
+    .mol:nth-child(2)  { top:25%; right:8%; animation-duration:9s;  animation-delay:1s; }
+    .mol:nth-child(3)  { top:60%; left:3%;  animation-duration:8s;  animation-delay:2s; }
+    .mol:nth-child(4)  { top:70%; right:5%; animation-duration:6s;  animation-delay:.5s; }
+    .mol:nth-child(5)  { top:40%; left:10%; animation-duration:10s; animation-delay:3s; }
+    .mol:nth-child(6)  { top:80%; left:20%; animation-duration:7s;  animation-delay:1.5s; }
+    .mol:nth-child(7)  { top:10%; right:20%;animation-duration:8s;  animation-delay:4s; }
+    .mol:nth-child(8)  { top:50%; right:12%;animation-duration:9s;  animation-delay:2.5s; }
+
+    /* scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;
+      font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .15em;
+      color: rgba(122,157,171,.4); text-transform: uppercase;
+      animation: fadeIn 1s ease 1s both;
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, rgba(0,212,170,.4), transparent);
+      animation: shimmer 2s ease infinite;
+    }
+
+    /* ── STATS ── */
+    .stats-section {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--glow);
+    }
+    .stat-item {
+      padding: 32px 24px; text-align: center;
+      border-right: 1px solid var(--border);
+      transition: background .2s;
+      animation: countUp .5s ease both;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-item:hover { background: var(--surface2); }
+    .stat-item:nth-child(1){ animation-delay:.1s }
+    .stat-item:nth-child(2){ animation-delay:.18s }
+    .stat-item:nth-child(3){ animation-delay:.26s }
+    .stat-item:nth-child(4){ animation-delay:.34s }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem; font-weight: 900;
+      color: var(--accent); line-height: 1;
+      margin-bottom: 6px; letter-spacing: -.02em;
+    }
+    .stat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--muted);
+    }
+
+    /* ── FEATURES ── */
+    .features-section {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+    .section-header { text-align: center; margin-bottom: 48px; }
+    .section-eyebrow {
+      font-family: 'Space Mono', monospace; font-size: 11px;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 14px; display: block;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900; color: var(--text);
+      line-height: 1.1; letter-spacing: -.02em;
+    }
+    .section-title em { font-style: italic; color: var(--accent); }
+    .section-sub {
+      font-size: 15px; color: var(--muted); font-weight: 300;
+      max-width: 480px; margin: 12px auto 0; line-height: 1.7;
+    }
+
+    /* big feature card + small grid */
+    .features-layout { display: flex; flex-direction: column; gap: 16px; }
+
+    .feature-big {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 40px; align-items: center;
+      transition: border-color .2s, transform .2s;
+      box-shadow: var(--glow);
+    }
+    .feature-big:hover { border-color: rgba(0,212,170,.35); transform: translateY(-2px); }
+
+    .feature-big-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem; font-weight: 700;
+      color: var(--text); margin-bottom: 12px; line-height: 1.2;
+    }
+    .feature-big-text h3 em { font-style: italic; color: var(--accent); }
+    .feature-big-text p { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 20px; }
+    .feature-link {
+      font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+      color: var(--accent); text-decoration: none; letter-spacing: .05em;
+      transition: opacity .2s;
+    }
+    .feature-link:hover { opacity: .7; }
+
+    /* periodic table mini visual */
+    .pt-visual {
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;
+    }
+    .pt-cell {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 8px 4px;
+      text-align: center; transition: all .2s;
+      cursor: default;
+    }
+    .pt-cell:hover {
+      background: rgba(0,212,170,.1);
+      border-color: rgba(0,212,170,.4);
+      transform: scale(1.08);
+    }
+    .pt-sym { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: var(--accent); }
+    .pt-num { font-size: 9px; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+    /* small feature grid */
+    .feature-small-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px 24px;
+      transition: border-color .2s, transform .2s;
+    }
+    .feature-card:hover { border-color: rgba(0,212,170,.35); transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,0,0,.2); }
+    .feature-card-icon {
+      width: 44px; height: 44px;
+      background: rgba(0,212,170,.08);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 16px;
+    }
+    .feature-card h4 {
+      font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700;
+      color: var(--text); margin-bottom: 8px; letter-spacing: .03em;
+    }
+    .feature-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+    /* ── CTA ── */
+    .cta-section {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+    .cta-card {
+      background: var(--surface);
+      border: 1px solid rgba(0,212,170,.25);
+      border-radius: 24px;
+      padding: 72px 48px;
+      text-align: center;
+      position: relative; overflow: hidden;
+      box-shadow: 0 0 60px rgba(0,212,170,.08);
+    }
+    .cta-card::before {
+      content: '';
+      position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(0,212,170,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 900; color: var(--text);
+      line-height: 1.1; letter-spacing: -.02em;
+      margin-bottom: 14px; position: relative; z-index: 1;
+    }
+    .cta-card h2 em { font-style: italic; color: var(--accent); }
+    .cta-card p {
+      font-size: 15px; color: var(--muted); font-weight: 300;
+      max-width: 440px; margin: 0 auto 36px;
+      line-height: 1.75; position: relative; z-index: 1;
+    }
+    .cta-actions {
+      display: flex; gap: 12px; justify-content: center;
+      flex-wrap: wrap; position: relative; z-index: 1;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 28px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-logo {
+      font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700;
+      color: var(--accent); text-decoration: none; letter-spacing: .05em;
+    }
+    .footer-logo::before { content: '⬡ '; }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links a {
+      font-family: 'Space Mono', monospace; font-size: 11px;
+      color: var(--muted); text-decoration: none; letter-spacing: .05em;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(122,157,171,.45); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-top: 1px solid var(--border); }
+      .feature-big { grid-template-columns: 1fr; gap: 24px; padding: 28px; }
+      .pt-visual { display: none; }
+      .feature-small-grid { grid-template-columns: 1fr; }
+      .cta-card { padding: 48px 24px; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a class="nav-logo" href="/">ChemistryLab</a>
+    <div class="nav-links">
+      <a href="/intro-chemistry" class="nav-link">Topics</a>
+      <a href="/periodic-table" class="nav-link">Periodic Table</a>
+      <a href="/notes" class="nav-link">Notes</a>
+      <a href="/about-us" class="nav-link">About</a>
+    </div>
+    <a href="{{ url_for('auth.signup') }}" class="nav-cta">Get Started →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-molecules">
+      <span class="mol">H₂O</span>
+      <span class="mol">NaCl</span>
+      <span class="mol">CO₂</span>
+      <span class="mol">H₂SO₄</span>
+      <span class="mol">CH₄</span>
+      <span class="mol">Fe₂O₃</span>
+      <span class="mol">C₆H₁₂O₆</span>
+      <span class="mol">NH₃</span>
+    </div>
+
+    <div class="hero-eyebrow">
+      <span class="eyebrow-dot"></span>
+      Virtual Chemistry Learning Platform
+    </div>
+
+    <h1 class="hero-headline">
+      Chemistry,<br>
+      <em>finally</em> made<br>
+      <span class="outline">simple.</span>
+    </h1>
+
+    <p class="hero-sub">
+      Master the periodic table, explore chemical reactions, download notes, and prepare for WAEC, NECO & JAMB — all in one place.
+    </p>
+
+    <div class="hero-actions">
+      <a href="{{ url_for('auth.signup') }}" class="btn-primary">Start Learning Free →</a>
+      <a href="/intro-chemistry" class="btn-secondary">Explore Topics</a>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-num">9+</div>
+        <div class="stat-label">Experiments</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">118</div>
+        <div class="stat-label">Elements</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">PDF Notes</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Safety Risks</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section">
+    <div class="section-header">
+      <span class="section-eyebrow">Features</span>
+      <h2 class="section-title">Everything you need to<br><em>ace chemistry</em></h2>
+      <p class="section-sub">Built specifically for Nigerian secondary school students and external exam candidates.</p>
+    </div>
+
+    <div class="features-layout">
+
+      <!-- BIG FEATURE — Periodic Table -->
+      <div class="feature-big">
+        <div class="feature-big-text">
+          <h3>Periodic Table <em>Finder</em></h3>
+          <p>Search any of the 118 elements by name or symbol. Get atomic number, mass, melting point, boiling point, electronegativity, and more — instantly.</p>
+          <a href="/periodic-table" class="feature-link">Search elements →</a>
+        </div>
+        <div class="pt-visual">
+          <div class="pt-cell"><div class="pt-sym">H</div><div class="pt-num">1</div></div>
+          <div class="pt-cell"><div class="pt-sym">He</div><div class="pt-num">2</div></div>
+          <div class="pt-cell"><div class="pt-sym">Li</div><div class="pt-num">3</div></div>
+          <div class="pt-cell"><div class="pt-sym">C</div><div class="pt-num">6</div></div>
+          <div class="pt-cell"><div class="pt-sym">O</div><div class="pt-num">8</div></div>
+          <div class="pt-cell"><div class="pt-sym">Na</div><div class="pt-num">11</div></div>
+          <div class="pt-cell"><div class="pt-sym">Mg</div><div class="pt-num">12</div></div>
+          <div class="pt-cell"><div class="pt-sym">Al</div><div class="pt-num">13</div></div>
+          <div class="pt-cell"><div class="pt-sym">Fe</div><div class="pt-num">26</div></div>
+          <div class="pt-cell"><div class="pt-sym">Cu</div><div class="pt-num">29</div></div>
+          <div class="pt-cell"><div class="pt-sym">Au</div><div class="pt-num">79</div></div>
+          <div class="pt-cell"><div class="pt-sym">Ag</div><div class="pt-num">47</div></div>
+        </div>
+      </div>
+
+      <!-- SMALL GRID -->
+      <div class="feature-small-grid">
+        <div class="feature-card">
+          <div class="feature-card-icon">📘</div>
+          <h4>Chemistry Contexts</h4>
+          <p>Structured topic pages covering SS1, SS2, and SS3 chemistry with clear explanations and examples.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">🧪</div>
+          <h4>Virtual Laboratory</h4>
+          <p>9 step-by-step experiments with theory, procedure, observations, and conclusions. Zero physical risk.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">🔬</div>
+          <h4>Formula Searcher</h4>
+          <p>Search any chemistry formula — Boyle's Law, ideal gas, neutralization — and get a full symbol breakdown.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">📄</div>
+          <h4>PDF Notes</h4>
+          <p>Download WAEC, NECO & JAMB chemistry textbooks and past questions. Free, curated, and ready to use.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">📚</div>
+          <h4>Exam Preparation</h4>
+          <p>WAEC, NECO, and JAMB-focused content. SS3 topics come with exam badges so you know what to prioritize.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">📱</div>
+          <h4>Mobile Friendly</h4>
+          <p>Study anywhere, anytime. ChemistryLab works perfectly on any phone, tablet, or computer.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-card">
+      <h2>Ready to master<br><em>chemistry?</em></h2>
+      <p>Join ChemistryLab for free today and start learning with tools built for Nigerian students.</p>
+      <div class="cta-actions">
+        <a href="{{ url_for('auth.signup') }}" class="btn-primary">Create Free Account →</a>
+        <a href="{{ url_for('auth.login') }}" class="btn-secondary">Log In</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a class="footer-logo" href="/">ChemistryLab</a>
+    <div class="footer-links">
+      <a href="/intro-chemistry">Topics</a>
+      <a href="/periodic-table">Periodic Table</a>
+      <a href="/notes">Notes</a>
+      <a href="/virtual-lab-guide">Virtual Lab</a>
+      <a href="/about-us">About</a>
+      <a href="/feedback">Feedback</a>
+      <a href="/terms">Terms</a>
+      <a href="/privacy-policy">Privacy</a>
+    </div>
+    <span class="footer-copy">&copy; 2026 ChemistryLab. All rights reserved.</span>
+  </footer>
+
+</body>
+</html>

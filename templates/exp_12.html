@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Electrolysis of Copper Sulfate | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#0365f7af;--soft:#bcdbf5;--surface:#fff;--surface2:#f0f0f0}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    .exp-nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;animation:fadeIn .4s ease .3s both}
+    .exp-nav a{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:8px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--border);color:var(--muted);background:var(--surface);transition:all .2s}
+    .exp-nav a:hover{color:var(--accent);border-color:var(--accent)}
+    .exp-nav .prev{background:var(--surface2)}
+    .exp-nav .next{background:var(--accent);color:#080e14;border-color:var(--accent)}
+    .exp-nav .next:hover{background:var(--soft);color:#0c0f13;border-color:rgba(12, 12, 12, 0.4)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
+</head>
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/virtual" class="back-btn">← All Experiments</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Virtual Laboratory</div>
+    <div class="hero-tag">EXP 12</div>
+    <div class="hero-tag">SS2</div>
+    <h1><em>Electrolysis</em> of Copper Sulfate</h1>
+    <p>Learn about the process of electrolysis and how it is used to deposit and purify copper metal.</p>
+  </div>
+  <main>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📋</span><h3>Introduction</h3></div>
+      <div class="card-body">
+        <p>Electrolysis is the process of using electrical energy to drive a chemical reaction that would not occur spontaneously on its own. When an electric current is passed through a solution of copper sulfate (CuSO₄) using copper electrodes, copper ions from the solution are deposited as solid copper at the cathode (negative electrode), while the anode (positive electrode) dissolves to replenish the copper ions in the solution. This experiment demonstrates the principles of electrolysis, oxidation, and reduction, and mirrors the industrial process used to purify copper metal.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Experiment Overview</h3></div>
+      <div class="card-body">
+        <p>In this experiment, two copper electrodes will be immersed in a copper sulfate solution and connected to a direct current (DC) power supply. When the current flows, copper(II) ions (Cu²⁺) in the solution migrate to the cathode, where they gain electrons and are deposited as solid copper. At the anode, copper atoms lose electrons and dissolve into the solution as Cu²⁺ ions, keeping the concentration of the solution roughly constant. The half-equations are:</p>
+        <p><strong>Cathode (reduction): Cu²⁺ (aq) + 2e⁻ → Cu (s)</strong></p>
+        <p><strong>Anode (oxidation): Cu (s) → Cu²⁺ (aq) + 2e⁻</strong></p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>Procedure</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Put on your safety goggles and gloves before handling any chemicals or electrical equipment.</li>
+          <li>Weigh and record the mass of both copper electrodes before the experiment begins.</li>
+          <li>Pour copper sulfate solution into a clean beaker and immerse both copper electrodes into the solution, ensuring they do not touch each other.</li>
+          <li>Connect the electrodes to the DC power supply — the cathode to the negative terminal and the anode to the positive terminal.</li>
+          <li>Switch on the power supply and allow the current to flow for 15–20 minutes at a steady voltage.</li>
+          <li>Observe the electrodes during the experiment — note any changes in their appearance and any colour changes in the solution.</li>
+          <li>After the experiment, switch off the power supply, carefully remove the electrodes, rinse them gently with distilled water, allow them to dry, and reweigh them. Record the change in mass for each electrode.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔍</span><h3>Observations</h3></div>
+      <div class="card-body">
+        <p>During the experiment, a reddish-brown deposit of copper metal will visibly build up on the surface of the cathode. The anode will gradually decrease in size as copper dissolves from its surface into the solution. The blue colour of the copper sulfate solution remains relatively constant throughout, because copper lost at the cathode is replaced by copper dissolving from the anode. After weighing, the cathode will show an increase in mass and the anode a corresponding decrease, confirming that copper has been transferred from the anode to the cathode via the solution.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">💡</span><h3>Real-World Applications</h3></div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Copper purification:</strong> Industrially, electrolysis is used to refine impure copper (from smelting) into 99.99% pure copper required for electrical wiring and electronics.</li>
+          <li><strong>Electroplating:</strong> The same principles are used to coat objects with a thin layer of metal — for example, coating steel cutlery with silver or chromium for decoration and corrosion resistance.</li>
+          <li><strong>Aluminium extraction:</strong> Electrolysis is used to extract aluminium from molten aluminium oxide (bauxite), as aluminium is too reactive to be extracted by carbon reduction.</li>
+          <li><strong>Chlorine and sodium hydroxide production:</strong> Electrolysis of brine (sodium chloride solution) produces chlorine gas, hydrogen gas, and sodium hydroxide — all important industrial chemicals.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚠️</span><h3>Safety Precautions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Always wear safety goggles and gloves — copper sulfate solution is toxic and can irritate skin and eyes.</li>
+          <li>Ensure the power supply is switched off before connecting or adjusting the electrodes to avoid electric shock.</li>
+          <li>Do not allow the two electrodes to touch each other during the experiment, as this will short-circuit the apparatus.</li>
+          <li>Work in a well-ventilated area — small amounts of gas may be produced at the electrodes during electrolysis.</li>
+          <li>Dispose of copper sulfate solution according to your school or laboratory's chemical waste guidelines — do not pour it down the drain.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔗</span><h3>Further Reading</h3></div>
+      <div class="card-body">
+        <p>Explore these resources to deepen your understanding of electrolysis and its applications:</p>
+        <ul>
+          <li><a href="https://www.bbc.co.uk/bitesize/guides/z8ck87h/revision/4" target="_blank" style="color:var(--accent);text-decoration:none;">BBC Bitesize — Electrolysis</a></li>
+          <li><a href="https://www.chemguide.co.uk/physical/electrolysis/introduction.html" target="_blank" style="color:var(--accent);text-decoration:none;">Chemguide — Introduction to Electrolysis</a></li>
+          <li><a href="https://www.khanacademy.org/science/ap-chemistry-beta/x2eef969c74e0d802:electrochemistry" target="_blank" style="color:var(--accent);text-decoration:none;">Khan Academy — Electrochemistry</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">❓</span><h3>Discussion Questions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Write the half-equations for the reactions occurring at the cathode and anode during this experiment. Which electrode undergoes oxidation and which undergoes reduction?</li>
+          <li>Why does the concentration of the copper sulfate solution remain roughly constant during this experiment?</li>
+          <li>What would happen to the colour of the copper sulfate solution if inert (carbon) electrodes were used instead of copper electrodes?</li>
+          <li>How does the electrolysis of copper sulfate relate to the industrial purification of copper?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📝</span><h3>Summary</h3></div>
+      <div class="card-body">
+        <ul><strong>Notes</strong></ul>
+        <p>In this experiment, we passed an electric current through copper sulfate solution using copper electrodes. Copper was deposited at the cathode (reduction) and dissolved from the anode (oxidation), transferring copper from one electrode to the other. The mass increase at the cathode and decrease at the anode confirmed the electrolytic transfer of copper.</p>
+        <ul><strong>Common Misconceptions</strong></ul>
+        <p>A common misconception is that the copper sulfate solution gets used up during electrolysis with copper electrodes. In reality, the anode continuously replenishes the Cu²⁺ ions consumed at the cathode, keeping the solution concentration roughly constant. This would not be the case with inert electrodes, where the solution would gradually lose copper and become lighter in colour.</p>
+        <ul><strong>Key Takeaways</strong></ul>
+        <ul>
+          <li>Electrolysis uses electrical energy to drive non-spontaneous chemical reactions.</li>
+          <li>At the cathode, copper ions are reduced and deposited as solid copper. At the anode, copper is oxidised and dissolves into solution.</li>
+          <li>Using copper electrodes keeps the solution concentration constant — unlike inert electrodes.</li>
+          <li>Electrolysis is the basis of copper purification, electroplating, and the extraction of reactive metals in industry.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="conclusion" style="text-align:center;">
+      <h3>Electrolysis — Chemistry Driven by Electricity</h3>
+      <p>Electrolysis is one of the most powerful tools in chemistry, allowing us to use electrical energy to drive reactions and transform materials in ways that natural chemistry cannot. From purifying copper to plating jewellery to extracting aluminium, it sits at the heart of modern industry. Understanding the electrode reactions and ion movement in this experiment gives you the foundation to explore electrochemistry at a much deeper level.</p>
+    </div>
+
+    <div class="exp-nav">
+      <a href="/simple-experiments/extraction-of-metals" class="prev">← EXP 11: Extraction of Metals</a>
+      <a href="/simple-experiments/qualitative-analysis-I" class="next">→ EXP 13: Qualitative Analysis I</a>
+    </div>
+
+  </main>
+  <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
+</body>
+</html>

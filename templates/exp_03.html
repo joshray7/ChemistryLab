@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Criteria for Purity | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#611705bd;--soft: #e7a47cda;--surface:#fff;--surface2:#f0f0f0}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    .exp-nav { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; animation: fadeIn .4s ease .3s both; }
+    .exp-nav a { display: inline-flex; align-items: center; gap: 7px; padding: 10px 18px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid var(--border); color: var(--muted); background: var(--surface); transition: all .2s; }
+    .exp-nav a:hover { color: var(--accent); border-color: rgba(233, 149, 110, 0.973) }
+    .exp-nav .prev { background: var(--surface2); }
+    .exp-nav .next { background: var(--accent); color: #080e14; border-color: var(--accent); }
+    .exp-nav .next:hover { background: #e7a47cda; color: #0c0f13; border-color: #0c0c0cda }
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
+</head>
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/virtual" class="back-btn">← All Experiments</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Virtual Laboratory</div>
+    <div class="hero-tag">EXP 03</div>
+    <div class="hero-tag">SS1</div>
+    <h1>Criteria for Purity: <em>Determination of the Melting Point of Naphthalene</em></h1>
+    <p>Understand the principles and methods used to assess the purity of chemical substances in a virtual laboratory setting.</p>
+  </div>
+  <main>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧪</span><h3>Introduction</h3></div>
+      <div class="card-body">
+        <p>In this experiment, we will determine the melting point of naphthalene, a common organic compound, to assess its purity. The melting point is a physical property that can indicate the presence of impurities in a substance. Pure naphthalene has a specific melting point, and any deviation from this value can suggest contamination.</p>
+       </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Experiment Overview</h3></div>
+      <div class="card-body">
+        <p>To determine the melting point of naphthalene, we will use a melting point apparatus. The procedure involves heating a small sample of naphthalene and recording the temperature at which it begins to melt (initial melting point) and the temperature at which it is completely melted (final melting point). By comparing these values to the known melting point of pure naphthalene, we can assess the purity of the sample.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧑‍🔬</span><h3>Materials Needed</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Naphthalene sample</li>
+          <li>Melting point apparatus</li>
+          <li>Capillary tubes</li>
+          <li>Thermometer or digital temperature sensor</li>
+          <li>Heat source (e.g., Bunsen burner or electric heater)</li>
+          <li>Safety equipment (gloves, goggles, lab coat)</li>
+        </ul>
+       </div>
+    </div>
+
+    <div class="topic-card">
+        <div class="card-top"><span class="card-icon">🔬</span><h3>Procedure</h3></div>
+        <div class="card-body">
+         <ol style="list-style:none;padding:0;display:flex;flex-direction:column;gap:12px;">
+           <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> Set up the melting point apparatus according to the manufacturer's instructions.</li>
+           <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> Insert a small amount of naphthalene into a capillary tube.</li>
+           <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> Place the capillary tube in the melting point apparatus and heat it gradually.</li>
+           <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> Record the temperature at which the naphthalene begins to melt (initial melting point).</li>
+           <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> Continue heating and record the temperature at which the naphthalene is completely melted (final melting point).</li>
+         </ol>
+        </div>
+    </div>
+
+    <div class="topic-card">
+        <div class="card-top"><span class="card-icon">🔬</span><h3>Observations</h3></div>
+        <div class="card-body">
+            <p>During the experiment, you may observe that the naphthalene starts to melt at a certain temperature and is completely melted at a slightly higher temperature. The range between the initial and final melting points can provide insights into the purity of the sample. A narrow melting point range typically indicates a purer substance, while a wider range suggests the presence of impurities.</p>
+        </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Real-World Applications</h3></div>
+      <div class="card-body">
+        <p>The concept of melting point determination is widely applicable in various fields:</p>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;">
+          <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> In pharmaceuticals, the melting point is used to assess the purity and identity of active pharmaceutical ingredients (APIs).</li>
+          <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> In materials science, the melting point is a critical property for selecting materials for specific applications.</li>
+          <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> In quality control, the melting point is often used as a simple and cost-effective method to verify the identity and purity of substances.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧑‍🔬</span><h3>Safety Precautions</h3></div>
+      <div class="card-body">
+        <p>When conducting this experiment, it is important to follow safety guidelines to ensure a safe working environment:</p>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;">
+          <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> Always wear appropriate personal protective equipment (PPE), including gloves, goggles, and a lab coat.</li>
+          <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> Handle the heat source with care to avoid burns or accidental fires.</li>
+          <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> Ensure proper ventilation in the laboratory to avoid inhaling any fumes that may be released during heating.</li>
+          <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> Dispose of any waste materials according to your institution's safety protocols.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧑‍🔬</span><h3>Further Reading</h3></div>
+      <div class="card-body">
+        <p>To deepen your understanding of purity assessment and melting point determination, consider exploring the following resources:</p>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;">
+          <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> "Quantitative Chemical Analysis" by Daniel C. Harris - This textbook provides comprehensive coverage of analytical chemistry techniques, including purity assessment methods.</li>
+          <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> "Principles of Instrumental Analysis" by Douglas A. Skoog, F. James Holler, and Stanley R. Crouch - This book offers detailed explanations of various instrumental techniques used in chemical analysis, including melting point determination.</li>
+          <li style="font-size:14px;color:var(--muted);padding-left:20px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);font-size:12px;top:2px;">→</span> Research articles and reviews on the application of melting point analysis in pharmaceuticals and materials science can provide insights into current trends and advancements in the field.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+        <div class="card-top"><span class="card-icon">🔬</span><h3>Discussion Questions</h3></div>
+        <div class="card-body">
+            <p>1. Why is the melting point a useful property for assessing the purity of a substance?</p>
+            <p>2. What factors can cause the melting point of a substance to deviate from its known value?</p>
+            <p>3. How can impurities affect the physical properties of a substance, such as its melting point?</p>
+            <p>4. What are some other methods that can be used to assess the purity of a substance besides melting point determination?</p>
+            <p>5. How can the results of this experiment be applied in real-world scenarios, such as in pharmaceuticals or materials science?</p>
+        </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Summary</h3></div>
+      <div class="card-body">
+        <ul><strong>Notes</strong></ul>
+        <p>Purity assessment is crucial in various scientific and industrial applications. The melting point is a key indicator of a substance's purity, as impurities typically lower the melting point and broaden the melting range.</p>
+        <ul><strong>Common Misconceptions</strong></ul>
+        <p>One common misconception is that all separation techniques can be used for any mixture. However, the choice of technique depends on the specific properties of the substances in the mixture. For example, sublimation is only effective for substances that can transition directly from solid to gas, while filtration is suitable for separating solids from liquids.</p>
+        <ul><strong>Experiment Tips</strong></ul>
+        <p>Here are some tips to help you succeed in this experiment:</p>
+        <ul>
+          <li>Ensure that the sample of naphthalene is finely powdered to achieve a more accurate melting point determination.</li>
+          <li>Heat the sample slowly and evenly to avoid overshooting the melting point and to obtain a clear observation of the melting process.</li>
+          <li>Record both the initial and final melting points to assess the purity of the sample effectively.</li>
+          <li>Compare your results with the known melting point of pure naphthalene (80.2°C) to evaluate the purity of your sample.</li>
+        </ul>
+        <ul><strong>Experiment Variations</strong></ul>
+        <p>You can try variations of this experiment by using different samples or by applying other purity assessment methods, such as boiling point determination or chromatography. Experimenting with different techniques will help you gain a deeper understanding of the principles behind purity assessment and the various methods available for analyzing substances.</p>
+        <ul><strong>Key Takeaways</strong></ul>
+        <ul>
+          <li>The melting point is a valuable property for assessing the purity of a substance, with pure substances having a specific melting point and impurities causing deviations.</li>
+          <li>Proper technique and careful observation are essential for accurate melting point determination.</li>
+          <li>Understanding the principles of purity assessment can have significant implications in various fields, including pharmaceuticals, materials science, and quality control.</li>
+          <li>Always follow safety guidelines when conducting experiments to ensure a safe and successful outcome.</li>
+        </ul>
+      </div>
+      </div>
+    </div>
+ 
+    <div class="conclusion" style="text-align:center;">
+      <h3>Learn Criteria for Purity</h3>
+      <p>By understanding and applying the principles of purity assessment, you can effectively evaluate the quality of substances in various applications. This knowledge is essential for ensuring safety, compliance, and performance across different industries. Keep exploring and experimenting with different methods to enhance your skills in assessing substance purity!</p>  
+    </div>
+
+    <div class="exp-nav">
+      <a href="/simple-experiments/charles-law" class="prev">← EXP 02: Charles' Law</a>
+      <a href="/simple-experiments/simple-distillation" class="next">→ EXP 04: Distillation of Ethanol</a>
+    </div>
+
+  </main>
+  <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
+</body>
+</html>

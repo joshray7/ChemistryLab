@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Physical and Chemical Changes | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#d8d50b;--soft:#fef3c7;--surface:#fff;--surface2:#f0f0f0;}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    .exp-nav { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; animation: fadeIn .4s ease .3s both; }
+    .exp-nav a { display: inline-flex; align-items: center; gap: 7px; padding: 10px 18px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid var(--border); color: var(--muted); background: var(--surface); transition: all .2s; }
+    .exp-nav a:hover { color: var(--accent); border-color: var(--accent); }
+    .exp-nav .prev { background: var(--surface2); }
+    .exp-nav .next { background: var(--accent); color: #080e14; border-color: var(--accent); }
+    .exp-nav .next:hover { background: #f5e39b; color: #0c0f13; border-color: rgba(13, 14, 13, 0.4); }
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
+</head>
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/virtual" class="back-btn">← All Experiments</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Virtual Laboratory</div>
+    <div class="hero-tag">EXP 05</div>
+    <div class="hero-tag">SS1</div>
+    <h1>Physical and Chemical <em>Changes</em></h1>
+    <p>Learn to identify physical and chemical changes in substances.</p>
+  </div>
+  <main>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Introduction</h3></div>
+      <div class="card-body">
+        <p>In this experiment, we will explore the differences between physical and chemical changes. A physical change is a change in the state or appearance of a substance without altering its chemical composition, while a chemical change results in the formation of new substances with different properties. By conducting various tests and observations, we will learn how to distinguish between these two types of changes.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+        <div class="card-top"><span class="card-icon">⚗️</span><h3>Experimental Overview</h3></div>
+        <div class="card-body">
+          <p>We will perform a series of experiments to observe physical and chemical changes. These experiments will include:</p>
+          <ul>
+            <li>Mixing vinegar and baking soda to observe a chemical reaction that produces gas.</li>
+            <li>Melting an ice cube to observe a physical change from solid to liquid.</li>
+            <li>Dissolving salt in water to observe a physical change where the salt can be recovered by evaporation.</li>
+            <li>Burning a candle to observe both physical changes (melting wax) and chemical changes (combustion).</li>
+          </ul>
+          <p>Through these experiments, we will analyze the characteristics of each change and classify them as either physical or chemical based on our observations.</p>
+        </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>Materials Needed</h3></div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Vinegar</strong> (acetic acid solution)</li>
+          <li><strong>Baking Soda</strong> (sodium bicarbonate)</li>
+          <li><strong>Water</strong></li>
+          <li><strong>Ice Cubes</strong></li>
+          <li><strong>Salt</strong></li>
+          <li><strong>Sugar</strong></li>
+          <li><strong>Candle</strong> and matches (for demonstration purposes only, ensure safety precautions are followed)</li>
+        </ul>
+      </div>    
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧪</span><h3>Procedure</h3></div>
+      <div class="card-body">
+        <p>1. Mix vinegar and baking soda in a container and observe the reaction. Note the formation of bubbles and the release of gas, indicating a chemical change.</p>
+        <p>2. Place an ice cube on a plate and let it melt at room temperature. Observe the change from solid to liquid, which is a physical change.</p>
+        <p>3. Dissolve salt in water and observe the solution. This is a physical change as the salt can be recovered by evaporating the water.</p>
+        <p>4. Burn a candle and observe the changes that occur. The melting of wax is a physical change, while the combustion process is a chemical change that produces new substances (carbon dioxide and water vapor).</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔍</span><h3>Observation</h3></div>
+      <div class="card-body">
+        <p>After conducting the experiments, analyze your observations to classify each change as either physical or chemical. Consider the evidence such as the formation of gas, change in state, or the production of new substances to support your conclusions.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📈</span><h3>Real-World Applications</h3></div>
+      <div class="card-body">
+        <p>Physical and chemical changes have numerous real-world applications:</p>
+        <ul>
+            <li><strong>Physical Changes:</strong> Used in processes like melting, freezing, and dissolving in everyday life and industrial applications.</li>
+            <li><strong>Chemical Changes:</strong> Fundamental to processes such as combustion, digestion, and the synthesis of new materials in chemistry and industry.</li>
+            <li><strong>Environmental Science:</strong> Understanding chemical changes is crucial for addressing issues like pollution and climate change, while physical changes are important in water cycle processes.</li>
+            <li><strong>Cooking:</strong> Both physical and chemical changes occur during cooking, such as the physical change of boiling water and the chemical change of caramelization.</li>
+            <li><strong>Pharmaceuticals:</strong> Chemical changes are essential in drug formulation and metabolism, while physical changes can affect drug solubility and delivery.</li>
+            <li><strong>Material Science:</strong> Both types of changes are important in the development and processing of materials, such as the physical change of shaping metals and the chemical change of polymerization.</li>
+            <li><strong>Energy Production:</strong> Chemical changes are at the core of energy production in batteries and fuel cells, while physical changes are involved in processes like phase transitions in thermal energy storage.</li>
+            <li><strong>Cosmetics:</strong> Both physical and chemical changes are utilized in the formulation of cosmetics, such as the physical change of emulsification and the chemical change of saponification in soap making.</li>
+            <li><strong>Cleaning Products:</strong> Chemical changes are essential in the action of cleaning agents, while physical changes can occur during the application of products like detergents and solvents.</li>
+        </ul>
+        <p>Understanding the differences between physical and chemical changes can help us better comprehend the processes that occur in our daily lives and in various scientific and industrial contexts. It allows us to predict the outcomes of reactions and to manipulate materials for desired results.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Safety Precautions</h3></div>
+      <div class="card-body">
+        <p>When performing the distillation experiment, it is important to follow safety precautions to prevent accidents. Always work in a well-ventilated area, wear appropriate personal protective equipment such as gloves and safety goggles, and handle hot equipment with care. Additionally, ensure that you are using a heat source that is suitable for the experiment and never leave it unattended.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📚</span><h3>Further Reading</h3></div>
+      <div class="card-body">
+        <p>To deepen your understanding of physical and chemical changes, consider exploring the following resources:</p>
+        <ul>
+          <li><a href="https://www.khanacademy.org/science/chemistry/physical-and-chemical-changes" target="_blank">Khan Academy: Physical and Chemical Changes</a></li>
+          <li><a href="https://www.chemistryexplained.com/elements/C-K/Changes-of-State.html" target="_blank">Chemistry Explained: Changes of State</a></li>
+          <li><a href="https://www.youtube.com/watch?v=Vj7sWzL9w2o" target="_blank">YouTube: Physical vs Chemical Changes</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧠</span><h3>Discussion Questions</h3></div>
+      <div class="card-body">
+        <p>1. How can you determine if a change is physical or chemical based on your observations?</p>
+        <p>2. Can a physical change ever lead to a chemical change? Provide an example.</p>
+        <p>3. Why is it important to understand the differences between physical and chemical changes in scientific research and industry?</p>
+        <p>4. How do energy changes differ between physical and chemical changes?</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Summary</h3></div>
+      <div class="card-body">
+        <ul><strong>Notes</strong></ul>
+        <p>In this experiment, we have explored the differences between physical and chemical changes through various tests and observations. By understanding these concepts, you can better appreciate the properties of matter and the processes that govern chemical reactions. Remember to always follow safety guidelines when conducting experiments and continue to explore the fascinating world of chemistry!</p>
+        <ul><strong>Common Misconceptions</strong></ul>
+        <p>One common misconception is that all changes in matter are chemical changes. However, many changes are physical, such as melting, freezing, and dissolving. Another misconception is that chemical changes always involve a change in color or the production of gas, but this is not always the case. It is important to carefully analyze the evidence to accurately classify changes as physical or chemical.</p>
+        <p>By distinguishing between physical and chemical changes, we can better understand the behavior of substances and the underlying principles of chemistry. This knowledge is essential for various scientific disciplines and has practical applications in everyday life, industry, and environmental science.</p>
+        <ul><strong>Experiment Tips</strong></ul>
+        <ul>
+          <li>Always conduct experiments in a safe and controlled environment, especially when working with chemicals or heat sources.</li>
+          <li>Take detailed notes of your observations during the experiment to help you analyze the results accurately.</li>
+          <li>Use appropriate tools and equipment for each step of the experiment to ensure accurate results and safety.</li>
+          <li>Don't hesitate to repeat experiments if needed to confirm your observations and conclusions.</li>
+        </ul>
+        <ul><strong>Experiment Variations</strong></ul>
+        <ul>
+          <li>Try different substances such as sugar or oil to see how they react under similar conditions.</li>
+          <li>Investigate the effects of temperature on the rate of chemical reactions or the solubility of substances.</li>
+        </ul>
+        <ul><strong>Key Takeaways</strong></ul>
+        <ul>
+          <li>Physical changes do not alter the chemical composition of a substance, while chemical changes result in the formation of new substances.</li>
+          <li>Observing characteristics such as gas production, color change, and state change can help distinguish between physical and chemical changes.</li>
+          <li>Understanding these concepts is fundamental in chemistry and has practical applications in various fields.</li>
+        </ul>
+      </div>
+      </div>
+    </div>
+
+    <div class="conclusion" style="text-align:center;">
+      <h3>Explore the World of Chemistry!</h3>
+      <p>Physical and chemical changes are fundamental concepts in chemistry that help us understand the behavior of matter. By conducting experiments and making observations, you can develop a deeper appreciation for the fascinating world of chemistry and its applications in everyday life. Keep exploring and stay curious!</p>
+    </div>
+
+    <div class="exp-nav">
+      <a href="/simple-experiments/simple-distillation" class="prev">← EXP 04: Distillation of Ethanol</a>
+      <a href="/simple-experiments/neutralization-reaction" class="next">→ EXP 06: Neutralization Reaction</a>
+    </div>
+
+  </main>
+  <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
+</body>
+</html>

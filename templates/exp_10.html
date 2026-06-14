@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oxygen Gas — Properties and Preparations | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#812103e0;--soft:#f0c8b8e3;--surface:#fff;--surface2:#f0f0f0}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    .exp-nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;animation:fadeIn .4s ease .3s both}
+    .exp-nav a{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:8px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--border);color:var(--muted);background:var(--surface);transition:all .2s}
+    .exp-nav a:hover{color:var(--accent);border-color:var(--accent)}
+    .exp-nav .prev{background:var(--surface2)}
+    .exp-nav .next{background:var(--accent);color:#080e14;border-color:var(--accent)}
+    .exp-nav .next:hover{background:var(--soft);color:#0c0f13;border-color:rgba(8, 8, 8, 0.4)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
+</head>
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/virtual" class="back-btn">← All Experiments</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Virtual Laboratory</div>
+    <div class="hero-tag">EXP 10</div>
+    <div class="hero-tag">SS2</div>
+    <h1><em>Oxygen Gas</em> — Properties and Preparations</h1>
+    <p>Learn about the properties of oxygen gas and how to prepare and test for it in the laboratory.</p>
+  </div>
+  <main>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📋</span><h3>Introduction</h3></div>
+      <div class="card-body">
+        <p>Oxygen (O₂) is a colourless, odourless, and tasteless diatomic gas that makes up approximately 21% of the Earth's atmosphere. It is essential for respiration in most living organisms and actively supports combustion. In the laboratory, oxygen gas can be conveniently prepared through the catalytic decomposition of hydrogen peroxide (H₂O₂) using manganese dioxide (MnO₂) as a catalyst. The reaction equation is: <strong>2H₂O₂ (aq) → 2H₂O (l) + O₂ (g)</strong>. In this experiment, we will prepare, collect, and confirm the identity of oxygen gas using the glowing splint test.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Experiment Overview</h3></div>
+      <div class="card-body">
+        <p>In this experiment, hydrogen peroxide solution will be added to manganese dioxide in a conical flask. The manganese dioxide acts as a catalyst, dramatically speeding up the decomposition of hydrogen peroxide into water and oxygen gas without itself being consumed. The oxygen produced will be collected by downward displacement of water in an inverted gas jar. Once collected, the gas will be tested using a glowing splint — in pure oxygen, a glowing splint relights brightly, confirming the presence of oxygen. The manganese dioxide can be recovered unchanged after the reaction, demonstrating its role as a catalyst.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>Procedure</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Put on your safety goggles and gloves before starting the experiment.</li>
+          <li>Set up the gas collection apparatus — connect the conical flask to a delivery tube leading into an inverted gas collection jar filled with water in a trough.</li>
+          <li>Add a small quantity of manganese dioxide (MnO₂) powder to the conical flask.</li>
+          <li>Carefully pour a measured volume of hydrogen peroxide solution into the flask and quickly seal it with the stopper and delivery tube.</li>
+          <li>Observe the immediate production of bubbles — oxygen gas is being released as the hydrogen peroxide decomposes.</li>
+          <li>Collect the oxygen gas in the inverted jar by displacement of water until the jar is full.</li>
+          <li>To test the gas, light a wooden splint, allow it to glow (without a flame), then insert the glowing splint into the jar — if it relights, the gas is oxygen.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔍</span><h3>Observations</h3></div>
+      <div class="card-body">
+        <p>Upon adding hydrogen peroxide to the manganese dioxide, vigorous bubbling begins immediately, indicating rapid decomposition. The gas produced displaces water in the inverted collection jar, filling it with an invisible gas. When the glowing splint is inserted into the jar, it relights brightly — confirming the collected gas is oxygen. After the reaction is complete, the manganese dioxide in the flask appears unchanged in both quantity and appearance, demonstrating that it acted purely as a catalyst and was not consumed by the reaction.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">💡</span><h3>Real-World Applications</h3></div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Medicine:</strong> Oxygen is supplied to patients with respiratory conditions and is used in anaesthesia and life support systems in hospitals.</li>
+          <li><strong>Steelmaking:</strong> In industry, oxygen is blasted into molten iron to remove impurities such as carbon, producing higher-quality steel.</li>
+          <li><strong>Metal cutting and welding:</strong> Oxygen combined with acetylene produces an extremely hot flame used to cut and weld metals.</li>
+          <li><strong>Rocket propulsion:</strong> Liquid oxygen is used as an oxidiser in rocket engines, enabling fuel combustion in the vacuum of space where no atmospheric oxygen exists.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚠️</span><h3>Safety Precautions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Oxygen strongly supports combustion — keep all flammable materials well away from the experiment area.</li>
+          <li>Hydrogen peroxide (especially at higher concentrations) is an oxidising agent and can irritate skin and eyes — always wear gloves and goggles.</li>
+          <li>Work in a well-ventilated area to prevent the build-up of oxygen concentration in the room.</li>
+          <li>Ensure all connections in the gas collection apparatus are airtight before adding the hydrogen peroxide.</li>
+          <li>Never leave the experiment unattended, and have a fire extinguisher accessible when working with oxygen gas.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔗</span><h3>Further Reading</h3></div>
+      <div class="card-body">
+        <p>Explore these resources to deepen your understanding of oxygen gas and its chemistry:</p>
+        <ul>
+          <li><a href="https://www.khanacademy.org/science/chemistry/chemical-reactions-stoichiome" target="_blank" style="color:var(--accent);text-decoration:none;">Khan Academy — Chemical Reactions and Decomposition</a></li>
+          <li><a href="https://www.chemguide.co.uk/inorganic/group16/oxygen.html" target="_blank" style="color:var(--accent);text-decoration:none;">Chemguide — Oxygen Chemistry</a></li>
+          <li><a href="https://www.youtube.com/watch?v=Qy8j9j8nXo" target="_blank" style="color:var(--accent);text-decoration:none;">YouTube — Oxygen Gas Preparation Demonstration</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">❓</span><h3>Discussion Questions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>What is the role of manganese dioxide in this experiment, and why is it described as a catalyst?</li>
+          <li>Why does a glowing splint relight in pure oxygen but not in ordinary air?</li>
+          <li>Write the balanced chemical equation for the decomposition of hydrogen peroxide and state what type of reaction it is.</li>
+          <li>Can you suggest any other laboratory methods for producing oxygen gas apart from the decomposition of hydrogen peroxide?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📝</span><h3>Summary</h3></div>
+      <div class="card-body">
+        <ul><strong>Notes</strong></ul>
+        <p>In this experiment, we successfully prepared oxygen gas by the catalytic decomposition of hydrogen peroxide using manganese dioxide. The gas was collected by downward displacement of water and confirmed using the glowing splint test. The manganese dioxide remained unchanged after the reaction, confirming its role as a catalyst.</p>
+        <ul><strong>Common Misconceptions</strong></ul>
+        <p>A common misconception is that manganese dioxide is consumed during the reaction. In reality, a catalyst speeds up a chemical reaction without being used up — the same amount of MnO₂ present at the start of the experiment will still be present at the end. Another misconception is that oxygen has a distinctive smell — it is actually colourless and completely odourless.</p>
+        <ul><strong>Key Takeaways</strong></ul>
+        <ul>
+          <li>Oxygen gas can be prepared in the laboratory by the catalytic decomposition of hydrogen peroxide using MnO₂.</li>
+          <li>The glowing splint test is the standard laboratory test for confirming the presence of oxygen.</li>
+          <li>Manganese dioxide is a catalyst — it speeds up the reaction without being consumed.</li>
+          <li>Oxygen supports combustion and is essential for respiration, with wide applications in medicine, industry, and technology.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="conclusion" style="text-align:center;">
+      <h3>Oxygen — The Gas That Supports Life and Combustion</h3>
+      <p>Oxygen is one of the most important gases on Earth, essential for respiration, combustion, and countless industrial processes. Being able to prepare and identify it in the laboratory is a foundational chemistry skill. The glowing splint test is a simple but reliable way to confirm its presence. As you continue your chemistry journey, you will find oxygen at the centre of many more reactions — from rusting to respiration to rocket fuel!</p>
+    </div>
+
+    <div class="exp-nav">
+      <a href="/simple-experiments/energy-changes" class="prev">← EXP 09: Energy Changes in Neutralization</a>
+      <a href="/simple-experiments/extraction-of-metals" class="next">→ EXP 11: Extraction Of Metals</a>
+    </div>
+
+  </main>
+  <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
+</body>
+</html>

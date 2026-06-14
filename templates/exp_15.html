@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saponification — Preparation and Properties | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#373638;--soft:#e2cbf1dc;--surface:#fff;--surface2:#f0f0f0}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    .exp-nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;animation:fadeIn .4s ease .3s both}
+    .exp-nav a{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:8px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--border);color:var(--muted);background:var(--surface);transition:all .2s}
+    .exp-nav a:hover{color:var(--accent);border-color:var(--accent)}
+    .exp-nav .prev{background:var(--surface2)}
+    .exp-nav .next{background:var(--accent);color:#080e14;border-color:var(--accent)}
+    .exp-nav .next:hover{background:var(--soft);color:#0c0f13;border-color:rgba(2, 2, 2, 0.4)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
+</head>
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/virtual" class="back-btn">← All Experiments</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Virtual Laboratory</div>
+    <div class="hero-tag">EXP 15</div>
+    <div class="hero-tag">SS3</div>
+    <h1><em>Saponification</em> — Preparation and Properties</h1>
+    <p>Learn about the saponification reaction and how it is used to prepare soap from fats and a strong base.</p>
+  </div>
+  <main>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📋</span><h3>Introduction</h3></div>
+      <div class="card-body">
+        <p>Saponification is a chemical reaction in which a fat or oil (an ester) is hydrolysed by a strong alkali — typically sodium hydroxide (NaOH) or potassium hydroxide (KOH) — to produce soap and glycerol. The word "saponification" comes from the Latin word for soap, sapo. Fats and oils are esters of glycerol and long-chain fatty acids. When treated with a strong base, the ester bonds are broken, releasing the fatty acid as a soap molecule (a sodium or potassium salt of a fatty acid) and glycerol as a byproduct. This reaction is one of the oldest known chemical processes and remains the basis of soap manufacture to this day.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Experiment Overview</h3></div>
+      <div class="card-body">
+        <p>In this experiment, vegetable oil (or lard) will be heated with concentrated sodium hydroxide solution to undergo saponification. The reaction breaks the ester bonds in the fat, producing sodium salts of fatty acids (soap) and glycerol. After the reaction, common salt (NaCl) will be added to the mixture — a process called salting out — which causes the soap to precipitate out of the solution as it is less soluble in salt water. The soap can then be collected, dried, and its properties tested. The overall reaction can be simplified as:</p>
+        <p><strong>Fat/Oil + NaOH → Soap (sodium fatty acid salt) + Glycerol</strong></p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>Procedure</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Put on your safety goggles and gloves before handling any chemicals — NaOH is highly corrosive.</li>
+          <li>Measure about 10 ml of vegetable oil into a 250 ml beaker.</li>
+          <li>Carefully add 20 ml of concentrated sodium hydroxide solution (NaOH) to the oil.</li>
+          <li>Place the beaker on a hot plate or over a water bath and heat the mixture gently while stirring continuously with a glass rod for 20–30 minutes until the mixture thickens to a paste-like consistency.</li>
+          <li>Dissolve about 5 g of common salt (NaCl) in 50 ml of warm water and slowly pour this salt solution into the soap mixture while stirring — this is the salting out step.</li>
+          <li>Allow the mixture to cool. The soap will solidify and float to the surface or precipitate out of solution.</li>
+          <li>Collect the soap, drain off the liquid, and test its properties — observe its texture, lather it with water, and note its behaviour in hard and soft water.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔍</span><h3>Observations</h3></div>
+      <div class="card-body">
+        <p>During heating, the oil and NaOH mixture will gradually thicken and change from a two-phase liquid to a thick, uniform paste — this indicates that saponification is occurring and soap is forming. After the salting out step and cooling, a solid white or cream-coloured soap product will separate from the liquid. The glycerol remains dissolved in the liquid layer below. When the collected soap is rubbed between wet hands, it produces a lather, confirming it has the cleansing properties of soap. In hard water, the soap may form a scum (insoluble calcium or magnesium soap) rather than a rich lather.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">💡</span><h3>Real-World Applications</h3></div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Soap manufacturing:</strong> The industrial saponification of animal fats and vegetable oils with NaOH (for hard bar soap) or KOH (for liquid soap) is the foundation of the global soap industry.</li>
+          <li><strong>Cosmetics and skincare:</strong> Glycerol — a byproduct of saponification — is widely used as a moisturising ingredient in lotions, creams, and pharmaceutical products.</li>
+          <li><strong>Biodiesel production:</strong> A similar transesterification reaction is used to produce biodiesel from vegetable oils, with methanol instead of NaOH as the reacting agent.</li>
+          <li><strong>Detergent chemistry:</strong> Understanding saponification provides the basis for developing synthetic detergents that work effectively in both hard and soft water conditions.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚠️</span><h3>Safety Precautions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Concentrated sodium hydroxide is highly corrosive — always wear goggles and gloves, and handle it with extreme care.</li>
+          <li>If NaOH contacts skin or eyes, rinse immediately with large amounts of cold water and seek medical attention.</li>
+          <li>Heat the mixture gently using a water bath where possible — avoid direct high heat to prevent spitting of the hot caustic mixture.</li>
+          <li>Work in a well-ventilated area to avoid inhaling any vapours produced during heating.</li>
+          <li>Allow the soap and equipment to cool completely before handling without protection.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔗</span><h3>Further Reading</h3></div>
+      <div class="card-body">
+        <p>Explore these resources to learn more about saponification and the chemistry of fats and soaps:</p>
+        <ul>
+          <li><a href="https://www.khanacademy.org/science/ap-chemistry-beta/x2eef969c74e0d802:organic-chemistry" target="_blank" style="color:var(--accent);text-decoration:none;">Khan Academy — Organic Chemistry</a></li>
+          <li><a href="https://www.chemguide.co.uk/organicprops/esters/hydrolysis.html" target="_blank" style="color:var(--accent);text-decoration:none;">Chemguide — Hydrolysis of Esters</a></li>
+          <li><a href="https://www.bbc.co.uk/bitesize/guides/z84sg82/revision/9" target="_blank" style="color:var(--accent);text-decoration:none;">BBC Bitesize — Esters and Saponification</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">❓</span><h3>Discussion Questions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Write a general equation for the saponification of a fat (triester) with sodium hydroxide. What are the two products formed?</li>
+          <li>Why does soap form a scum in hard water, and how do synthetic detergents overcome this problem?</li>
+          <li>What is the purpose of the salting out step in soap preparation, and why does adding NaCl cause the soap to precipitate?</li>
+          <li>How does the type of fat or oil used affect the properties of the soap produced — e.g. hardness, lather, and moisturising ability?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📝</span><h3>Summary</h3></div>
+      <div class="card-body">
+        <ul><strong>Notes</strong></ul>
+        <p>In this experiment, we prepared soap by heating vegetable oil with sodium hydroxide solution (saponification). The fat's ester bonds were hydrolysed to produce sodium fatty acid salts (soap) and glycerol. Salting out with NaCl caused the soap to precipitate, and the product was confirmed by its ability to produce a lather when rubbed with water.</p>
+        <ul><strong>Common Misconceptions</strong></ul>
+        <p>A common misconception is that soap and detergent are the same thing. Soap is made by saponification of natural fats with alkalis and can form scum in hard water. Synthetic detergents are made from petroleum-derived chemicals and are designed to work effectively in both hard and soft water without forming scum. Both clean by the same mechanism — their molecules have a hydrophilic (water-loving) head and a hydrophobic (water-repelling) tail — but they differ in origin and behaviour.</p>
+        <ul><strong>Key Takeaways</strong></ul>
+        <ul>
+          <li>Saponification is the alkaline hydrolysis of fats/oils to produce soap (sodium/potassium fatty acid salts) and glycerol.</li>
+          <li>NaOH produces hard bar soaps; KOH produces soft or liquid soaps.</li>
+          <li>Salting out with NaCl is used to separate the soap from the glycerol and unreacted NaOH.</li>
+          <li>Soap cleans by emulsifying grease — its hydrophobic tail dissolves in oil while its hydrophilic head remains in water, allowing dirt to be washed away.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="conclusion" style="text-align:center;">
+      <h3>From Fat to Foam — The Chemistry of Soap</h3>
+      <p>Saponification is one of the oldest and most practically significant chemical reactions in human history — humans have been making soap this way for thousands of years. Understanding the chemistry behind it connects organic chemistry, ester hydrolysis, and everyday life in a uniquely tangible way. The next time you wash your hands, remember you're experiencing a product of one of chemistry's most elegant reactions!</p>
+    </div>
+
+    <div class="exp-nav">
+      <a href="/simple-experiments/qualitative-analysis-II" class="prev">← EXP 14: Qualitative Analysis II: Anions</a>
+      
+    </div>
+
+  </main>
+  <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
+</body>
+</html>

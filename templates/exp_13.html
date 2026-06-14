@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qualitative Analysis I: Cations | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#ec1212;--soft:#fccbcb;--surface:#fff;--surface2:#f0f0f0}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    .exp-nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;animation:fadeIn .4s ease .3s both}
+    .exp-nav a{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:8px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--border);color:var(--muted);background:var(--surface);transition:all .2s}
+    .exp-nav a:hover{color:var(--accent);border-color:var(--accent)}
+    .exp-nav .prev{background:var(--surface2)}
+    .exp-nav .next{background:var(--accent);color:#080e14;border-color:var(--accent)}
+    .exp-nav .next:hover{background:var(--soft);color:#0c0f13;border-color:rgba(14, 14, 14, 0.4)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
+</head>
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/virtual" class="back-btn">← All Experiments</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Virtual Laboratory</div>
+    <div class="hero-tag">EXP 13</div>
+    <div class="hero-tag">SS3</div>
+    <h1><em>Qualitative Analysis I:</em> Cations</h1>
+    <p>Learn to identify common cations in solution through their characteristic reactions with reagents.</p>
+  </div>
+  <main>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📋</span><h3>Introduction</h3></div>
+      <div class="card-body">
+        <p>Qualitative analysis is a branch of analytical chemistry concerned with identifying which substances are present in a sample, without measuring their quantities. Cations are positively charged ions formed when atoms or groups of atoms lose electrons. In this experiment, we will use systematic chemical tests to identify common cations — including Fe²⁺, Fe³⁺, Cu²⁺, Zn²⁺, Ca²⁺, NH₄⁺, and Al³⁺ — by adding specific reagents such as sodium hydroxide (NaOH) and ammonia solution (NH₃) and observing the colour and solubility of the precipitates formed. These tests are a core part of WAEC, NECO, and JAMB practical chemistry.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Experiment Overview</h3></div>
+      <div class="card-body">
+        <p>In this experiment, solutions of various cations will be tested with sodium hydroxide solution (NaOH) and ammonia solution (NH₃aq) — first in small amounts, then in excess. Different cations produce precipitates of characteristic colours when these reagents are added. Some precipitates dissolve in excess reagent, which helps distinguish between cations that produce the same colour precipitate initially. For example, both Al³⁺ and Zn²⁺ give white precipitates with NaOH, but only Al³⁺ dissolves in excess NaOH. Careful observation of colour, precipitate formation, and solubility is the key to correct identification.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>Procedure</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Put on your safety goggles and gloves before handling any chemicals.</li>
+          <li>Label a set of clean test tubes with the names or symbols of each cation solution to be tested.</li>
+          <li>Add about 2 ml of each cation solution to its corresponding test tube.</li>
+          <li>To each test tube, add sodium hydroxide solution (NaOH) drop by drop. Observe and record the colour of any precipitate formed.</li>
+          <li>Continue adding NaOH in excess to each test tube. Observe and record whether the precipitate dissolves in excess NaOH.</li>
+          <li>Repeat the tests using a fresh set of labelled test tubes, this time adding ammonia solution (NH₃aq) drop by drop, then in excess. Observe and record all results.</li>
+          <li>For the NH₄⁺ cation, add NaOH and warm the test tube gently — a pungent smell of ammonia gas confirms the presence of ammonium ions.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔍</span><h3>Observations</h3></div>
+      <div class="card-body">
+        <p>The table below summarises the expected observations for common cations:</p>
+        <ul>
+          <li><strong>Fe²⁺ (iron II):</strong> Green precipitate with NaOH and NH₃; insoluble in excess. Turns brown on standing (oxidation).</li>
+          <li><strong>Fe³⁺ (iron III):</strong> Brown/rust precipitate with NaOH and NH₃; insoluble in excess.</li>
+          <li><strong>Cu²⁺ (copper II):</strong> Blue precipitate with NaOH; pale blue with NH₃, dissolves in excess NH₃ to give deep blue solution.</li>
+          <li><strong>Zn²⁺ (zinc):</strong> White precipitate with NaOH and NH₃; dissolves in excess of both.</li>
+          <li><strong>Al³⁺ (aluminium):</strong> White precipitate with NaOH; dissolves in excess NaOH but not in excess NH₃.</li>
+          <li><strong>Ca²⁺ (calcium):</strong> White precipitate with NaOH; insoluble in excess. No precipitate with NH₃.</li>
+          <li><strong>NH₄⁺ (ammonium):</strong> No precipitate with NaOH, but produces pungent ammonia gas on warming.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">💡</span><h3>Real-World Applications</h3></div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Environmental monitoring:</strong> Qualitative cation tests are used to detect toxic heavy metal ions such as lead, mercury, and copper in water supplies and industrial effluents.</li>
+          <li><strong>Medical diagnostics:</strong> Blood and urine tests rely on ion identification to detect metabolic disorders, kidney disease, and mineral deficiencies.</li>
+          <li><strong>Forensic science:</strong> Chemical spot tests are used to identify metallic residues on surfaces at crime scenes or in questioned substances.</li>
+          <li><strong>Food safety:</strong> Analysis of cations in food and water ensures that harmful metals do not exceed safe limits in what we consume.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚠️</span><h3>Safety Precautions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Always wear safety goggles and gloves — sodium hydroxide and ammonia are corrosive and can cause burns to skin and eyes.</li>
+          <li>Ammonia solution produces pungent fumes — work in a well-ventilated area or under a fume hood to avoid inhaling them.</li>
+          <li>Handle all cation solutions with care, as some (e.g. copper sulfate, iron salts) are toxic.</li>
+          <li>Never pipette solutions by mouth — always use a dropper or bulb pipette.</li>
+          <li>Dispose of all chemical waste properly according to your school or laboratory guidelines.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔗</span><h3>Further Reading</h3></div>
+      <div class="card-body">
+        <p>Explore these resources to strengthen your understanding of qualitative cation analysis:</p>
+        <ul>
+          <li><a href="https://www.chemguide.co.uk/inorganic/qualitative/qualitative.html" target="_blank" style="color:var(--accent);text-decoration:none;">Chemguide — Qualitative Analysis</a></li>
+          <li><a href="https://www.bbc.co.uk/bitesize/guides/z84sg82/revision/6" target="_blank" style="color:var(--accent);text-decoration:none;">BBC Bitesize — Identifying Ions</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Qualitative_chemical_analysis" target="_blank" style="color:var(--accent);text-decoration:none;">Wikipedia — Qualitative Chemical Analysis</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">❓</span><h3>Discussion Questions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Both Al³⁺ and Zn²⁺ produce white precipitates with NaOH. How would you distinguish between them using excess NaOH and excess NH₃?</li>
+          <li>Why does the green precipitate formed when NaOH is added to Fe²⁺ solution turn brown on standing in air?</li>
+          <li>What test would you perform to confirm the presence of NH₄⁺ ions in a solution, and what would you observe?</li>
+          <li>How does the colour of a precipitate help identify the cation present? Give two specific examples from this experiment.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📝</span><h3>Summary</h3></div>
+      <div class="card-body">
+        <ul><strong>Notes</strong></ul>
+        <p>In this experiment, we identified common cations by adding NaOH and ammonia solution and observing the colour of precipitates formed and their behaviour in excess reagent. Each cation produces a characteristic result that allows it to be identified systematically. These tests are essential practical skills for WAEC and JAMB chemistry examinations.</p>
+        <ul><strong>Common Misconceptions</strong></ul>
+        <p>A common misconception is that a white precipitate always indicates the same cation. In fact, Al³⁺, Zn²⁺, and Ca²⁺ all form white precipitates — they are distinguished by testing with excess NaOH and excess NH₃ to observe which precipitates dissolve and which do not. Always test with both reagents and in excess before drawing conclusions.</p>
+        <ul><strong>Key Takeaways</strong></ul>
+        <ul>
+          <li>Different cations produce characteristic coloured precipitates with NaOH and ammonia solution.</li>
+          <li>Testing with excess reagent is essential to distinguish between cations that give similar initial results.</li>
+          <li>The NH₄⁺ cation is uniquely identified by the production of ammonia gas (pungent smell) when warmed with NaOH.</li>
+          <li>Qualitative cation analysis is a foundational skill used in environmental, medical, and forensic chemistry.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="conclusion" style="text-align:center;">
+      <h3>Identifying the Invisible — Qualitative Analysis in Action</h3>
+      <p>Qualitative analysis gives chemists the ability to identify what is present in an unknown solution using just a few drops of reagent and careful observation. Mastering cation identification is not only essential for your WAEC and JAMB practicals — it is a skill used in laboratories around the world every day to keep our water clean, our food safe, and our environment monitored. Keep observing, keep recording, and keep questioning!</p>
+    </div>
+
+    <div class="exp-nav">
+      <a href="/simple-experiments/electrolysis" class="prev">← EXP 12: Electrolysis of Copper Sulfate</a>
+      <a href="/simple-experiments/qualitative-analysis-II" class="next">→ EXP 14: Qualitative Analysis II: Anions</a>
+    </div>
+
+  </main>
+  <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
+</body>
+</html>

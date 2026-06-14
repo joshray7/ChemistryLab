@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Energy Changes in Neutralization Reactions | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#a1970cd0;--soft:#d4d89dc5;--surface:#fff;--surface2:#f0f0f0}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    .exp-nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;animation:fadeIn .4s ease .3s both}
+    .exp-nav a{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:8px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--border);color:var(--muted);background:var(--surface);transition:all .2s}
+    .exp-nav a:hover{color:var(--accent);border-color:var(--accent)}
+    .exp-nav .prev{background:var(--surface2)}
+    .exp-nav .next{background:var(--accent);color:#080e14;border-color:var(--accent)}
+    .exp-nav .next:hover{background:var(--soft);color:#0c0f13;border-color:rgba(12, 12, 12, 0.4)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
+</head>
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/virtual" class="back-btn">← All Experiments</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Virtual Laboratory</div>
+    <div class="hero-tag">EXP 09</div>
+    <div class="hero-tag">SS2</div>
+    <h1><em>Energy Changes</em> in Neutralization Reactions</h1>
+    <p>Learn about the heat energy released during neutralization reactions and how to measure it using a thermometer.</p>
+  </div>
+  <main>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📋</span><h3>Introduction</h3></div>
+      <div class="card-body">
+        <p>Neutralization reactions between acids and bases are always accompanied by energy changes. When a strong acid reacts with a strong base, the reaction is exothermic — it releases heat energy to the surroundings, causing a measurable rise in temperature. This energy release is known as the enthalpy of neutralization. In this experiment, we will mix hydrochloric acid (HCl) with sodium hydroxide (NaOH) inside an insulated container and use a thermometer to measure the temperature change, allowing us to observe and record the heat energy released during the reaction.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Experiment Overview</h3></div>
+      <div class="card-body">
+        <p>In this experiment, equal volumes of hydrochloric acid and sodium hydroxide solution will be mixed in a polystyrene cup, which acts as a simple calorimeter to reduce heat loss. The temperature of both solutions will be measured before mixing. After mixing, the temperature will be monitored to find the maximum temperature reached during the reaction. The temperature rise (ΔT) indicates how much heat was released. The reaction produces sodium chloride and water: <strong>HCl (aq) + NaOH (aq) → NaCl (aq) + H₂O (l)</strong></p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>Procedure</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Put on your safety goggles and gloves before handling the chemicals.</li>
+          <li>Using a measuring cylinder, measure equal volumes (e.g. 25 ml) of hydrochloric acid and sodium hydroxide solutions.</li>
+          <li>Pour the acid into the polystyrene cup and record its initial temperature using the thermometer.</li>
+          <li>Record the initial temperature of the sodium hydroxide solution separately.</li>
+          <li>Quickly pour the sodium hydroxide into the acid and stir the mixture gently and continuously.</li>
+          <li>Monitor and record the temperature every 30 seconds for 3–5 minutes.</li>
+          <li>Note the maximum temperature reached — this represents the heat released at the point of complete neutralization. Dispose of the solution safely.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔍</span><h3>Observations</h3></div>
+      <div class="card-body">
+        <p>As the sodium hydroxide is added to the hydrochloric acid, you will observe a noticeable and immediate rise in the temperature of the mixture, confirming that the reaction is exothermic. The temperature will reach a peak at the point of complete neutralization, then gradually decrease as heat dissipates to the surroundings. The temperature rise (ΔT) can be used to calculate the heat energy released using the formula: <strong>Q = mcΔT</strong>, where m is the mass of the solution, c is the specific heat capacity of water (4.18 J/g°C), and ΔT is the temperature change recorded.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">💡</span><h3>Real-World Applications</h3></div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Medicine:</strong> The exothermic nature of neutralization is considered when formulating antacids, to ensure the heat released does not irritate stomach lining.</li>
+          <li><strong>Industrial chemical production:</strong> Large-scale neutralization reactions in reactors must be carefully monitored and cooled to prevent dangerous overheating.</li>
+          <li><strong>Environmental science:</strong> Neutralizing acidic lake water with lime generates heat that must be considered to avoid disturbing the local aquatic ecosystem.</li>
+          <li><strong>Calorimetry:</strong> The principle of measuring temperature changes during reactions underpins calorimetry, a key technique used in thermochemistry and food science to measure energy content.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚠️</span><h3>Safety Precautions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Always wear safety goggles and gloves — both hydrochloric acid and sodium hydroxide are corrosive and can cause burns.</li>
+          <li>Pour chemicals carefully to avoid splashing, and work in a well-ventilated area.</li>
+          <li>If acid or base contacts your skin or eyes, rinse immediately with large amounts of water and seek medical attention.</li>
+          <li>Use a plastic-cased or digital thermometer where possible to avoid the risk of breaking a glass thermometer in the solution.</li>
+          <li>Dispose of the neutralized salt solution safely by diluting with water before pouring down the drain.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔗</span><h3>Further Reading</h3></div>
+      <div class="card-body">
+        <p>Explore these resources to learn more about energy changes in chemical reactions and thermochemistry:</p>
+        <ul>
+          <li><a href="https://www.khanacademy.org/science/ap-chemistry-beta/x2eef969c74e0d802:thermodynamics" target="_blank" style="color:var(--accent);text-decoration:none;">Khan Academy — Thermodynamics and Energy</a></li>
+          <li><a href="https://www.chemguide.co.uk/physical/energetics/neutralisation.html" target="_blank" style="color:var(--accent);text-decoration:none;">Chemguide — Enthalpy of Neutralisation</a></li>
+          <li><a href="https://www.bbc.co.uk/bitesize/guides/z84sg82/revision/4" target="_blank" style="color:var(--accent);text-decoration:none;">BBC Bitesize — Exothermic and Endothermic Reactions</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">❓</span><h3>Discussion Questions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Why does the temperature of the mixture rise when an acid and a base are combined?</li>
+          <li>What is the difference between an exothermic and an endothermic reaction? Which category does neutralization fall under?</li>
+          <li>Why is a polystyrene cup used instead of a glass beaker in this experiment?</li>
+          <li>How would the temperature change differ if a weak acid were used instead of a strong acid? Explain your reasoning.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📝</span><h3>Summary</h3></div>
+      <div class="card-body">
+        <ul><strong>Notes</strong></ul>
+        <p>In this experiment, we observed and measured the heat energy released during the neutralization of hydrochloric acid with sodium hydroxide. By recording the temperature before and after mixing, we confirmed that the reaction is exothermic — releasing heat and causing a measurable rise in temperature. The energy released can be calculated using Q = mcΔT.</p>
+        <ul><strong>Common Misconceptions</strong></ul>
+        <p>A common misconception is that all neutralization reactions release the same amount of heat. In practice, weak acid or weak base reactions release less heat than strong acid-strong base reactions, because extra energy is needed to ionize the weak acid or base before neutralization can occur.</p>
+        <ul><strong>Key Takeaways</strong></ul>
+        <ul>
+          <li>Neutralization of a strong acid and strong base is exothermic — it releases heat to the surroundings.</li>
+          <li>The temperature rise observed (ΔT) can be used to calculate the heat energy released using Q = mcΔT.</li>
+          <li>Using an insulated container (polystyrene cup) reduces heat loss and improves the accuracy of results.</li>
+          <li>Energy changes in neutralization reactions are foundational to the study of thermochemistry and calorimetry.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="conclusion" style="text-align:center;">
+      <h3>Energy is Always Part of the Reaction</h3>
+      <p>Every neutralization reaction involves an energy change, and measuring that change through temperature gives us a window into the thermodynamics of chemical reactions. The heat released during neutralization — known as the enthalpy of neutralization — is a consistent value for strong acid-strong base reactions. This principle underpins calorimetry and is foundational to understanding energy in chemistry. Keep exploring how energy flows through chemical systems!</p>
+    </div>
+
+    <div class="exp-nav">
+      <a href="/simple-experiments/evaporation" class="prev">← EXP 08: Evaporation</a>
+      <a href="/simple-experiments/oxygen-gas" class="next">→ EXP 10: Oxygen Gas</a>
+    </div>
+
+  </main>
+  <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
+</body>
+</html>

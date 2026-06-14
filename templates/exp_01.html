@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Separating of a Mixture of Substances | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#2d6a4f;--soft:#eaf4ee}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    .exp-nav { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; animation: fadeIn .4s ease .3s both; }
+    .exp-nav a { display: inline-flex; align-items: center; gap: 7px; padding: 10px 18px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid var(--border); color: var(--muted); background: var(--surface); transition: all .2s; }
+    .exp-nav a:hover { color: var(--accent); border-color: rgba(0,212,170,.4); }
+    .exp-nav .next { background: var(--accent); color: #080e14; border-color: var(--accent); }
+    .exp-nav .next:hover { background: rgba(0,212,170,.4); color: #0c0f13; border-color: rgba(0,212,170,.4); }
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
+</head>
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/virtual" class="back-btn">← All Experiments</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Virtual Laboratory</div>
+    <div class="hero-tag">EXP 01</div>
+   <div class="hero-tag">SS1</div>
+    <h1>Separation of a <em>Mixture of Substances</em></h1>
+    <p>Learn about the methods used to separate mixtures of substances in a laboratory setting i.e the separation techniques.</p>
+  </div>
+  <main>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📚</span><h3>Introduction</h3></div>
+      <div class="card-body"><p>In this topic, we will explore the various techniques used to separate a mixture of substances. We will focus on a common laboratory experiment that involves separating a mixture of sand, salt, and ammonium chloride. This experiment demonstrates the principles of sublimation, filtration, and evaporation, which are fundamental methods for separating mixtures based on their physical properties.</p></div>
+    </div>
+    
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧪</span><h3>Experiment Overview</h3></div>
+      <div class="card-body">
+        <p>To separate the mixture of sand, salt, and ammonium chloride, we will follow these steps:</p>
+        <ul>
+          <li><strong>Sublimation:</strong> We will heat the mixture to sublimate the ammonium chloride, which will turn into gas and leave behind the sand and salt.</li>
+          <li><strong>Filtration:</strong> After sublimation, we will filter the remaining mixture to separate the sand from the salt. The sand will be collected on the filter paper, while the salt will pass through as a solution.</li>
+          <li><strong>Evaporation:</strong> Finally, we will evaporate the water from the salt solution to obtain solid salt crystals.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>Materials Needed</h3></div>
+      <div class="card-body">
+        <p>For this experiment, you will need the following materials:</p>
+        <ul>
+          <li>Mixture of sand, salt, and ammonium chloride (10 g)</li>
+          <li>Heat source (Bunsen burner or hot plate)</li>
+          <li>Filter paper and funnel</li>
+          <li>Beaker or container for collecting filtrate</li>
+          <li>Evaporation dish</li>
+          <li>Stirring rod</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Procedure</h3></div>
+      <div class="card-body">
+        <p>Follow these steps to perform the experiment:</p>
+        <ul>
+          <li>Place the mixture in a heat-resistant container and heat it gently to sublimate the ammonium chloride. Collect the sublimated ammonium chloride on a cool surface.</li>
+          <li>After sublimation, set up a filtration apparatus with filter paper and funnel. Pour the remaining mixture through the filter to separate the sand from the salt solution.</li>
+          <li>Collect the filtrate (salt solution) in a beaker and transfer it to an evaporation dish. Heat the solution to evaporate the water, leaving behind solid salt crystals.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Observations</h3></div>
+      <div class="card-body">
+        <p>During the experiment, you may observe the following:</p>
+        <ul>
+          <li>The ammonium chloride will sublimate and leave a residue on the cooler parts of the apparatus.</li>
+          <li>The sand will be collected on the filter paper after filtration, while the salt will be in the filtrate.</li>
+          <li>After evaporation, you will see salt crystals forming as the water evaporates.</li>
+        </ul>
+       </div>
+     </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Real-World Applications</h3></div>
+      <div class="card-body">
+        <p>These separation techniques have numerous real-world applications:</p>
+        <ul>
+          <li><strong>Sublimation:</strong> Used in the purification of iodine and the removal of moisture from food products.</li>
+          <li><strong>Filtration:</strong> Employed in water treatment plants to remove impurities and in laboratories to separate solids from liquids.</li>
+          <li><strong>Evaporation:</strong> Utilized in the production of salt from seawater and in the concentration of solutions in industrial processes.</li>
+        </ul>
+        <p>Understanding these techniques is crucial for various scientific disciplines and practical applications, from laboratory research to industrial processes. They allow us to isolate and analyze components of mixtures based on their physical properties, which is essential for advancements in chemistry, environmental science, and many other fields.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚠️</span><h3>Safety Precautions</h3></div>
+      <div class="card-body">
+        <p>When conducting this experiment, it is important to follow these safety precautions:</p>
+        <ul>
+          <li>Always wear safety goggles and gloves to protect your eyes and skin from potential chemical splashes.</li>
+          <li>Conduct the experiment in a well-ventilated area to avoid inhaling any fumes produced during sublimation.</li>
+          <li>Handle heat sources with care to prevent burns. Use tongs or heat-resistant gloves when handling hot equipment.</li>
+          <li>Dispose of any waste materials properly according to your local regulations.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+       <div class="card-top"><span class="card-icon">📚</span><h3>Further Reading</h3></div>
+       <div class="card-body">
+         <p>For more information on separation techniques and their applications, you can explore the following resources:</p>
+         <ul>
+           <li><a href="https://en.wikipedia.org/wiki/Separation_process" target="_blank">Separation Process - Wikipedia</a></li>
+           <li><a href="https://www.khanacademy.org/science/chemistry/physical-and-chemical-changes/separating-mixtures/a/separating-mixtures" target="_blank">Separating Mixtures - Khan Academy</a></li>
+           <li><a href="https://www.youtube.com/watch?v=5Xjv8s9zq2g" target="_blank">Separation Techniques Explained - YouTube</a></li>
+         </ul>
+        </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">❓</span><h3>Discussion Questions</h3></div>
+      <div class="card-body">
+        <p>To further your understanding of separation techniques, consider the following discussion questions:</p>
+        <ul>
+          <li>How do the physical properties of substances affect the choice of separation technique?</li>
+          <li>What are some limitations of each separation method, and how can they be overcome?</li>
+          <li>Can you think of any other separation techniques that were not covered in this experiment? How do they work?</li>
+          <li>How can these separation techniques be applied in real-world scenarios, such as environmental cleanup or pharmaceutical production?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Summary</h3></div>
+      <div class="card-body">
+        <ul><strong>Notes</strong></ul>
+        <p>In this experiment, we successfully separated a mixture of sand, salt, and ammonium chloride using sublimation, filtration, and evaporation. Each technique was chosen based on the physical properties of the substances involved. Sublimation allowed us to separate the ammonium chloride, filtration enabled us to isolate the sand from the salt solution, and evaporation helped us obtain solid salt crystals from the solution.</p>
+        <ul><strong>Common Misconceptions</strong></ul>
+        <p>A common misconception is that all separation techniques can be used for any mixture. However, the choice of technique depends on the specific properties of the substances in the mixture. For example, sublimation is only effective for substances that can transition directly from solid to gas, while filtration is suitable for separating solids from liquids.</p>
+        <ul><strong>Experiment Tips</strong></ul>
+        <p>Here are some tips to help you succeed in this experiment:</p>
+        <ul>
+          <li>Ensure that all equipment is clean and dry before use.</li>
+          <li>Follow the procedure carefully and record your observations.</li>
+          <li>Dispose of all chemicals and waste materials according to safety guidelines.</li>
+        </ul>
+        <ul><strong>Experiment Variations</strong></ul>
+        <p>You can try variations of this experiment by using different mixtures or separation techniques. For example, you could separate a mixture of oil and water using a separating funnel, or you could use chromatography to separate pigments in ink. Experimenting with different methods will help you gain a deeper understanding of the principles behind separation techniques.</p>
+        <ul><strong>Key Takeaways</strong></ul>
+        <ul>
+          <li>Separation techniques are essential for isolating and analyzing components of mixtures based on their physical properties.</li>
+          <li>Each separation method has its own advantages and limitations, and the choice of technique should be guided by the characteristics of the substances involved.</li>
+          <li>Understanding these techniques is crucial for various scientific disciplines and practical applications, from laboratory research to industrial processes.</li>
+          <li>Always follow safety guidelines when conducting experiments to ensure a safe and successful outcome.</li>
+        </ul>
+      </div>
+      </div>
+    </div>    
+
+    <div class="conclusion" style="text-align:center;">
+      <h3>Mastering Separation Techniques</h3>
+      <p>By understanding and applying separation techniques, you can effectively isolate and analyze the components of mixtures. This knowledge is essential for various scientific disciplines and practical applications, from laboratory research to industrial processes. Keep exploring and experimenting with different methods to enhance your skills in separating mixtures!</p>  
+    </div>
+
+    <div class="exp-nav">
+      <a href="/simple-experiments/charles-law" class="next">→ EXP 02: Charles' Law</a>
+    </div>
+  </main>
+  <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
+</body>
+</html>

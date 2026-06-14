@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evaporation — Obtaining Salt from Solution | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#572d6a;--soft:#f2d4fa;--surface:#fff;--surface2:#f0f0f0}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    .exp-nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;animation:fadeIn .4s ease .3s both}
+    .exp-nav a{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:8px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--border);color:var(--muted);background:var(--surface);transition:all .2s}
+    .exp-nav a:hover{color:var(--accent);border-color:var(--accent)}
+    .exp-nav .prev{background:var(--surface2)}
+    .exp-nav .next{background:var(--accent);color:#080e14;border-color:var(--accent)}
+    .exp-nav .next:hover{background:var(--soft);color:#0c0f13;border-color:rgba(12, 12, 12, 0.4)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
+</head>
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/virtual" class="back-btn">← All Experiments</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Virtual Laboratory</div>
+    <div class="hero-tag">EXP 08</div>
+    <div class="hero-tag">SS2</div>
+    <h1><em>Evaporation:</em> Obtaining Salt from Solution</h1>
+    <p>Learn about the process of evaporation and how it can be used to recover dissolved solids from solutions.</p>
+  </div>
+  <main>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📋</span><h3>Introduction</h3></div>
+      <div class="card-body">
+        <p>Evaporation is the process by which a liquid changes into a gas or vapour at a temperature below its boiling point. It occurs when molecules at the surface of a liquid gain sufficient kinetic energy to escape into the atmosphere. In chemistry, evaporation is an important separation technique used to recover dissolved solids — such as salts — from aqueous solutions. In this experiment, we will apply heat to a salt solution and observe as the water evaporates, leaving behind solid sodium chloride crystals.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Experiment Overview</h3></div>
+      <div class="card-body">
+        <p>In this experiment, a salt solution (sodium chloride dissolved in water) will be placed in an evaporation dish and heated over a flame or hot plate. As energy is applied, the water molecules gain kinetic energy and escape the liquid surface as water vapour. Since sodium chloride does not evaporate at these temperatures, it remains behind in the dish. By the end of the experiment, solid white salt crystals will have formed, demonstrating how evaporation can be used to separate a dissolved solid from its solvent.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>Procedure</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Put on your safety goggles and gloves before starting the experiment.</li>
+          <li>Pour a measured amount of salt solution into the evaporation dish.</li>
+          <li>Place the evaporation dish on the wire gauze supported by the tripod stand, over the heat source.</li>
+          <li>Apply gentle heat and stir the solution occasionally with a stirring rod to ensure even heating.</li>
+          <li>Observe the solution carefully as the water begins to evaporate — the liquid level will gradually decrease.</li>
+          <li>Continue heating until most of the water has evaporated and white solid salt crystals appear in the dish.</li>
+          <li>Remove the heat before the dish becomes completely dry to avoid spitting. Allow it to cool before handling. Record all observations.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔍</span><h3>Observations</h3></div>
+      <div class="card-body">
+        <p>As the salt solution is heated, steam (water vapour) rises from the surface and the liquid level in the dish gradually decreases. The solution becomes increasingly concentrated as the water evaporates. Eventually, white solid crystals of sodium chloride begin to form and accumulate in the dish. By the end of the experiment, most of the water has been driven off, leaving behind dry, solid salt. The salt itself is chemically unchanged — only the water has been removed through evaporation.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">💡</span><h3>Real-World Applications</h3></div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Salt production:</strong> Coastal salt pans use solar evaporation of seawater to produce large quantities of table salt — one of the oldest industrial uses of evaporation.</li>
+          <li><strong>Food processing:</strong> Evaporation is used to concentrate fruit juices, soups, dairy products, and sauces by removing water content.</li>
+          <li><strong>Water cycle:</strong> Evaporation of water from oceans, lakes, and rivers drives the Earth's water cycle, leading to cloud formation and precipitation.</li>
+          <li><strong>Pharmaceutical industry:</strong> Evaporation is used to concentrate and purify chemical solutions during drug manufacturing.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚠️</span><h3>Safety Precautions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Always wear safety goggles and gloves to protect against hot splashes and steam burns.</li>
+          <li>Never touch the evaporation dish directly while hot — use heat-resistant tongs or gloves.</li>
+          <li>Do not heat the dish until completely dry, as this may cause the salt to spit and could crack the dish.</li>
+          <li>Conduct the experiment in a well-ventilated area to allow steam to disperse safely.</li>
+          <li>Allow all equipment to cool completely before cleaning, storing, or handling without protection.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔗</span><h3>Further Reading</h3></div>
+      <div class="card-body">
+        <p>Explore these resources to learn more about evaporation and separation techniques in chemistry:</p>
+        <ul>
+          <li><a href="https://www.khanacademy.org/science/chemistry/states-of-matter-and-intermolecular-forces" target="_blank" style="color:var(--accent);text-decoration:none;">Khan Academy — States of Matter</a></li>
+          <li><a href="https://www.bbc.co.uk/bitesize/guides/zqpfcj6/revision/3" target="_blank" style="color:var(--accent);text-decoration:none;">BBC Bitesize — Separation Techniques</a></li>
+          <li><a href="https://www.youtube.com/watch?v=3v1s9X8n2jA" target="_blank" style="color:var(--accent);text-decoration:none;">YouTube — Evaporation Demonstration</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">❓</span><h3>Discussion Questions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>How does increasing the temperature speed up the rate of evaporation? What is happening at the molecular level?</li>
+          <li>Why does increasing the surface area of the evaporation dish allow the water to evaporate faster?</li>
+          <li>Is evaporation a physical or chemical change? How do you know?</li>
+          <li>Why is it important to stop heating before the dish becomes completely dry during this experiment?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📝</span><h3>Summary</h3></div>
+      <div class="card-body">
+        <ul><strong>Notes</strong></ul>
+        <p>In this experiment, we successfully used evaporation to recover solid sodium chloride from a salt solution. By applying heat, we caused the water to evaporate, leaving behind white salt crystals. The process demonstrated that evaporation is an effective technique for separating a dissolved solid from its liquid solvent.</p>
+        <ul><strong>Common Misconceptions</strong></ul>
+        <p>A common misconception is that evaporation and boiling are the same process. Evaporation occurs at the surface of a liquid at temperatures below its boiling point, while boiling occurs throughout the liquid at its boiling point. Another misconception is that the salt is destroyed during heating — in reality, the salt is chemically unchanged and simply revealed as the water is removed.</p>
+        <ul><strong>Key Takeaways</strong></ul>
+        <ul>
+          <li>Evaporation is a physical change — no new substances are formed, only the water is removed.</li>
+          <li>The rate of evaporation is affected by temperature, surface area, and humidity.</li>
+          <li>Evaporation is an important separation technique used in both the laboratory and industry.</li>
+          <li>Stop heating before complete dryness to prevent spitting and potential loss of the solid product.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="conclusion" style="text-align:center;">
+      <h3>Evaporation — A Simple but Powerful Technique</h3>
+      <p>Evaporation is one of the most practical separation techniques in chemistry, allowing us to recover dissolved solids from solutions simply by applying heat. From producing table salt from seawater to concentrating fruit juice in food processing, this technique is everywhere. Understanding the science behind it — kinetic energy, intermolecular forces, and phase changes — gives you a powerful lens for viewing the physical world. Keep experimenting!</p>
+    </div>
+
+    <div class="exp-nav">
+      <a href="/simple-experiments/displacement-reaction" class="prev">← EXP 07: Displacement Reactions</a>
+      <a href="/simple-experiments/energy-changes" class="next">→ EXP 09: Energy Changes in Neutralization</a>
+    </div>
+
+  </main>
+  <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
+</body>
+</html>

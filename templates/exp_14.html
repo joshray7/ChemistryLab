@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qualitative Analysis II: Anions | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#0398acb2;--soft:#c9f1f1e5;--surface:#fff;--surface2:#f0f0f0}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    .exp-nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;animation:fadeIn .4s ease .3s both}
+    .exp-nav a{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:8px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-decoration:none;border:1px solid var(--border);color:var(--muted);background:var(--surface);transition:all .2s}
+    .exp-nav a:hover{color:var(--accent);border-color:var(--accent)}
+    .exp-nav .prev{background:var(--surface2)}
+    .exp-nav .next{background:var(--accent);color:#080e14;border-color:var(--accent)}
+    .exp-nav .next:hover{background:var(--soft);color:#0c0f13;border-color:rgba(3, 3, 3, 0.4)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
+</head>
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/virtual" class="back-btn">← All Experiments</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Virtual Laboratory</div>
+    <div class="hero-tag">EXP 14</div>
+    <div class="hero-tag">SS3</div>
+    <h1><em>Qualitative Analysis II:</em> Anions</h1>
+    <p>Learn to identify common anions in solution through their characteristic reactions with specific reagents.</p>
+  </div>
+  <main>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📋</span><h3>Introduction</h3></div>
+      <div class="card-body">
+        <p>Anions are negatively charged ions formed when atoms or groups of atoms gain electrons. In qualitative analysis, identifying anions is just as important as identifying cations, and together they allow chemists to determine the full composition of an unknown salt or solution. Common anions tested for in secondary school chemistry include chloride (Cl⁻), bromide (Br⁻), iodide (I⁻), sulphate (SO₄²⁻), carbonate (CO₃²⁻), nitrate (NO₃⁻), and phosphate (PO₄³⁻). Each anion is identified using specific reagents that produce characteristic precipitates, gas evolution, or colour changes — skills that are directly examined in WAEC, NECO, and JAMB practical chemistry papers.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Experiment Overview</h3></div>
+      <div class="card-body">
+        <p>In this experiment, solutions of various anions will be tested using dilute hydrochloric acid (HCl), barium chloride solution (BaCl₂), silver nitrate solution (AgNO₃), and dilute nitric acid (HNO₃). Adding dilute HCl to a carbonate produces effervescence (CO₂ gas) which turns limewater milky. Silver nitrate solution is used to test for halide ions — chloride gives a white precipitate, bromide gives a pale yellow precipitate, and iodide gives a yellow precipitate. Barium chloride solution in the presence of dilute HCl gives a white precipitate with sulphate ions. Each test is distinctive and systematic observation is essential.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>Procedure</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Put on your safety goggles and gloves before handling any chemicals.</li>
+          <li>Label a set of clean test tubes with the name of each anion solution to be tested.</li>
+          <li>Add about 2 ml of each anion solution to its corresponding test tube.</li>
+          <li>To test for carbonate (CO₃²⁻): add dilute HCl and pass any gas produced through limewater — effervescence and milky limewater confirms carbonate.</li>
+          <li>To test for sulphate (SO₄²⁻): acidify the solution with dilute HCl, then add barium chloride solution — a white precipitate of barium sulphate confirms sulphate.</li>
+          <li>To test for halides (Cl⁻, Br⁻, I⁻): acidify with dilute nitric acid, then add silver nitrate solution — white (Cl⁻), pale yellow (Br⁻), or yellow (I⁻) precipitate identifies the halide.</li>
+          <li>To test for nitrate (NO₃⁻): add sodium hydroxide and aluminium foil, then warm — production of ammonia gas (turns damp red litmus blue) confirms nitrate.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔍</span><h3>Observations</h3></div>
+      <div class="card-body">
+        <p>The following observations are expected during anion identification tests:</p>
+        <ul>
+          <li><strong>CO₃²⁻ (carbonate):</strong> Effervescence with dilute HCl; gas produced turns limewater milky, confirming CO₂.</li>
+          <li><strong>SO₄²⁻ (sulphate):</strong> White precipitate of BaSO₄ forms immediately when acidified BaCl₂ is added; insoluble in excess acid.</li>
+          <li><strong>Cl⁻ (chloride):</strong> White precipitate of AgCl with AgNO₃; soluble in dilute ammonia solution.</li>
+          <li><strong>Br⁻ (bromide):</strong> Pale yellow precipitate of AgBr with AgNO₃; sparingly soluble in dilute ammonia.</li>
+          <li><strong>I⁻ (iodide):</strong> Yellow precipitate of AgI with AgNO₃; insoluble in dilute ammonia.</li>
+          <li><strong>NO₃⁻ (nitrate):</strong> Ammonia gas produced when warmed with NaOH and aluminium — turns damp red litmus paper blue.</li>
+          <li><strong>PO₄³⁻ (phosphate):</strong> Yellow precipitate with ammonium molybdate solution in acidic conditions.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">💡</span><h3>Real-World Applications</h3></div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Water quality testing:</strong> Testing for sulphate, nitrate, chloride, and phosphate ions in drinking water and rivers is essential for monitoring pollution and ensuring water safety.</li>
+          <li><strong>Soil analysis:</strong> Farmers and agronomists test soil for nitrate and phosphate levels to determine what fertilisers are needed for optimal crop growth.</li>
+          <li><strong>Food safety:</strong> Testing for nitrate and nitrite ions in processed meats and vegetables ensures they are within safe limits for human consumption.</li>
+          <li><strong>Forensic science:</strong> Anion analysis is used to identify gunshot residue (nitrates), trace poisons, and substances found at crime scenes.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚠️</span><h3>Safety Precautions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>Always wear safety goggles and gloves — silver nitrate stains skin and clothing permanently, and barium chloride is toxic.</li>
+          <li>Handle dilute acids carefully and avoid splashing — always add acid to water, not water to acid.</li>
+          <li>Work in a well-ventilated area when testing for nitrates, as ammonia gas is produced and is an irritant.</li>
+          <li>Never pipette solutions by mouth — always use a dropper or bulb pipette.</li>
+          <li>Dispose of all waste solutions containing silver, barium, or heavy metal ions according to laboratory waste guidelines — never pour them down the drain.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔗</span><h3>Further Reading</h3></div>
+      <div class="card-body">
+        <p>Explore these resources to strengthen your understanding of qualitative anion analysis:</p>
+        <ul>
+          <li><a href="https://www.chemguide.co.uk/inorganic/qualitative/qualitative.html" target="_blank" style="color:var(--accent);text-decoration:none;">Chemguide — Qualitative Analysis</a></li>
+          <li><a href="https://www.bbc.co.uk/bitesize/guides/z84sg82/revision/7" target="_blank" style="color:var(--accent);text-decoration:none;">BBC Bitesize — Identifying Ions in Solution</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Qualitative_chemical_analysis" target="_blank" style="color:var(--accent);text-decoration:none;">Wikipedia — Qualitative Chemical Analysis</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">❓</span><h3>Discussion Questions</h3></div>
+      <div class="card-body">
+        <ul>
+          <li>How would you distinguish between chloride, bromide, and iodide ions using silver nitrate solution? What colours would you observe for each?</li>
+          <li>Why is it important to acidify the solution with dilute HCl before adding barium chloride when testing for sulphate ions?</li>
+          <li>What gas is produced when a carbonate is treated with dilute hydrochloric acid, and how is this gas confirmed?</li>
+          <li>An unknown solution produces a white precipitate with AgNO₃ that dissolves in dilute ammonia. Which anion is present? Explain your reasoning.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📝</span><h3>Summary</h3></div>
+      <div class="card-body">
+        <ul><strong>Notes</strong></ul>
+        <p>In this experiment, we tested for common anions using dilute HCl, barium chloride, and silver nitrate solutions. Each anion produced a distinctive and identifiable result — from the milky limewater test for carbonate to the colour-coded silver halide precipitates. Systematic testing and careful observation are the keys to accurate anion identification.</p>
+        <ul><strong>Common Misconceptions</strong></ul>
+        <p>A common misconception is that any white precipitate with silver nitrate indicates chloride. In reality, sulphate also forms a white precipitate with barium chloride, and carbonate can produce a precipitate with some reagents. Always conduct the tests in the correct sequence and confirm results with solubility tests in dilute ammonia or acid before concluding.</p>
+        <ul><strong>Key Takeaways</strong></ul>
+        <ul>
+          <li>Anions are identified using specific reagents: AgNO₃ for halides, BaCl₂ for sulphate, dilute HCl for carbonate, and NaOH + Al for nitrate.</li>
+          <li>The colour of silver halide precipitates distinguishes Cl⁻ (white), Br⁻ (pale yellow), and I⁻ (yellow).</li>
+          <li>The solubility of silver halide precipitates in dilute ammonia is an important confirmatory test.</li>
+          <li>Anion analysis has direct applications in water quality testing, soil science, food safety, and forensic chemistry.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="conclusion" style="text-align:center;">
+      <h3>Completing the Picture — Anions and Cations Together</h3>
+      <p>Mastering anion analysis alongside cation analysis gives you the complete toolkit to identify an unknown salt from scratch — a skill at the very heart of practical chemistry. Whether you're testing drinking water, analysing soil, or preparing for your WAEC practical exam, these systematic tests are your guide. Stay observant, stay methodical, and chemistry will always give you the answer!</p>
+    </div>
+
+    <div class="exp-nav">
+      <a href="/simple-experiments/qualitative-analysis-I" class="prev">← EXP 13: Qualitative Analysis I: Cations</a>
+      <a href="/simple-experiments/saponification" class="next">→ EXP 15: Saponification</a>
+    </div>
+
+  </main>
+  <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
+</body>
+</html>

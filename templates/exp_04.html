@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Distillation of Ethanol | ChemistryLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f4f1eb;--white:#fff;--ink:#1a1208;--muted:#7a7060;--border:#e2ddd4;--accent:#690461;--soft: #c480b566;--surface:#fff;--surface2:#f0f0f0}
+    body{filter:blur(10px);opacity:0;transition:filter .8s ease,opacity .8s ease;background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+    body.loaded{filter:blur(0);opacity:1}
+    nav{position:relative;z-index:10;background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:60px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
+    .logo sup{font-size:.55em;color:var(--accent);vertical-align:super;font-family:'Outfit',sans-serif;font-weight:600}
+    .back-btn{margin-left:auto;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:var(--bg);transition:all .2s}
+    .back-btn:hover{color:var(--ink);border-color:#bbb}
+    .hero{position:relative;z-index:1;background:var(--white);border-bottom:1px solid var(--border);padding:64px 32px 56px;text-align:center;overflow:hidden}
+    .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .hero-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:20px;padding:4px 14px;margin-bottom:20px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:var(--ink);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+    .hero h1 em{font-style:italic;color:var(--accent)}
+    .hero p{max-width:520px;margin:0 auto;color:var(--muted);font-size:15px;font-weight:300}
+    main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:transform .2s,box-shadow .2s;animation:slideUp .5s ease both}
+    .topic-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .topic-card:nth-child(1){animation-delay:.08s}.topic-card:nth-child(2){animation-delay:.14s}.topic-card:nth-child(3){animation-delay:.2s}.topic-card:nth-child(4){animation-delay:.26s}.topic-card:nth-child(5){animation-delay:.32s}
+    .card-top{background:var(--soft);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:12px}
+    .card-top h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--accent)}
+    .card-icon{font-size:1.4rem}
+    .card-body{padding:22px 28px}
+    .card-body p{font-size:14px;color:var(--muted);line-height:1.75}
+    .card-body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;margin-top:6px}
+    .card-body li{font-size:14px;color:var(--muted);padding-left:20px;position:relative}
+    .card-body li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:12px;top:2px}
+    .card-body li strong{color:var(--ink)}
+    .conclusion{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:20px;padding:32px 36px;animation:slideUp .5s ease .38s both}
+    .conclusion h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:10px;color:var(--ink)}
+    .conclusion p{font-size:14px;color:var(--muted)}
+    footer{position:relative;z-index:1;background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:20px;font-size:12px;letter-spacing:.04em}
+    .exp-nav { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; animation: fadeIn .4s ease .3s both; }
+    .exp-nav a { display: inline-flex; align-items: center; gap: 7px; padding: 10px 18px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid var(--border); color: var(--muted); background: var(--surface); transition: all .2s; }
+    .exp-nav a:hover { color: var(--accent); border-color: var(--accent); }
+    .exp-nav .prev { background: var(--surface2); }
+    .exp-nav .next { background: var(--accent); color: #080e14; border-color: var(--accent); }
+    .exp-nav .next:hover { background: #c480b566; color: #0c0f13; border-color: rgba(11, 12, 12, 0.4); }
+    footer span{color:rgba(255,255,255,.7)}
+  </style>
+</head>
+<body>
+  <nav><a class="logo" href="/">ChemistryLab<sup>LAB</sup></a><a href="/virtual" class="back-btn">← All Experiments</a></nav>
+  <div class="hero">
+    <div class="hero-tag">Virtual Laboratory</div>
+    <div class="hero-tag">EXP 04</div>
+    <div class="hero-tag">SS1</div>
+    <h1>Simple Distillation: <em>Distillation of Ethanol from a Water-Ethanol Mixture</em></h1>
+    <p>Learn the principles of distillation by separating ethanol from a mixture with water.</p>
+  </div>
+  <main>
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📋</span><h3>Introduction</h3></div>
+      <div class="card-body">
+        <p>Distillation is a widely used separation technique that relies on differences in boiling points to separate components of a mixture. In this experiment, we will perform a simple distillation to separate ethanol from a water-ethanol mixture. Ethanol has a lower boiling point (78.37°C) compared to water (100°C), allowing us to effectively separate the two substances through controlled heating and condensation.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+        <div class="card-top"><span class="card-icon">⚗️</span><h3>Experiment Overview</h3></div>
+        <div class="card-body">
+            <p>This experiment will guide you through the process of simple distillation, demonstrating how to separate ethanol from a water-ethanol mixture based on their differing boiling points.</p>
+        </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">⚗️</span><h3>Materials Needed</h3></div>
+      <div class="card-body">
+        <ul>
+          <li><strong>Distillation apparatus:</strong> including a distillation flask, condenser, and receiving flask.</li>
+          <li><strong>Heat source:</strong> such as a Bunsen burner or hot plate.</li>
+          <li><strong>Thermometer:</strong> to monitor the temperature of the vapor.</li>
+          <li><strong>Water-ethanol mixture:</strong> typically a 50:50 mixture for effective separation.</li>
+          <li><strong>Clamps and stands:</strong> to securely hold the apparatus in place.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Procedure</h3></div>
+      <div class="card-body">
+        <p>1. Set up the distillation apparatus, ensuring all connections are secure and the condenser is properly attached.</p>
+        <p>2. Pour the water-ethanol mixture into the distillation flask and add boiling chips to prevent bumping.</p>
+        <p>3. Heat the mixture gradually using the heat source while monitoring the temperature with the thermometer.</p>
+        <p>4. As the mixture heats, ethanol will vaporize first due to its lower boiling point (78.37°C) compared to water (100°C).</p>
+        <p>5. The ethanol vapor will pass through the condenser, where it will cool and condense back into liquid form, collecting in the receiving flask.</p>
+        <p>6. Continue heating until most of the ethanol has been distilled over, leaving behind water in the distillation flask.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">📊</span><h3>Observations</h3></div>
+      <div class="card-body">
+        <p>During the distillation process, you should observe the temperature rising to around 78°C as ethanol vaporizes. The liquid collected in the receiving flask should be primarily ethanol, while the distillation flask will contain mostly water. The purity of the distilled ethanol can be assessed by measuring its boiling point or using other analytical techniques.</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Real-World Applications</h3></div>
+      <div class="card-body">
+        <p>Distillation is widely used in various industries, including the production of alcoholic beverages, petroleum refining, and the purification of chemicals. It is also a common technique in laboratories for separating and purifying liquids. Understanding the principles of distillation can help you appreciate its importance in both scientific research and industrial processes.</p>
+        <p>Real-world examples include:</p>
+        <ul>
+          <li>Distillation is used in the production of alcoholic beverages to separate ethanol from the fermentation mixture.</li>
+          <li>In petroleum refining, distillation is employed to separate crude oil into its various components, such as gasoline, diesel, and kerosene.</li>
+          <li>Distillation is also used in laboratories to purify chemicals and to separate liquid mixtures based on their boiling points.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧠</span><h3>Safety Precautions</h3></div>
+      <div class="card-body">
+        <p>When performing distillation, it is important to follow proper safety protocols:</p>
+        <ul>
+          <li>Always wear appropriate personal protective equipment (PPE), including safety goggles and heat-resistant gloves.</li>
+          <li>Ensure proper ventilation in the laboratory to avoid inhaling vapors.</li>
+          <li>Handle hot glassware with care to prevent burns or breakage.</li>
+          <li>Use a fume hood when working with volatile organic compounds.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧪</span><h3>Further Readings</h3></div>
+      <div class="card-body">
+        <p>To deepen your understanding of distillation and its applications, consider exploring the following resources:</p>
+        <ul>
+          <li><a href="https://www.amazon.com/Distillation-Principles-Practice-Andrzej-Gorak/dp/047084921X" target="_blank"><strong>Books:</strong> "Distillation: Principles and Practice" by Andrzej Gorak and Eva Sorensen, "Separation Process Principles" by J. D. Seader, Ernest J. Henley, and D. Keith Roper.</a></li>
+          <li><a href="https://www.khanacademy.org/science/chemistry" target="_blank"><strong>Online Resources:</strong> Khan Academy's chemistry section, educational videos on YouTube, and articles from scientific journals.</a></li>
+          <li><a href="https://scholar.google.com/" target="_blank"><strong>Research Papers:</strong> Look for research articles on distillation techniques and their applications in various industries for a more in-depth understanding.</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🧠</span><h3>Discussion Questions</h3></div>
+      <div class="card-body">
+        <p>1. Why does ethanol vaporize before water in the distillation process?</p>
+        <p>2. How would the results change if you were to use a mixture with a different ratio of ethanol to water?</p>
+        <p>3. What are some real-life applications of distillation in industry and everyday life?</p>
+      </div>
+    </div>
+
+    <div class="topic-card">
+      <div class="card-top"><span class="card-icon">🔬</span><h3>Summary</h3></div>
+      <div class="card-body">
+        <ul><strong>Notes</strong></ul>
+        <p>Distillation is a powerful separation technique that allows us to separate components of a mixture based on their boiling points. In this experiment, we successfully separated ethanol from a water-ethanol mixture using simple distillation. The process involves heating the mixture to vaporize the ethanol, which then condenses back into liquid form in a separate container. This technique has numerous applications in various industries, including the production of alcoholic beverages, petroleum refining, and chemical purification.</p>
+        <ul><strong>Common Misconceptions</strong></ul>
+        <p>One common misconception is that distillation can separate any mixture effectively. However, the efficiency of distillation depends on the difference in boiling points between the components. If the boiling points are too close, it may require more complex techniques, such as fractional distillation, to achieve effective separation.</p>
+        <ul><strong>Experiment Tips</strong></ul>
+        <p>Here are some tips to help you succeed in this experiment:</p>
+        <ul>
+            <li>Ensure that the distillation apparatus is set up correctly and securely to prevent leaks and ensure efficient condensation.</li>
+            <li>Heat the mixture gradually to avoid bumping and to allow for a more controlled distillation process.</li>
+            <li>Monitor the temperature closely to identify when ethanol begins to vaporize, which will help you collect the distillate more effectively.</li>
+            <li>Be patient and allow the distillation process to complete fully to achieve the best separation results.</li>
+        </ul>
+        <ul><strong>Experiment Variations</strong></ul>
+        <p>You can try variations of this experiment by using different mixtures or by applying other separation techniques, such as fractional distillation for mixtures with closer boiling points. Experimenting with different methods will help you gain a deeper understanding of the principles behind separation techniques and their applications in various contexts.</p>
+        <p>Overall, understanding distillation and its principles is crucial for various scientific disciplines and practical applications, from laboratory research to industrial processes. Always remember to follow safety guidelines when conducting experiments to ensure a safe and successful outcome.</p>
+        <ul><strong>Key Takeaways</strong></ul>
+        <ul>
+            <li>Distillation is an effective method for separating components of a mixture based on their boiling points.</li>
+            <li>Proper setup and careful monitoring are essential for successful distillation.</li>
+            <li>Distillation has wide-ranging applications in industries such as beverage production, petroleum refining, and chemical purification.</li>
+            <li>Understanding the principles of distillation can enhance your knowledge of separation techniques and their practical uses.</li>
+        </ul>
+      </div>
+      </div>
+    </div>     
+
+    <div class="conclusion" style="text-align:center;">
+      <h3>Learn Criteria for Purity</h3>
+      <p>By understanding and applying the principles of purity assessment, you can effectively evaluate the quality of substances in various applications. This knowledge is essential for ensuring safety, compliance, and performance across different industries. Keep exploring and experimenting with different methods to enhance your skills in assessing substance purity!</p>  
+    </div>
+
+    <div class="exp-nav">
+      <a href="/simple-experiments/purity-assessment" class="prev">← EXP 03: Criteria for Purity</a>
+      <a href="/simple-experiments/physical-and-chemical-changes" class="next">→ EXP 05: Physical and Chemical Changes</a>
+    </div>
+
+  </main>
+  <footer><p>&copy; 2026 <span>ChemistryLab</span> — All rights reserved. Created by Josh Raymond.</p></footer>
+  <script>window.addEventListener('load',()=>{document.body.classList.add('loaded')})</script>
+</body>
+</html>
